@@ -84,7 +84,7 @@
       styles: ["ballroom", "banquet"],
       types: ["wedding", "gala", "social", "conference"],
       aesthetic: ["glamorous", "classic", "romantic", "elegant"],
-      tour: true,
+      tour: false,
       featured: true,
       popular: true,
       wedding: true,
@@ -137,6 +137,48 @@
       types: ["wedding", "gala", "social", "conference", "networking"],
       aesthetic: ["classic", "elegant", "romantic"],
       tour: true,
+      scenes: [
+        {
+          id: "salon",
+          title: "Grand Salon",
+          image: "images/tour/palmetto-salon-360.jpg",
+          yaw: 0,
+          links: [
+            { to: "foyer", label: "Walk to the foyer", yaw: 0, pitch: -2 },
+            { to: "court", label: "Step into the courtyard", yaw: 125, pitch: -4 }
+          ],
+          notes: [
+            { yaw: -40, pitch: -8, title: "Banquet rounds", text: "Forty tables of ten in this sample set, with a dance floor on the medallion." },
+            { yaw: 0, pitch: 18, title: "Ceiling", text: "Twenty-four feet to the coffers. The chandelier is the photograph." }
+          ]
+        },
+        {
+          id: "foyer",
+          title: "Foyer",
+          image: "images/tour/palmetto-foyer-360.jpg",
+          yaw: 0,
+          links: [
+            { to: "salon", label: "Enter the Grand Salon", yaw: -20, pitch: 0 },
+            { to: "court", label: "Out to the courtyard", yaw: 90, pitch: -2 }
+          ],
+          notes: [
+            { yaw: 35, pitch: -4, title: "Arrival", text: "Guests gather here before doors. The marble takes a logo runner cleanly." }
+          ]
+        },
+        {
+          id: "court",
+          title: "Courtyard",
+          image: "images/tour/palmetto-court-360.jpg",
+          yaw: 0,
+          links: [
+            { to: "foyer", label: "Back through the arcade", yaw: 180, pitch: -4 },
+            { to: "salon", label: "Return to the salon", yaw: 10, pitch: -2 }
+          ],
+          notes: [
+            { yaw: 0, pitch: -12, title: "Fountain", text: "Ceremony portraits and a cocktail spill. Sound from the salon stays inside." }
+          ]
+        }
+      ],
       featured: true,
       popular: true,
       wedding: true,
@@ -186,7 +228,7 @@
       styles: ["ballroom", "banquet"],
       types: ["wedding", "social", "networking", "conference"],
       aesthetic: ["glamorous", "modern", "romantic"],
-      tour: true,
+      tour: false,
       featured: false,
       popular: true,
       wedding: true,
@@ -236,7 +278,7 @@
       styles: ["ballroom", "conference", "banquet"],
       types: ["conference", "meeting", "gala", "networking"],
       aesthetic: ["modern", "minimal", "elegant"],
-      tour: true,
+      tour: false,
       featured: true,
       popular: false,
       wedding: false,
@@ -282,7 +324,7 @@
       styles: ["rooftop", "outdoor"],
       types: ["networking", "social", "wedding", "gala"],
       aesthetic: ["modern", "natural", "glamorous"],
-      tour: true,
+      tour: false,
       featured: true,
       popular: true,
       wedding: true,
@@ -329,7 +371,7 @@
       styles: ["outdoor", "banquet"],
       types: ["wedding", "social", "gala"],
       aesthetic: ["natural", "romantic", "classic"],
-      tour: true,
+      tour: false,
       featured: false,
       popular: true,
       wedding: true,
@@ -376,7 +418,7 @@
       styles: ["meeting", "conference"],
       types: ["meeting", "conference"],
       aesthetic: ["modern", "minimal", "elegant"],
-      tour: true,
+      tour: false,
       featured: false,
       popular: false,
       wedding: false,
@@ -428,7 +470,7 @@
       styles: ["ballroom", "conference", "banquet"],
       types: ["conference", "meeting", "social", "gala", "networking"],
       aesthetic: ["modern", "minimal", "elegant"],
-      tour: true,
+      tour: false,
       featured: false,
       popular: false,
       wedding: false,

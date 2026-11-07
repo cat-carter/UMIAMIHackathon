@@ -1,0 +1,12 @@
+{
+  "name": "breeze",
+  "private": true,
+  "description": "Hotel event-space marketplace prototype",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node tests/match.test.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}

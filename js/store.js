@@ -50,7 +50,21 @@
     return {
       user: null,
       users: [
-        { name: "Avery Cole", email: "avery@example.com", role: "planner" },
+        {
+          name: "Avery Cole",
+          email: "avery@example.com",
+          role: "planner",
+          company: "Cole & Kin",
+          title: "Independent planner",
+          eventType: "wedding",
+          guests: "150",
+          budget: "25000",
+          location: "Coral Gables",
+          aesthetic: "romantic",
+          theme: "Ivory, sage, and late-afternoon light. Coastal, not beach-casual.",
+          palette: "sage",
+          notes: "Couples who want a Coral Gables evening, not a nightclub."
+        },
         { name: "Jordan Hale", email: "jordan@example.com", role: "partner", hotelId: "palmetto" }
       ],
       favorites: [],
@@ -65,13 +79,46 @@
     };
   }
 
+  function plannerDefaults() {
+    return {
+      company: "",
+      title: "",
+      eventType: "",
+      guests: "",
+      budget: "",
+      location: "",
+      aesthetic: "",
+      theme: "",
+      palette: "coast",
+      notes: "",
+      logo: ""
+    };
+  }
+
+  function hydrateUser(user) {
+    if (!user) return user;
+    if (user.role === "partner") return user;
+    const seed = blank().users.find(function (item) { return item.email === user.email; }) || {};
+    return Object.assign({}, plannerDefaults(), seed, user);
+  }
+
+  function persistUser(user) {
+    if (!user) return;
+    const index = state.users.findIndex(function (item) { return item.email === user.email; });
+    if (index === -1) state.users.push(user);
+    else state.users[index] = user;
+    if (state.user && state.user.email === user.email) state.user = user;
+  }
+
   function load() {
     try {
       const raw = localStorage.getItem(KEY);
       if (!raw) return blank();
       const parsed = JSON.parse(raw);
+      const users = (parsed.users && parsed.users.length ? parsed.users : blank().users).map(hydrateUser);
       return Object.assign(blank(), parsed, {
-        users: parsed.users && parsed.users.length ? parsed.users : blank().users,
+        users: users,
+        user: parsed.user ? hydrateUser(parsed.user) : null,
         inquiries: parsed.inquiries || seedInquiries
       });
     } catch (err) {
@@ -103,5 +150,13 @@
     return merged;
   }
 
-  root.BreezeStore = { state: state, save: save, venueById: venueById, blank: blank };
+  root.BreezeStore = {
+    state: state,
+    save: save,
+    venueById: venueById,
+    blank: blank,
+    hydrateUser: hydrateUser,
+    persistUser: persistUser,
+    plannerDefaults: plannerDefaults
+  };
 })(typeof globalThis !== "undefined" ? globalThis : this);

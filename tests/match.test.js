@@ -36,4 +36,31 @@ const summary = ai.compareSummary([venues[0], venues[4]], { type: "wedding", gue
 assert.ok(/sample read/i.test(summary));
 assert.ok(summary.includes("Luster") || summary.includes("Sky Terrace"));
 
+const fromProfile = ai.applyProfile({}, {
+  eventType: "wedding",
+  guests: "150",
+  location: "Coral Gables",
+  aesthetic: "romantic",
+  theme: "Ivory and sage",
+  palette: "sage"
+});
+assert.strictEqual(fromProfile.type, "wedding");
+assert.strictEqual(fromProfile.guests, 150);
+const profileRank = ai.rankVenues(venues, fromProfile);
+assert.strictEqual(profileRank[0].venue.id, "palmetto");
+
+const techBrief = ai.applyProfile({}, {
+  eventType: "conference",
+  guests: "220",
+  aesthetic: "modern",
+  palette: "ink",
+  theme: "Technology company innovation summit"
+});
+const techRank = ai.rankVenues(venues, techBrief);
+assert.ok(["casa", "halcyon", "marlowe"].indexOf(techRank[0].venue.id) !== -1);
+assert.ok(techRank.find(function (item) { return item.venue.id === "palmetto"; }).score < techRank[0].score);
+
+const palmetto = venues.find(function (v) { return v.id === "palmetto"; });
+assert.ok(palmetto.scenes && palmetto.scenes.length === 3);
+
 console.log("match tests passed");

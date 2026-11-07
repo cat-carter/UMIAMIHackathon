@@ -37,6 +37,66 @@
     return Object.assign({}, brief || {});
   }
 
+  function applyProfile(brief, profile) {
+    const next = clone(brief);
+    const p = profile || {};
+    if (!next.type && p.eventType) next.type = p.eventType;
+    if (!next.guests && p.guests) next.guests = Number(p.guests);
+    if (!next.budget && p.budget) next.budget = Number(p.budget);
+    if (!next.location && p.location) next.location = p.location;
+    if (!next.aesthetic && p.aesthetic) next.aesthetic = p.aesthetic;
+    if (!next.theme && p.theme) next.theme = p.theme;
+    if (!next.palette && p.palette) next.palette = p.palette;
+    if (!next.company && p.company) next.company = p.company;
+    if (!next.brandNote) {
+      const bits = [p.company, p.theme, p.notes].filter(Boolean);
+      if (bits.length) next.brandNote = bits.join(" — ");
+    }
+    if (p.logo && !next.logo) next.logo = p.logo;
+    if (p.hasLogo) next.hasLogo = true;
+    return next;
+  }
+
+  function brandFit(venue, brief) {
+    const reasons = [];
+    const limits = [];
+    let score = 0;
+    const b = brief || {};
+    const theme = String(b.theme || b.brandNote || "").toLowerCase();
+    const modernBrand = b.palette === "ink" || b.aesthetic === "modern" || b.aesthetic === "minimal" || /tech|innovation|startup|navy|digital/.test(theme);
+    const classicBrand = b.palette === "champagne" || b.aesthetic === "classic" || b.aesthetic === "romantic" || b.aesthetic === "elegant" || /ivory|romantic|gala|wedding|heritage/.test(theme);
+    const coastalBrand = b.palette === "coast" || b.palette === "sage" || /ocean|coast|sage|palm|breeze/.test(theme);
+
+    if (classicBrand) {
+      if (venue.aesthetic.indexOf("classic") !== -1 || venue.aesthetic.indexOf("romantic") !== -1 || venue.aesthetic.indexOf("elegant") !== -1) {
+        score += 9;
+        reasons.push("The plaster, arches, and ivory light hold a " + (b.aesthetic || "classic") + " identity" + (b.company ? " for " + b.company : "") + ".");
+      } else if (venue.aesthetic.indexOf("modern") !== -1) {
+        score -= 3;
+        limits.push("A glass-and-walnut room will fight a heritage or romantic brand unless that contrast is the point.");
+      }
+    }
+    if (modernBrand) {
+      if (venue.aesthetic.indexOf("modern") !== -1 || venue.aesthetic.indexOf("minimal") !== -1) {
+        score += 9;
+        reasons.push("Clean lines and a quieter palette sit next to a modern or ink-navy brand.");
+      } else if (venue.aesthetic.indexOf("classic") !== -1) {
+        score -= 4;
+        limits.push("Historic ornament can overpower a technology or finance identity.");
+      }
+    }
+    if (coastalBrand) {
+      if (venue.amenities.indexOf("Waterfront") !== -1 || venue.aesthetic.indexOf("natural") !== -1) {
+        score += 6;
+        reasons.push("Water, palms, or garden light echo a coastal palette.");
+      }
+    }
+    if (b.theme && venue.blurb) {
+      score += 2;
+    }
+    return { score: score, reasons: reasons, limits: limits };
+  }
+
   function parseUtterance(text, brief) {
     const next = clone(brief);
     const raw = String(text || "");
@@ -224,9 +284,13 @@
       score += 3;
       reasons.push("A sample panoramic tour is on the listing.");
     }
-    if (b.brandNote || b.logo) {
+    const brand = brandFit(venue, b);
+    score += brand.score;
+    brand.reasons.forEach(function (line) { reasons.push(line); });
+    brand.limits.forEach(function (line) { limits.push(line); });
+    if ((b.brandNote || b.logo || b.hasLogo) && !brand.reasons.length) {
       score += 2;
-      reasons.push("Your brand note is saved. The studio can preview a logo and palette in this room.");
+      reasons.push("Your brand note is on the brief. Open the studio to preview a logo in this room.");
     }
 
     if (b.date && venue.blackouts && venue.blackouts.indexOf(b.date) !== -1) {
@@ -245,6 +309,7 @@
   }
 
   function missingQuestion(brief) {
+    if (brief.type && brief.guests) return null;
     if (!brief.type) {
       return {
         ask: "What kind of event is this? A wedding, a conference, an executive meeting, a gala, or a social celebration.",
@@ -281,8 +346,8 @@
     return bits.join(", ");
   }
 
-  function reply(venues, brief, text) {
-    const next = parseUtterance(text, brief);
+  function reply(venues, brief, text, profile) {
+    const next = parseUtterance(text, applyProfile(brief, profile));
     const gap = missingQuestion(next);
     if (gap) {
       return {
@@ -301,7 +366,11 @@
     textOut += "The strongest on these demonstration listings is " + lead.venue.name + " at " + lead.venue.hotel + ". ";
     textOut += lead.reasons.slice(0, 2).join(" ");
     if (lead.limits.length) textOut += " Worth knowing: " + lead.limits[0];
-    textOut += " Prices and dates are sample data, not live holds. Tell me what to change, or open a room to walk the sample tour.";
+    if (next.brandNote || next.theme) {
+      const brandLine = (lead.reasons || []).filter(function (line) { return /brand|identity|palette|plaster|glass/.test(line.toLowerCase()); })[0];
+      if (brandLine) textOut += " " + brandLine;
+    }
+    textOut += " Prices and dates are sample data, not live holds.";
     return {
       brief: next,
       suggestions: ["Show me something cheaper", "Only rooftops", "Add a 360 tour", "Make it more formal"],
@@ -326,6 +395,7 @@
 
   return {
     parseUtterance: parseUtterance,
+    applyProfile: applyProfile,
     scoreVenue: scoreVenue,
     rankVenues: rankVenues,
     reply: reply,

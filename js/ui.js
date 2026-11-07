@@ -19,7 +19,10 @@
     layout: {},
     tab: "saved",
     partnerTab: "inbox",
-    toast: ""
+    toast: "",
+    breezeOpen: false,
+    breezeWaiting: false,
+    breezeLive: null
   };
 
   const TITLES = {
@@ -29,6 +32,7 @@
     assistant: "Find my space — Breeze",
     how: "How it works — Breeze",
     account: "Sign in — Breeze",
+    profile: "Your profile — Breeze",
     dashboard: "Your events — Breeze",
     compare: "Compare venues — Breeze",
     studio: "Planning studio — Breeze",
@@ -162,7 +166,7 @@
     const compared = state.compare.indexOf(v.id) !== -1;
     return '<article class="card">' +
       '<div class="card-media"><img src="' + esc(v.images[0]) + '" alt="Sample photograph of ' + esc(v.name) + ' at ' + esc(v.hotel) + '">' +
-      (v.tour ? '<span class="badge">Sample 360° tour</span>' : "") +
+      (v.scenes ? '<span class="badge">Walk the 360°</span>' : "") +
       '<button class="icon-btn" type="button" data-action="fav" data-id="' + esc(v.id) + '" aria-pressed="' + fav + '" aria-label="' + (fav ? "Remove" : "Save") + " " + esc(v.name) + '">♥</button></div>' +
       '<div class="card-body"><p class="kicker">' + esc(v.hotel) + "</p><h3>" + esc(v.name) + "</h3>" +
       "<p>" + esc(v.neighborhood) + " · " + esc(v.address) + "</p>" +
@@ -175,10 +179,14 @@
       '<button class="btn btn-ghost btn-small" type="button" data-action="compare" data-id="' + esc(v.id) + '" aria-pressed="' + compared + '">' + (compared ? "In compare" : "Compare") + "</button></div></div></article>";
   }
 
+  function planner() {
+    return state.user && state.user.role === "planner" ? state.user : null;
+  }
+
   function header(key) {
     const user = state.user;
     const account = user ? (user.role === "partner" ? "#/partner" : "#/dashboard") : "#/account";
-    const accountLabel = user ? esc(user.name.split(" ")[0]) : "Sign in / Create account";
+    const accountLabel = user ? esc(user.name.split(" ")[0]) : "Sign in";
     function link(href, id, label) {
       return '<a href="' + href + '"' + (key === id ? ' aria-current="page"' : "") + ">" + label + "</a>";
     }
@@ -187,10 +195,10 @@
       '<button class="menu-toggle" type="button" aria-expanded="false" aria-controls="nav">Menu</button>' +
       '<nav class="nav" id="nav">' +
       link("#/discover", "discover", "Discover Venues") +
-      link("#/assistant", "assistant", "Find My Space") +
       link("#/how", "how", "How It Works") +
-      link(account, user && user.role === "partner" ? "partner" : "account", accountLabel) +
-      '<a class="btn btn-gold btn-small" href="#/how">Booking Should Be a Breeze.</a>' +
+      (planner() ? link("#/profile", "profile", "Your profile") : "") +
+      link(account, user && user.role === "partner" ? "partner" : (user ? "dashboard" : "account"), accountLabel) +
+      '<button class="btn btn-gold btn-small" type="button" data-action="open-breeze">Booking Should Be a Breeze.</button>' +
       "</nav></div></header>";
   }
 
@@ -228,12 +236,12 @@
       '<label>Number of guests<input name="guests" type="number" min="1" max="2000" placeholder="150"></label>' +
       '<label>Event type<select name="type"><option value="">Any</option><option>wedding</option><option>social</option><option>gala</option><option>conference</option><option>meeting</option><option>networking</option></select></label>' +
       '</div><div class="search-actions"><button class="btn btn-primary" type="submit">Explore Venues</button>' +
-      '<button class="btn btn-ghost" type="button" data-action="ai-from-search">Let AI Find My Space</button></div></form></div></section>' +
+      '<button class="btn btn-ghost" type="button" data-action="ai-from-search">Ask Breeze</button></div></form></div></section>' +
       '<section class="section"><div class="wrap"><div class="section-head"><h2>Featured venues</h2><p>Sample Miami listings. Save a room or open the full record.</p></div><div class="cards">' +
       featured.map(card).join("") + "</div></div></section>" +
       '<section class="section" style="padding-top:0"><div class="wrap"><div class="section-head"><h2>How it works</h2></div><div class="steps">' +
       '<article class="step"><span>01</span><h3>Tell us about your event.</h3><p>Share the date, guest count, budget, neighborhood, and the feeling you want in the room.</p></article>' +
-      '<article class="step"><span>02</span><h3>Explore AI-matched hotel spaces.</h3><p>The assistant ranks sample venues and explains the fit. You can answer by typing or with a voice note.</p></article>' +
+      '<article class="step"><span>02</span><h3>Explore AI-matched hotel spaces.</h3><p>Breeze sits along the bottom of every page. Tell it the event, the brand, or the feeling. It reads your planner profile when you have one.</p></article>' +
       '<article class="step"><span>03</span><h3>Customize, compare, and book your venue.</h3><p>Switch layouts, build a sample budget, and send an inquiry. A hotel confirmation is still required.</p></article>' +
       "</div></div></section>" +
       '<section class="section" style="padding-top:0"><div class="wrap"><div class="section-head"><h2>Popular event spaces</h2><a href="#/discover">See the directory</a></div><div class="cards">' + popular.map(card).join("") + "</div></div></section>" +
@@ -249,7 +257,7 @@
       '<figure class="quote"><p>“The inquiry already had the guest count and the curfew question. That saved two emails.”</p><footer>Sample hotel sales lead</footer></figure>' +
       '<figure class="quote"><p>“Comparing the rooftop against the ballroom made the budget choice obvious before we called anyone.”</p><footer>Sample corporate planner</footer></figure>' +
       "</div></div></section>" +
-      '<section class="section" style="padding-top:0"><div class="wrap"><div class="band"><div><h2>Booking should be a breeze.</h2><p>Start with a search, or let the assistant build the shortlist.</p></div><a class="btn btn-primary" href="#/assistant">Find My Space</a></div></div></section>';
+      '<section class="section" style="padding-top:0"><div class="wrap"><div class="band"><div><h2>Booking should be a breeze.</h2><p>The desk along the bottom of the page is Breeze. A neighborhood, a guest count, or a color is enough to start.</p></div><button class="btn btn-primary" type="button" data-action="open-breeze">Ask Breeze</button></div></div></section>';
   }
 
   function filteredVenues() {
@@ -322,10 +330,16 @@
     const main = showingBefore ? v.before : photo;
     const layout = activeLayout(v);
     const fav = state.favorites.indexOf(v.id) !== -1;
-    const pan = ui.pan[id] || -18;
-    const spot = ui.hotspot[id];
+    const tourBlock = v.scenes ? (
+      '<div class="pano-wrap"><div id="pano" class="pano" style="height:560px" role="application" aria-label="360 degree tour of ' + esc(v.name) + '. Drag to look around. Scroll or the buttons to zoom."></div>' +
+      '<div class="pano-tools">' +
+      '<button class="btn btn-ghost btn-small" type="button" data-action="zoom-in">Closer</button>' +
+      '<button class="btn btn-ghost btn-small" type="button" data-action="zoom-out">Wider</button>' +
+      "<p class=\"note\">Drag to look around. Scroll or the buttons to zoom. Click the dots to walk the salon, foyer, and courtyard.</p></div></div>"
+    ) : "";
     return '<section class="page"><div class="wrap"><p class="kicker">' + esc(v.neighborhood) + "</p><div class=\"section-head\"><h1 class=\"page-title\">" + esc(v.name) + "</h1><p>" + esc(v.hotel) + " · " + esc(v.address) + "</p></div>" +
-      '<div class="venue-layout"><div><div class="gallery-main' + (ui.video[id] ? " play" : "") + '"><img src="' + esc(main) + '" alt="Sample photograph of ' + esc(v.name) + '"></div>' +
+      '<div class="venue-layout"><div>' + tourBlock +
+      '<div class="gallery-main' + (ui.video[id] ? " play" : "") + '"><img src="' + esc(main) + '" alt="Sample photograph of ' + esc(v.name) + '"></div>' +
       '<div class="thumbs">' + v.images.map(function (src, index) {
         return '<button type="button" data-action="photo" data-id="' + esc(v.id) + '" data-index="' + index + '" aria-current="' + (!showingBefore && (ui.photo[id] || 0) === index) + '"><img src="' + esc(src) + '" alt=""></button>';
       }).join("") + "</div>" +
@@ -333,13 +347,7 @@
       (v.before ? '<button class="btn btn-ghost btn-small" type="button" data-action="before" data-id="' + esc(v.id) + '" aria-pressed="' + Boolean(showingBefore) + '">' + (showingBefore ? "Show event setup" : "Show cleared room") + "</button>" : "") +
       '<button class="btn btn-ghost btn-small" type="button" data-action="video" data-id="' + esc(v.id) + '" aria-pressed="' + Boolean(ui.video[id]) + '">' + (ui.video[id] ? "Stop walkthrough" : "Play sample walkthrough") + "</button></div>" +
       (ui.video[id] ? '<p class="note">Demonstration walkthrough. The photograph moves across the frame. It is not a filmed tour of a real hotel.</p>' : "") +
-      '<div class="tour" data-tour="' + esc(v.id) + '" tabindex="0" aria-label="Sample panoramic viewer for ' + esc(v.name) + '. Drag or use the arrow keys.">' +
-      '<div class="tour-strip" data-strip="' + esc(v.id) + '" style="transform:translateX(' + pan + '%)"><img src="' + esc(v.images[0]) + '" alt="">' +
-      v.hotspots.map(function (h, index) {
-        return '<button class="hotspot" type="button" style="left:' + h.x + "%;top:" + h.y + '%" data-action="hotspot" data-id="' + esc(v.id) + '" data-index="' + index + '" aria-label="' + esc(h.title) + '"></button>';
-      }).join("") + "</div>" +
-      (spot ? '<div class="hotspot-card"><strong>' + esc(spot.title) + "</strong><p>" + esc(spot.text) + "</p></div>" : '<p class="tour-caption">Sample panoramic viewer using the listing photograph. Drag or press the arrow keys. Dots mark sample notes.</p>') +
-      "</div></div>" +
+      "</div>" +
       '<aside class="stack"><div class="panel price-box" style="padding:1rem"><p class="kicker">Sample pricing</p><h2>From ' + money(v.priceFrom) + "</h2>" +
       "<p>Minimum spend " + money(v.minSpend) + " in this sample. This is not a quote.</p>" +
       "<p class=\"note\">" + esc(v.hours) + "</p><p class=\"note\">" + esc(v.curfew) + "</p>" +
@@ -372,58 +380,60 @@
   }
 
   function assistant() {
-    const welcome = "Tell me about the event. You can type, or use a voice note if this browser allows the microphone. I’ll rank the sample rooms and explain the fit. I can also read replies aloud.";
-    const messages = state.messages.length ? state.messages : [{ role: "assistant", text: welcome, suggestions: ["Wedding for 150 in Coral Gables", "Innovation summit for 300, modern, Brickell", "Executive meeting for 12 downtown", "Romantic garden ceremony for 90"] }];
-    const bubbles = messages.map(function (message) {
-      const matches = (message.scores || []).map(function (item) {
-        const v = venue(item.id);
-        if (!v) return "";
-        return '<article class="match"><img src="' + esc(v.images[0]) + '" alt=""><div><p class="score">' + item.score + '</p><h3>' + esc(v.name) + "</h3><p>" + esc(v.hotel) + " · " + esc(v.neighborhood) + "</p><p>" + esc((item.reasons || []).slice(0, 2).join(" ")) + "</p>" +
-          (item.limits && item.limits[0] ? "<p class=\"note\">" + esc(item.limits[0]) + "</p>" : "") +
-          '<div class="inline"><a class="btn btn-primary btn-small" href="#/venue/' + esc(v.id) + '">View details</a><a class="btn btn-ghost btn-small" href="#/studio/' + esc(v.id) + '">Customize</a></div></div></article>';
-      }).join("");
-      const chips = (message.suggestions || []).map(function (chip) {
-        return '<button class="btn btn-ghost btn-small" type="button" data-action="chip" data-text="' + esc(chip) + '">' + esc(chip) + "</button>";
-      }).join("");
-      return '<div class="bubble ' + message.role + '"><p>' + esc(message.text) + "</p>" + (matches ? '<div class="stack" style="margin-top:0.7rem">' + matches + "</div>" : "") + (chips ? '<div class="suggestions" style="margin-top:0.6rem">' + chips + "</div>" : "") + "</div>";
-    }).join("");
-    const brief = state.brief || {};
-    const briefLine = [brief.type, brief.guests ? brief.guests + " guests" : "", brief.location, brief.budget ? money(brief.budget) + " rental budget" : "", brief.aesthetic, brief.brandNote].filter(Boolean).join(" · ");
-    return '<section class="page"><div class="wrap chat"><p class="kicker">AI assistant · sample matching</p><h1 class="page-title">Find my space</h1>' +
-      (briefLine ? '<p class="note">Working brief: ' + esc(briefLine) + "</p>" : "") +
-      '<div id="transcript">' + bubbles + "</div>" +
-      '<form data-form="assistant" class="stack"><label>Your note<textarea id="composer" name="text" placeholder="A technology summit for 220 in Brickell, modern, under $25k"></textarea></label>' +
-      '<div class="composer-tools"><button class="btn btn-primary" type="submit">Send</button>' +
-      '<button class="btn btn-ghost" type="button" data-action="voice">Voice note</button>' +
-      '<button class="btn btn-ghost" type="button" data-action="speak" aria-pressed="' + state.speak + '">' + (state.speak ? "Audio replies on" : "Audio replies off") + "</button>" +
-      '<label class="btn btn-ghost">Logo<input type="file" accept="image/*" data-upload="logo" hidden></label>' +
-      '<label class="btn btn-ghost">Inspiration<input type="file" accept="image/*" data-upload="inspiration" hidden></label></div>' +
-      (brief.logo ? '<p class="note">Logo attached to the brief.</p><img alt="Uploaded logo preview" src="' + brief.logo + '" style="height:48px">' : "") +
-      "</form><p class=\"note\">Voice notes use the browser’s speech recognition. Audio replies use the browser’s speech synthesis. Neither call is sent to a live model in this demo.</p></div></section>";
+    ui.breezeOpen = true;
+    const p = planner();
+    return '<section class="page"><div class="wrap" style="max-width:720px"><p class="kicker">Booking should be a breeze</p><h1 class="page-title">Breeze stays with you.</h1><p>The desk along the bottom of every page is the same concierge. ' +
+      (p ? "It already has your profile for " + esc(p.company || p.name) + "." : "Create a planner profile and it will remember the company, the palette, and the usual event.") +
+      '</p><p class="note" style="margin-top:0.8rem">Tell it a guest count, a neighborhood, a color, or a feeling. The Palmetto House Grand Salon is the listing with a full 360° walk.</p></div></section>';
   }
 
   function how() {
     return '<section class="page"><div class="wrap" style="max-width:800px"><p class="kicker">How it works</p><h1 class="page-title">Three steps, then a real hotel still has to say yes.</h1><div class="steps" style="margin-top:1rem">' +
       "<article class=\"step\"><span>01</span><h3>Tell us about your event.</h3><p>Date, duration, guests, neighborhood, budget, atmosphere, and any brand files.</p></article>" +
-      "<article class=\"step\"><span>02</span><h3>Explore AI-matched hotel spaces.</h3><p>Rankings use the sample inventory only. Each score explains capacity, budget, location, and style.</p></article>" +
+      "<article class=\"step\"><span>02</span><h3>Explore AI-matched hotel spaces.</h3><p>Breeze reads the event, the planner profile, and the brand note, then ranks sample rooms with a reason for each.</p></article>" +
       "<article class=\"step\"><span>03</span><h3>Customize, compare, and book your venue.</h3><p>Pick a layout, estimate a budget, and send an inquiry. The inquiry is not a reservation.</p></article></div>" +
-      '<p class="inline" style="margin-top:1rem"><a class="btn btn-primary" href="#/discover">Explore Venues</a><a class="btn btn-gold" href="#/assistant">Booking Should Be a Breeze.</a></p></div></section>';
+      '<p class="inline" style="margin-top:1rem"><a class="btn btn-primary" href="#/discover">Explore Venues</a><button class="btn btn-gold" type="button" data-action="open-breeze">Booking Should Be a Breeze.</button></p></div></section>';
   }
 
   function account() {
     if (state.user) {
       const dest = state.user.role === "partner" ? "#/partner" : "#/dashboard";
-      return '<section class="page"><div class="wrap" style="max-width:720px"><h1 class="page-title">You are signed in</h1><p>' + esc(state.user.name) + " · " + esc(state.user.email) + " · " + esc(state.user.role) + '</p><div class="inline" style="margin-top:1rem"><a class="btn btn-primary" href="' + dest + '">Open your dashboard</a><button class="btn btn-ghost" type="button" data-action="sign-out">Sign out</button></div></div></section>';
+      return '<section class="page"><div class="wrap" style="max-width:720px"><h1 class="page-title">You are signed in</h1><p>' + esc(state.user.name) + " · " + esc(state.user.email) + '</p><div class="inline" style="margin-top:1rem"><a class="btn btn-primary" href="' + dest + '">Open your dashboard</a>' +
+        (planner() ? '<a class="btn btn-ghost" href="#/profile">Edit profile</a>' : "") +
+        '<button class="btn btn-ghost" type="button" data-action="sign-out">Sign out</button></div></div></section>';
     }
-    return '<section class="page"><div class="wrap"><h1 class="page-title">Sign in / Create account</h1><p class="muted">Sessions stay in this browser. There is no password and no real account.</p><div class="account-grid" style="margin-top:1rem">' +
+    return '<section class="page"><div class="wrap"><h1 class="page-title">Sign in / Create account</h1><p class="muted">Planner profiles stay in this browser. There is no password. Hotel partners still use the partnership desk.</p><div class="account-grid" style="margin-top:1rem">' +
       '<form class="panel stack" style="padding:1rem" data-form="signin"><h2>Sign in</h2><label>Email<input type="email" name="email" required autocomplete="username"></label><button class="btn btn-primary" type="submit">Sign in</button>' +
       '<button class="btn btn-ghost" type="button" data-action="demo-user" data-role="planner">Continue as Avery Cole, planner</button>' +
       '<button class="btn btn-ghost" type="button" data-action="demo-user" data-role="partner">Continue as Jordan Hale, hotel partner</button></form>' +
-      '<form class="panel stack" style="padding:1rem" data-form="register"><h2>Create account</h2><label>Name<input name="name" required autocomplete="name"></label><label>Email<input type="email" name="email" required></label>' +
-      '<label>I am a<select name="role"><option value="planner">Planner or host</option><option value="partner">Hotel partner</option></select></label>' +
-      '<label>Hotel, if you are a partner<select name="hotelId">' +
-      data.VENUES.map(function (v) { return '<option value="' + v.id + '">' + esc(v.hotel) + "</option>"; }).join("") +
-      '</select></label><button class="btn btn-primary" type="submit">Create account</button></form></div></div></section>';
+      '<form class="panel stack" style="padding:1rem" data-form="register"><h2>Create a planner profile</h2><label>Name<input name="name" required autocomplete="name"></label><label>Email<input type="email" name="email" required></label>' +
+      '<label>Company<input name="company" placeholder="Optional"></label>' +
+      '<button class="btn btn-primary" type="submit">Create profile</button><p class="note">You can add brand, theme, and usual event details after you save.</p></form></div></div></section>';
+  }
+
+  function profilePage() {
+    const p = planner();
+    if (!p) {
+      return '<section class="page"><div class="wrap"><h1 class="page-title">Planner profile</h1><p>Create a planner account to keep company, theme, and usual event details. Breeze reads this on every page.</p><a class="btn btn-primary" href="#/account">Create profile</a></div></section>';
+    }
+    const sel = function (name, value) { return p[name] === value ? " selected" : ""; };
+    return '<section class="page"><div class="wrap" style="max-width:760px"><p class="kicker">Planner</p><h1 class="page-title">Your profile</h1><p class="muted">Breeze uses this when it suggests rooms. Edit it whenever the brief changes.</p>' +
+      '<form class="panel stack" style="padding:1rem;margin-top:1rem" data-form="profile">' +
+      '<div class="form-grid"><label>Name<input name="name" required value="' + esc(p.name) + '"></label>' +
+      '<label>Email<input type="email" name="email" required value="' + esc(p.email) + '"></label>' +
+      '<label>Company<input name="company" value="' + esc(p.company || "") + '"></label>' +
+      '<label>Your role<input name="title" value="' + esc(p.title || "") + '" placeholder="Planner, producer, in-house"></label>' +
+      '<label>Usual event type<select name="eventType"><option value="">Not set</option>' + ["wedding", "social", "gala", "conference", "meeting", "networking"].map(function (t) { return '<option' + sel("eventType", t) + ">" + t + "</option>"; }).join("") + "</select></label>" +
+      '<label>Usual guest count<input type="number" name="guests" min="1" value="' + esc(p.guests || "") + '"></label>' +
+      '<label>Usual rental budget<input type="number" name="budget" min="0" value="' + esc(p.budget || "") + '"></label>' +
+      '<label>Preferred neighborhood<input name="location" value="' + esc(p.location || "") + '" placeholder="Coral Gables, Brickell…"></label>' +
+      '<label>Aesthetic<select name="aesthetic"><option value="">Not set</option>' + ["romantic", "classic", "elegant", "modern", "minimal", "natural", "glamorous"].map(function (t) { return '<option' + sel("aesthetic", t) + ">" + t + "</option>"; }).join("") + "</select></label>" +
+      '<label>Palette<select name="palette">' + data.PALETTES.map(function (c) { return '<option value="' + c.id + '"' + sel("palette", c.id) + ">" + esc(c.name) + "</option>"; }).join("") + "</select></label></div>" +
+      '<label>Brand and theme<textarea name="theme" placeholder="Ivory and sage. A university reception. A tech summit that should not feel like a ballroom.">' + esc(p.theme || "") + "</textarea></label>" +
+      '<label>Notes for Breeze<textarea name="notes">' + esc(p.notes || "") + "</textarea></label>" +
+      '<label>Company logo<input type="file" accept="image/*" data-upload="profile-logo"></label>' +
+      (p.logo ? '<img class="profile-logo" alt="Uploaded logo" src="' + p.logo + '">' : "") +
+      '<button class="btn btn-primary" type="submit">Save profile</button></form></div></section>';
   }
 
   function dashboard() {
@@ -433,6 +443,7 @@
     const mine = state.inquiries.filter(function (item) { return item.ownerEmail === state.user.email; });
     const saved = state.favorites.map(venue).filter(Boolean);
     return '<section class="page"><div class="wrap stack"><p class="kicker">Planner</p><h1 class="page-title">Hello, ' + esc(state.user.name.split(" ")[0]) + '</h1>' +
+      '<p><a href="#/profile">Edit your profile</a> so Breeze keeps the company, palette, and usual event.</p>' +
       '<div class="inline"><button class="btn btn-small ' + (ui.tab === "saved" ? "btn-primary" : "btn-ghost") + '" type="button" data-action="tab" data-tab="saved">Saved venues</button>' +
       '<button class="btn btn-small ' + (ui.tab === "inquiries" ? "btn-primary" : "btn-ghost") + '" type="button" data-action="tab" data-tab="inquiries">Inquiries</button>' +
       '<button class="btn btn-small ' + (ui.tab === "messages" ? "btn-primary" : "btn-ghost") + '" type="button" data-action="tab" data-tab="messages">Messages</button>' +
@@ -487,7 +498,7 @@
       ["Amenities", function (v) { return v.amenities.join(", "); }],
       ["Catering", function (v) { return v.cateringNote; }],
       ["Audiovisual", function (v) { return v.av.join(", "); }],
-      ["360° tour", function (v) { return v.tour ? "Sample viewer on the listing" : "Not listed"; }],
+      ["360° tour", function (v) { return v.scenes ? "Walkable 360° on the listing" : "Not listed"; }],
       ["Suitability", function (v) { return ai.scoreVenue(v, state.brief || {}).score + " on the demo scale"; }]
     ];
     return '<section class="page"><div class="wrap stack"><h1 class="page-title">Side by side</h1><div class="panel" style="padding:1rem"><h2>Sample summary</h2><p>' + esc(summary) + "</p></div>" +
@@ -619,12 +630,72 @@
       ["Is an inquiry a confirmed booking?", "No. The hotel has to check the date and accept the reservation. The dashboard says so until that happens."],
       ["Are the prices and calendars live?", "No. Every rate, curfew, and blackout date is sample data for this prototype."],
       ["Do the photographs show real hotels?", "No. They were generated for Breeze and are not pictures of the named sample properties."],
-      ["Does the assistant use a live model?", "No. It reads your note, fills a brief, and scores the eight sample rooms in the browser."],
+      ["Does Breeze use a live model?", "When an Anthropic key is present it does. If the key is not set, Breeze uses the local matcher on the same sample inventory. Prices and dates stay sample data either way."],
+      ["Where is the assistant?", "Along the bottom of every page. It is a desk, not a chat bubble. It reads a planner profile when you have one."],
       ["Can a hotel join?", "Use the partnership form. It stores the registration in this browser only."]
     ];
     return '<section class="page"><div class="wrap" style="max-width:760px"><h1 class="page-title">FAQs</h1><div class="faq" style="margin-top:1rem">' +
       items.map(function (item) { return "<details><summary>" + item[0] + "</summary><p>" + item[1] + "</p></details>"; }).join("") +
       "</div></div></section>";
+  }
+
+  function greeting() {
+    const p = planner();
+    if (p && (p.company || p.theme || p.eventType)) {
+      return "I have your profile" + (p.company ? " for " + p.company : "") + ". " +
+        [p.eventType, p.guests ? p.guests + " guests" : "", p.location, p.theme].filter(Boolean).join(" · ") +
+        ". What should we place?";
+    }
+    return "Tell Breeze about the event. A neighborhood, a guest count, a color, or a feeling is enough.";
+  }
+
+  function breezeMatches(message) {
+    return (message.scores || []).map(function (item) {
+      const v = venue(item.id);
+      if (!v) return "";
+      return '<article class="match"><img src="' + esc(v.images[0]) + '" alt=""><div><p class="score">' + item.score + "</p><h3>" + esc(v.name) + "</h3><p>" + esc(v.hotel) + " · " + esc(v.neighborhood) + "</p><p>" + esc((item.reasons || []).slice(0, 2).join(" ")) + "</p>" +
+        (item.limits && item.limits[0] ? "<p class=\"note\">" + esc(item.limits[0]) + "</p>" : "") +
+        '<div class="inline"><a class="btn btn-primary btn-small" href="#/venue/' + esc(v.id) + '">View details</a>' +
+        (v.scenes ? '<a class="btn btn-ghost btn-small" href="#/venue/' + esc(v.id) + '">Open the 360°</a>' : "") +
+        "</div></div></article>";
+    }).join("");
+  }
+
+  function renderBreeze() {
+    const root = document.getElementById("breeze");
+    if (!root) return;
+    const open = ui.breezeOpen;
+    const messages = state.messages.length ? state.messages : [{ role: "assistant", text: greeting(), suggestions: ["A romantic wedding for 150 in Coral Gables", "A modern innovation summit, navy brand", "Executive meeting for 12 downtown"] }];
+    const bubbles = messages.map(function (message) {
+      const chips = (message.suggestions || []).map(function (chip) {
+        return '<button class="btn btn-ghost btn-small" type="button" data-action="chip" data-text="' + esc(chip) + '">' + esc(chip) + "</button>";
+      }).join("");
+      return '<div class="bubble ' + message.role + '"><p>' + esc(message.text) + "</p>" +
+        (breezeMatches(message) ? '<div class="stack" style="margin-top:0.55rem">' + breezeMatches(message) + "</div>" : "") +
+        (chips ? '<div class="suggestions" style="margin-top:0.45rem">' + chips + "</div>" : "") + "</div>";
+    }).join("");
+    root.className = "breeze-dock" + (open ? " open" : "");
+    root.innerHTML = (open ? '<div class="breeze-sheet" id="breeze-sheet">' + bubbles + (ui.breezeWaiting ? '<div class="breeze-tide" aria-hidden="true"></div>' : "") + "</div>" : "") +
+      '<form class="breeze-bar" data-form="breeze"><button class="breeze-word" type="button" data-action="toggle-breeze" aria-expanded="' + open + '">Breeze</button>' +
+      '<input id="composer" name="text" autocomplete="off" placeholder="Tell Breeze about the event…">' +
+      '<button class="btn btn-ghost btn-small" type="button" data-action="voice">Speak</button>' +
+      '<button class="btn btn-primary btn-small" type="submit">Send</button></form>';
+    const sheet = document.getElementById("breeze-sheet");
+    if (sheet) sheet.scrollTop = sheet.scrollHeight;
+  }
+
+  function afterRender() {
+    const r = route();
+    const pano = document.getElementById("pano");
+    if (pano) ui.breezeOpen = false;
+    if (pano && r.parts[1]) {
+      const v = venue(r.parts[1]);
+      if (v && v.scenes) window.BreezeTour.mount(pano, v);
+      else window.BreezeTour.destroy();
+    } else {
+      window.BreezeTour.destroy();
+    }
+    renderBreeze();
   }
 
   function render() {
@@ -636,6 +707,7 @@
     else if (key === "assistant") body = assistant();
     else if (key === "how") body = how();
     else if (key === "account") body = account();
+    else if (key === "profile") body = profilePage();
     else if (key === "dashboard") body = dashboard();
     else if (key === "compare") body = compare();
     else if (key === "studio") body = studio(r.parts[1]);
@@ -645,13 +717,12 @@
     else if (key === "faq") body = faq();
     else if (key) body = '<section class="page"><div class="wrap"><h1>That page is not part of this demo.</h1><a href="#/">Back home</a></div></section>';
     document.getElementById("app").innerHTML = shell(key === "dashboard" ? "account" : key, body);
-    const transcript = document.getElementById("transcript");
-    if (transcript) transcript.scrollTop = transcript.scrollHeight;
     if (ui.restoreFocus) {
       const node = document.querySelector(ui.restoreFocus);
       if (node) node.focus();
       ui.restoreFocus = "";
     }
+    afterRender();
   }
 
   function toggleFav(id) {
@@ -682,12 +753,15 @@
   function signIn(email) {
     const found = state.users.find(function (user) { return user.email.toLowerCase() === email.toLowerCase(); });
     if (!found) {
-      toast("No demo account uses that email. Create one, or use a sample sign-in.");
+      toast("No demo account uses that email. Create a planner profile, or use a sample sign-in.");
       return;
     }
-    state.user = found;
+    state.user = store.hydrateUser(found);
+    if (state.user.role === "planner") {
+      state.brief = ai.applyProfile(state.brief || {}, window.BreezeCatalog.publicProfile(state.user));
+    }
     store.save();
-    location.hash = found.role === "partner" ? "#/partner" : "#/dashboard";
+    location.hash = found.role === "partner" ? "#/partner" : "#/profile";
   }
 
   function ensureDemo(role) {
@@ -703,23 +777,66 @@
     window.speechSynthesis.speak(utterance);
   }
 
-  function ask(text) {
-    const clean = String(text || "").trim();
-    if (!clean) return;
-    const result = ai.reply(allVenues(), state.brief, clean);
-    state.brief = result.brief;
-    state.messages.push({ role: "user", text: clean });
+  function pageContext() {
+    const r = route();
+    return { page: r.key || "home", venueId: r.key === "venue" ? r.parts[1] || "" : "" };
+  }
+
+  function applyResult(clean, result, live) {
+    state.brief = result.brief || state.brief;
     state.messages.push({
       role: "assistant",
       text: result.text,
-      suggestions: result.suggestions,
-      scores: (result.ranked || []).map(function (item) {
+      suggestions: result.suggestions || [],
+      scores: result.matches || (result.ranked || []).map(function (item) {
         return { id: item.venue.id, score: item.score, reasons: item.reasons, limits: item.limits };
-      })
+      }),
+      live: live
     });
     store.save();
-    render();
+    ui.breezeWaiting = false;
+    ui.breezeLive = live;
+    renderBreeze();
     speak(result.text);
+  }
+
+  function ask(text) {
+    const clean = String(text || "").trim();
+    if (!clean) return;
+    ui.breezeOpen = true;
+    state.messages.push({ role: "user", text: clean });
+    ui.breezeWaiting = true;
+    store.save();
+    renderBreeze();
+    const profile = window.BreezeCatalog.publicProfile(planner());
+    const ctx = pageContext();
+    const fallback = function () {
+      const local = ai.reply(allVenues(), state.brief, clean, profile);
+      applyResult(clean, {
+        text: local.text,
+        suggestions: local.suggestions,
+        brief: local.brief,
+        ranked: local.ranked
+      }, false);
+    };
+    fetch("/api/breeze", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        message: clean,
+        history: state.messages.slice(-8).map(function (item) { return { role: item.role, text: item.text }; }),
+        brief: state.brief,
+        profile: profile,
+        page: ctx.page,
+        venueId: ctx.venueId
+      })
+    }).then(function (res) {
+      if (!res.ok) throw new Error("http");
+      return res.json();
+    }).then(function (payload) {
+      if (!payload || !payload.result || !payload.result.text) throw new Error("shape");
+      applyResult(clean, payload.result, Boolean(payload.live));
+    }).catch(fallback);
   }
 
   function listen() {
@@ -766,10 +883,14 @@
     if (action === "layout") ui.layout[id] = btn.dataset.layout;
     if (action === "hotspot") {
       const v = venue(id);
-      ui.hotspot[id] = v.hotspots[Number(btn.dataset.index)];
+      if (v && v.hotspots) ui.hotspot[id] = v.hotspots[Number(btn.dataset.index)];
     }
-    if (action === "chip") ask(btn.dataset.text);
+    if (action === "chip") { ask(btn.dataset.text); return; }
     if (action === "voice") { listen(); return; }
+    if (action === "open-breeze") { ui.breezeOpen = true; renderBreeze(); const box = document.getElementById("composer"); if (box) box.focus(); return; }
+    if (action === "toggle-breeze") { ui.breezeOpen = !ui.breezeOpen; renderBreeze(); return; }
+    if (action === "zoom-in") { window.BreezeTour.zoom(-12); return; }
+    if (action === "zoom-out") { window.BreezeTour.zoom(12); return; }
     if (action === "speak") { state.speak = !state.speak; store.save(); }
     if (action === "tab") ui.tab = btn.dataset.tab;
     if (action === "partner-tab") ui.partnerTab = btn.dataset.tab;
@@ -785,9 +906,9 @@
       const form = document.querySelector("[data-form='search']");
       const fields = readForm(form);
       const sentence = [fields.type, fields.guests ? fields.guests + " guests" : "", fields.location, fields.date].filter(Boolean).join(", ");
-      location.hash = "#/assistant";
+      ui.breezeOpen = true;
       if (sentence) ask(sentence);
-      else render();
+      else renderBreeze();
       return;
     }
     if (action === "proposal") {
@@ -817,15 +938,30 @@
       return;
     }
     if (kind === "filters") return;
-    if (kind === "assistant") { ask(fields.text); return; }
+    if (kind === "assistant" || kind === "breeze") { ask(fields.text); return; }
     if (kind === "signin") { signIn(fields.email); return; }
     if (kind === "register") {
-      const user = { name: fields.name, email: fields.email, role: fields.role, hotelId: fields.role === "partner" ? fields.hotelId : "" };
-      state.users = state.users.filter(function (item) { return item.email !== user.email; });
-      state.users.push(user);
+      const user = store.hydrateUser({
+        name: fields.name,
+        email: fields.email,
+        role: "planner",
+        company: fields.company || ""
+      });
+      store.persistUser(user);
       state.user = user;
+      state.brief = ai.applyProfile(state.brief || {}, window.BreezeCatalog.publicProfile(user));
       store.save();
-      location.hash = user.role === "partner" ? "#/partner" : "#/dashboard";
+      location.hash = "#/profile";
+      return;
+    }
+    if (kind === "profile") {
+      if (!planner()) return;
+      const next = store.hydrateUser(Object.assign({}, state.user, fields, { role: "planner", logo: state.user.logo || "" }));
+      store.persistUser(next);
+      state.brief = ai.applyProfile(state.brief || {}, window.BreezeCatalog.publicProfile(next));
+      store.save();
+      toast("Profile saved. Breeze will use it on every page.");
+      render();
       return;
     }
     if (kind === "studio") {
@@ -922,6 +1058,10 @@
       const kind = input.dataset.upload;
       if (kind === "logo") state.brief.logo = url;
       if (kind === "inspiration") state.brief.inspiration = url;
+      if (kind === "profile-logo" && planner()) {
+        state.user.logo = url;
+        store.persistUser(state.user);
+      }
       if (kind === "studio-logo" || kind === "studio-inspiration") {
         const current = savedStudio(input.dataset.id);
         if (kind === "studio-logo") current.logo = url;
@@ -974,6 +1114,7 @@
 
   window.addEventListener("hashchange", function () {
     ui.applyQuery = true;
+    if (route().key !== "assistant") ui.breezeOpen = false;
     render();
   });
 
