@@ -2,9 +2,6 @@
 
 const path = require("path");
 const express = require("express");
-const data = require("./js/data");
-const ai = require("./js/ai");
-const catalog = require("./js/catalog");
 
 const app = express();
 const PORT = Number(process.env.PORT) || 8000;
@@ -12,8 +9,11 @@ const MODEL = process.env.ANTHROPIC_MODEL || "claude-sonnet-4-5";
 const buckets = new Map();
 
 app.disable("x-powered-by");
-app.use(express.json({ limit: "32kb" }));
-app.use(express.static(__dirname, { extensions: ["html"] }));
+app.use(express.json({ limit: "200kb" }));
+app.use(express.static(__dirname, {
+  extensions: ["html"],
+  setHeaders(res) { res.setHeader("Cache-Control", "no-store"); }
+}));
 
 function liveEnabled() {
   return Boolean(String(process.env.ANTHROPIC_API_KEY || "").trim());
@@ -31,137 +31,67 @@ function limited(ip) {
   return bucket.count > 20;
 }
 
-function venuesForPrompt() {
-  return catalog.compact(data.VENUES);
-}
-
 app.get("/api/status", function (_req, res) {
   res.json({ live: liveEnabled() });
 });
 
 app.post("/api/breeze", async function (req, res) {
   const ip = String(req.ip || "local");
-  if (limited(ip)) {
-    return res.status(429).json({ live: false, error: "rate" });
-  }
-  const body = req.body && typeof req.body === "object" ? req.body : {};
-  const message = String(body.message || "").trim().slice(0, 1200);
-  if (!message) return res.status(400).json({ live: false, error: "empty" });
+  if (limited(ip)) return res.status(429).json({ live: false, error: "rate" });
+  if (!liveEnabled()) return res.status(503).json({ live: false, error: "offline" });
 
-  const history = Array.isArray(body.history) ? body.history.slice(-8) : [];
-  const brief = body.brief && typeof body.brief === "object" ? body.brief : {};
-  const profile = body.profile && typeof body.profile === "object" ? body.profile : null;
-  const page = String(body.page || "").slice(0, 80);
-  const venueId = String(body.venueId || "").slice(0, 40);
+  const incoming = Array.isArray(req.body && req.body.messages) ? req.body.messages : [];
+  const cleaned = incoming
+    .filter(function (m) { return m && (m.role === "user" || m.role === "assistant"); })
+    .map(function (m) {
+      return { role: m.role, content: String(m.content || "").slice(0, 24000) };
+    })
+    .filter(function (m) { return m.content; })
+    .slice(0, 20);
 
-  const merged = ai.applyProfile(brief, profile);
-  const parsed = ai.parseUtterance(message, merged);
+  if (!cleaned.length) return res.status(400).json({ live: false, error: "empty" });
 
-  if (!liveEnabled()) {
-    const local = ai.reply(data.VENUES, parsed, message, profile);
-    return res.json({ live: false, source: "local", result: serialize(local) });
-  }
+  let system = "You are Breeza on Breeze Book. Follow the guest's instructions. Plain text, then ### and one JSON object.";
+  const messages = [];
+  cleaned.forEach(function (m, i) {
+    if (i === 0 && m.role === "user") {
+      system = m.content;
+      return;
+    }
+    const prev = messages[messages.length - 1];
+    if (prev && prev.role === m.role) prev.content += "\n" + m.content;
+    else messages.push({ role: m.role, content: m.content });
+  });
+  if (!messages.length) messages.push({ role: "user", content: "Continue." });
+  if (messages[0].role !== "user") messages.unshift({ role: "user", content: "Continue." });
 
   try {
-    const result = await askModel({ message: message, history: history, brief: parsed, profile: profile, page: page, venueId: venueId });
-    return res.json({ live: true, source: "anthropic", result: result });
+    const key = String(process.env.ANTHROPIC_API_KEY || "").trim();
+    const response = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        "x-api-key": key,
+        "anthropic-version": "2023-06-01"
+      },
+      body: JSON.stringify({
+        model: MODEL,
+        max_tokens: 700,
+        temperature: 0.4,
+        system: system,
+        messages: messages
+      })
+    });
+    if (!response.ok) return res.status(502).json({ live: false, error: "model" });
+    const payload = await response.json();
+    const text = ((payload.content || []).map(function (part) { return part.text || ""; }).join("\n") || "").trim();
+    if (!text) return res.status(502).json({ live: false, error: "empty" });
+    return res.json({ live: true, text: text.slice(0, 8000) });
   } catch (err) {
-    const local = ai.reply(data.VENUES, parsed, message, profile);
-    return res.json({ live: false, source: "local", result: serialize(local) });
+    return res.status(502).json({ live: false, error: "model" });
   }
 });
 
-function serialize(local) {
-  return {
-    text: local.text,
-    suggestions: local.suggestions || [],
-    brief: local.brief || {},
-    matches: (local.ranked || []).map(function (item) {
-      return {
-        id: item.venue.id,
-        score: item.score,
-        reasons: item.reasons,
-        limits: item.limits
-      };
-    })
-  };
-}
-
-async function askModel(ctx) {
-  const ranked = ai.rankVenues(data.VENUES, ctx.brief).slice(0, 5);
-  const system = [
-    "You are Breeze, a calm hotel-event concierge for a Miami marketplace demo.",
-    "Speak like a thoughtful host at a coastal hotel, not like a chatbot or copilot. No emojis, no markdown headings, no 'As an AI'.",
-    "Venue prices, dates, and availability are SAMPLE DATA. Never say a date is booked for real. An inquiry is not a confirmed reservation.",
-    "Use the planner profile (company, theme, palette, usual event) when it exists. Explain brand fit in plain language: why a room helps or fights the identity.",
-    "Recommend at most three venues from the catalog. Prefer the scoring hints, but you may reorder if brand or theme clearly disagrees.",
-    "If the guest has not said the event type or guest count, and the profile does not fill it, ask one short question instead of listing rooms.",
-    "Return ONLY JSON with keys: text (string), suggestions (2-4 short strings), brief (object with any of type, guests, location, budget, aesthetic, theme, brandNote), matches (array of {id, score, reasons, limits}).",
-    "Catalog: " + JSON.stringify(venuesForPrompt()),
-    "Score hints: " + JSON.stringify(ranked.map(function (item) {
-      return { id: item.venue.id, score: item.score, reasons: item.reasons, limits: item.limits };
-    })),
-    "Planner profile: " + JSON.stringify(ctx.profile || null),
-    "Working brief: " + JSON.stringify(ctx.brief || {}),
-    "Current page: " + ctx.page + (ctx.venueId ? " venue=" + ctx.venueId : "")
-  ].join("\n");
-
-  const messages = [];
-  ctx.history.forEach(function (item) {
-    const role = item.role === "assistant" ? "assistant" : "user";
-    const text = String(item.text || "").slice(0, 1200);
-    if (text) messages.push({ role: role, content: text });
-  });
-  messages.push({ role: "user", content: ctx.message });
-
-  const key = String(process.env.ANTHROPIC_API_KEY || "").trim();
-  const response = await fetch("https://api.anthropic.com/v1/messages", {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-      "x-api-key": key,
-      "anthropic-version": "2023-06-01"
-    },
-    body: JSON.stringify({
-      model: MODEL,
-      max_tokens: 700,
-      temperature: 0.4,
-      system: system,
-      messages: messages
-    })
-  });
-
-  if (!response.ok) {
-    throw new Error("model");
-  }
-  const payload = await response.json();
-  const raw = ((payload.content || []).map(function (part) { return part.text || ""; }).join("\n") || "").trim();
-  const parsed = parseJson(raw);
-  if (!parsed || !parsed.text) throw new Error("shape");
-  const allowed = new Set(data.VENUES.map(function (v) { return v.id; }));
-  const matches = Array.isArray(parsed.matches) ? parsed.matches.filter(function (item) { return item && allowed.has(item.id); }).slice(0, 3) : [];
-  return {
-    text: String(parsed.text).slice(0, 1600),
-    suggestions: Array.isArray(parsed.suggestions) ? parsed.suggestions.map(function (s) { return String(s).slice(0, 80); }).slice(0, 4) : [],
-    brief: Object.assign({}, ctx.brief, parsed.brief || {}),
-    matches: matches.map(function (item) {
-      return {
-        id: item.id,
-        score: Math.max(1, Math.min(99, Number(item.score) || 50)),
-        reasons: Array.isArray(item.reasons) ? item.reasons.map(String).slice(0, 4) : [],
-        limits: Array.isArray(item.limits) ? item.limits.map(String).slice(0, 3) : []
-      };
-    })
-  };
-}
-
-function parseJson(raw) {
-  const start = raw.indexOf("{");
-  const end = raw.lastIndexOf("}");
-  if (start === -1 || end === -1) return null;
-  try { return JSON.parse(raw.slice(start, end + 1)); } catch (err) { return null; }
-}
-
 app.listen(PORT, "127.0.0.1", function () {
-  process.stdout.write("Breeze at http://127.0.0.1:" + PORT + "\n");
+  process.stdout.write("Breeze Book at http://127.0.0.1:" + PORT + "\n");
 });

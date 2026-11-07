@@ -1,34 +1,183 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Breeze — Hotel event spaces</title>
-    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
-    <meta
-      name="description"
-      content="Breeze is a demonstration marketplace for discovering, comparing, and inquiring about hotel event spaces in Miami."
-    />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Outfit:wght@420;560;650;750&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="css/styles.css" />
-    <link rel="stylesheet" href="vendor/pannellum/pannellum.css" />
-  </head>
-  <body>
-    <a class="skip" href="#main">Skip to content</a>
-    <div id="app"></div>
-    <aside id="breeze" class="breeze-dock" aria-label="Breeze"></aside>
-    <div id="toast" class="toast" hidden></div>
-    <script src="vendor/pannellum/pannellum.js"></script>
-    <script src="js/data.js"></script>
-    <script src="js/catalog.js"></script>
-    <script src="js/ai.js"></script>
-    <script src="js/store.js"></script>
-    <script src="js/tour.js"></script>
-    <script src="js/ui.js"></script>
-  </body>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Breeze Book</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Booking should be a Breeze. Chat with Breeza to find Miami hotel event spaces that fit, with exact measurements, 360° views, prices and hours.">
+<link rel="icon" type="image/png" href="brand/favicon.png">
+<link rel="apple-touch-icon" href="brand/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bellefair&family=Montserrat:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-photo" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="9" cy="10" r="1.8" fill="currentColor"/><path d="M4.5 17l5-5 4 4 2.5-2.5 3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+    <symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M5.5 11a6.5 6.5 0 0013 0M12 17.5V21M8.5 21h7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-reset" viewBox="0 0 24 24"><path d="M4 12a8 8 0 108-8 8.2 8.2 0 00-5.7 2.3M4 4v4.5h4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-min" viewBox="0 0 24 24"><path d="M6 15l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" transform="rotate(180 12 12)"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  </defs>
+</svg>
+
+<header class="top band">
+  <div class="bar">
+    <a class="brand" href="#breeza" aria-label="Breeze Book home"><img class="logo-mark" src="brand/icon.png" width="40" height="40" alt=""><span class="brand-lockup"><span class="wordmark">Breeze Book</span><span class="tagline">Meet · Stay · Celebrate</span></span></a>
+    <nav class="nav" aria-label="Main">
+      <a href="#venues"><span class="long">Find a venue</span><span class="short">Venues</span></a>
+      <a href="#hotels"><span class="long">For hotels</span><span class="short">Hotels</span></a>
+      <a class="cta" href="#breeza"><span class="long">Ask Breeza</span><span class="short">Breeza</span></a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<section class="hero band" id="breeza">
+  <div class="breezes" aria-hidden="true">
+    <svg class="drift" viewBox="0 0 1600 200" style="top:16%"><path d="M0 60c80-30 160-30 240 0s160 30 240 0 160-30 240 0 160 30 240 0 160-30 240 0 160 30 240 0 160-30 240 0"/><path d="M120 120c60-22 120-22 180 0s120 22 180 0" /><path d="M900 150c60-22 120-22 180 0s120 22 180 0"/></svg>
+    <svg class="drift b" viewBox="0 0 1600 200" style="top:58%"><path d="M0 90c80-30 160-30 240 0s160 30 240 0 160-30 240 0 160 30 240 0 160-30 240 0 160 30 240 0 160-30 240 0"/><path d="M500 40c60-22 120-22 180 0s120 22 180 0"/></svg>
+  </div>
+  <div class="inner">
+    <div class="intro">
+      <img class="hero-mark" src="brand/mark.png" width="340" height="129" alt="">
+      <div class="eyebrow">Meet · Stay · Celebrate</div>
+      <h1>Booking should be a <span class="gust" aria-label="Breeze."><span aria-hidden="true" style="--i:0">B</span><span aria-hidden="true" style="--i:1">r</span><span aria-hidden="true" style="--i:2">e</span><span aria-hidden="true" style="--i:3">e</span><span aria-hidden="true" style="--i:4">z</span><span aria-hidden="true" style="--i:5">e</span><span aria-hidden="true" style="--i:6">.</span></span></h1>
+      <p>Tell Breeza what you're planning. She matches you with Miami hotel spaces that fit, then lets you walk each one in 360°, with exact measurements, prices and hours beside you.</p>
+    </div>
+
+    <div class="chat-wrap">
+      <section class="chat" aria-label="Chat with Breeza">
+        <div class="chat-head">
+          <img class="logo-mark av" src="brand/icon.png" width="44" height="44" alt="">
+          <div class="who">
+            <div class="name">Breeza <span class="pill" id="modePill">Connecting</span></div>
+            <div class="sub" id="chatSub">Miami hotel venue matchmaker</div>
+          </div>
+          <button class="iconbtn" id="resetBtn" type="button" aria-label="Start over" title="Start over"><svg><use href="#i-reset"/></svg></button>
+          <button class="iconbtn chat-min" id="chatMinBtn" type="button" aria-label="Minimize chat" title="Minimize chat"><svg><use href="#i-min"/></svg></button>
+        </div>
+        <div class="msgs" id="msgs" role="log" aria-live="polite" aria-label="Conversation"></div>
+        <div class="chips" id="chips"></div>
+        <div class="tray" id="tray" hidden></div>
+        <div class="micpanel" id="micPanel" hidden></div>
+        <form class="composer" id="composer" autocomplete="off">
+          <button class="iconbtn" type="button" id="photoBtn" aria-label="Add inspiration photos" title="Add inspiration photos"><svg><use href="#i-photo"/></svg></button>
+          <input type="file" id="photoInput" accept="image/jpeg,image/png,image/webp,image/gif,image/*" multiple hidden>
+          <button class="iconbtn" type="button" id="micBtn" aria-label="Record a voice note" title="Record a voice note"><svg><use href="#i-mic"/></svg></button>
+          <input type="file" id="audioInput" accept="audio/*" hidden>
+          <label class="sr" for="chatInput">Message Breeza</label>
+          <textarea id="chatInput" rows="1" placeholder="Describe your event…"></textarea>
+          <button class="btn send" id="sendBtn" type="submit" aria-label="Send"><span class="lbl">Send</span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </form>
+      </section>
+    </div>
+  </div>
+</section>
+<div class="shore" aria-hidden="true">
+  <svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path class="foam" d="M0 40c120 22 240 24 360 8s240-34 360-22 240 34 360 26 240-28 360-24"/><path d="M0 52c120 22 240 24 360 8s240-34 360-22 240 34 360 26 240-28 360-24V90H0z" fill="currentColor"/></svg>
+</div>
+
+<section class="steps band" aria-label="How Breeze Book works">
+  <div class="inner">
+    <ol>
+      <li><b>Tell Breeza</b><span>Type, record a voice note or add inspiration photos.</span></li>
+      <li><b>Walk it in 360°</b><span>Step inside each space, set for your guest count, with measurements and prices alongside.</span></li>
+      <li><b>Request in one step</b><span>The hotel gets every detail it needs to quote you.</span></li>
+    </ol>
+  </div>
+</section>
+
+<section class="venues band" id="venues">
+  <div class="inner">
+    <div class="sec-head">
+      <div>
+        <div class="eyebrow">Partner hotels · Miami</div>
+        <h2>Find a venue</h2>
+        <p>Every listing comes from the hotel's own floor plans: room size, ceiling height, capacity by layout, equipment sizes, pricing and hours. Tap one to step inside.</p>
+      </div>
+      <div class="filters">
+        <label class="field">Area<select id="fArea"><option value="">All areas</option></select></label>
+        <label class="field">Setting<select id="fSetting"><option value="">Indoor or outdoor</option><option value="indoor">Indoor</option><option value="outdoor">Outdoor</option></select></label>
+        <label class="field">Guests<input id="fGuests" type="number" min="1" max="2000" inputmode="numeric" placeholder="e.g. 120"></label>
+        <label class="field">Sort<select id="fSort"><option value="fit">Best fit</option><option value="size">Largest first</option><option value="price">Lowest per-guest price</option></select></label>
+      </div>
+    </div>
+    <div class="grid" id="grid"></div>
+    <p class="demo-note">Demo listings: the hotels, rooms and prices are illustrative samples, not real Miami properties.</p>
+  </div>
+</section>
+
+<section class="hotels band" id="hotels">
+  <div class="inner">
+    <div class="sec-head">
+      <div>
+        <div class="eyebrow">For partner hotels · Meet · Stay · Celebrate</div>
+        <h2>Fill empty event space with guests who already know the room fits.</h2>
+        <p>Breeze Book answers the questions your sales team repeats every day, then sends you a request with every detail filled in.</p>
+      </div>
+    </div>
+    <div class="cols">
+      <div class="panel">
+        <h3>What you send us</h3>
+        <ul class="checks">
+          <li><span>Room measurements<small>Length × width and ceiling height, e.g. 96 × 64 ft, 18 ft</small></span></li>
+          <li><span>Capacity by layout<small>Banquet, reception, theater, classroom, boardroom</small></span></li>
+          <li><span>Equipment sizes<small>Screens, LED walls, stages, dance floors, e.g. 86 in display, 30 × 30 ft dance floor</small></span></li>
+          <li><span>Pricing<small>Room rental, food and beverage minimums, per-guest catering</small></span></li>
+          <li><span>Hours of operation<small>Open and close times by day, sound curfews, rain plans</small></span></li>
+          <li><span>360° photos of each space<small>Until they're in, we render a to-scale room from your floor plan</small></span></li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3>What you get</h3>
+        <ul class="checks">
+          <li><span>Complete requests<small>Date, hours, guest count, layout, food and drink, equipment, budget and contact, in one message</small></span></li>
+          <li><span>Guests matched to the right room<small>Breeza only suggests spaces whose capacity, equipment and hours fit</small></span></li>
+          <li><span>Questions answered instantly<small>Ceiling heights, screen sizes and catering costs, any time of day</small></span></li>
+          <li><span>Guest-room add-ons<small>Every request asks whether the host needs rooms for guests</small></span></li>
+          <li><span>A Miami-first audience<small>Weddings, quinceañeras, milestone birthdays and company events</small></span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="stats">
+      <div class="stat"><b>5.08 days</b><span>Average time for a hotel to answer an event request today.</span><a href="https://www.altexsoft.com/travel-industry-news/hotels-risk-group-bookings-with-slow-replies/" target="_blank" rel="noopener">Cvent, via AltexSoft</a></div>
+      <div class="stat"><b>72%</b><span>Share of events planned at hotels that are social, like weddings and birthdays.</span><a href="https://www.prnewswire.com/news-releases/social-event-business-continues-to-grow-for-hotels-301703753.html" target="_blank" rel="noopener">Tripleseat</a></div>
+      <div class="stat"><b>84%</b><span>Share of hotel event hosts who also need guest rooms.</span><a href="https://www.prnewswire.com/news-releases/social-event-business-continues-to-grow-for-hotels-301703753.html" target="_blank" rel="noopener">Tripleseat</a></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="band">
+  <div class="inner">
+    <a class="brand" href="#breeza"><img class="logo-mark" src="brand/icon.png" width="32" height="32" alt="" style="width:32px;height:32px"><span class="brand-lockup"><span class="wordmark" style="font-size:18px">Breeze Book</span><span class="tagline">Booking should be a Breeze</span></span></a>
+    <span>Miami hotel event spaces. Demo listings only.</span>
+  </div>
+</footer>
+
+<div class="imm" id="imm" hidden role="dialog" aria-modal="true" aria-labelledby="immTitle">
+  <div class="imm-stage" id="immStage" tabindex="0" aria-label="360° view of the venue. Drag or use the arrow keys to look around."><span class="vhint" id="immHint">Drag to look around</span></div>
+  <div class="imm-top">
+    <div class="imm-title glass"><div class="k" id="immHotel"></div><h2 id="immTitle"></h2><div class="spec mono" id="immSpec"></div></div>
+    <div class="imm-actions">
+      <button class="gbtn glass" id="immDetailsBtn" type="button" aria-controls="immPanel" aria-expanded="true">Details</button>
+      <button class="gbtn glass fs-only" id="immFsBtn" type="button">Full screen</button>
+      <button class="gbtn glass round" id="immClose" type="button" aria-label="Close venue view">×</button>
+    </div>
+  </div>
+  <aside class="imm-panel" id="immPanel" aria-label="Venue details"><div class="pp" id="immPanelBody"></div></aside>
+  <div class="imm-bottom"><div class="seg glass" id="immSeg" role="group" aria-label="Room setup"></div><span class="vcount glass" id="immCount"></span></div>
+  <div class="imm-chat" id="immChat"></div>
+  <button class="imm-pill" id="immPill" type="button" hidden><img class="logo-mark" src="brand/icon.png" width="36" height="36" alt="">Ask Breeza</button>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script src="js/venues.js"></script>
+<script src="js/scene3d.js"></script>
+<script src="js/app.js"></script>
+</body>
 </html>
