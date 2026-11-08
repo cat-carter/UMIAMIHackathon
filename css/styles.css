@@ -275,26 +275,10 @@ footer .inner{display:flex;justify-content:space-between;align-items:center;gap:
 .vcount{flex:none;font-family:var(--f-mono);font-stretch:87.5%;font-size:11px;letter-spacing:.04em;padding:12px 14px;border-radius:999px;white-space:nowrap}
 .imm-pill{position:absolute;right:max(14px,env(safe-area-inset-right,0px));bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:3;display:flex;align-items:center;gap:10px;padding:8px 18px 8px 8px;border-radius:999px;border:0;background:var(--surface);color:var(--ink);font-family:var(--f-display);font-weight:400;font-size:18px;box-shadow:var(--shadow-lg)}
 .imm-pill svg,.imm-pill .logo-mark{width:36px;height:36px;border-radius:50%}
-.imm-hotspots{position:absolute;inset:0;z-index:1;pointer-events:none}
-.hotspot{position:absolute;width:34px;height:34px;border:0;border-radius:50%;transform:translate(-50%,-50%);pointer-events:auto;background:rgba(247,243,236,.95);color:var(--ink);font-family:var(--f-body);font-weight:700;font-size:13px;box-shadow:0 8px 22px -10px rgba(0,0,0,.55);cursor:pointer}
-.hotspot.nav{background:var(--hospitality);color:#fff}
-.hotspot:hover{transform:translate(-50%,-50%) scale(1.08)}
 .imm-tools{position:absolute;right:max(14px,env(safe-area-inset-right,0px));top:calc(env(safe-area-inset-top,0px) + 78px);z-index:3;display:flex;flex-direction:column;gap:4px;padding:6px;border-radius:16px}
 .imm-tools button{border:0;background:transparent;color:var(--glass-fg);font-weight:700;font-size:16px;min-width:40px;height:36px;border-radius:10px}
 .imm-tools button:hover{background:rgba(255,255,255,.12)}
-.imm-plan{position:absolute;left:max(14px,env(safe-area-inset-left,0px));bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:3;padding:10px 12px 12px;border-radius:16px;width:210px}
-@media (min-width:761px){.imm.panel-on .imm-plan{left:max(14px,calc(env(safe-area-inset-left,0px) + 408px))}}
-.imm-plan-label{font-family:var(--f-body);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--foam);margin-bottom:6px}
-.imm-plan canvas{display:block;width:186px;height:118px;background:rgba(0,0,0,.25);border-radius:8px}
-.imm-vps{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
-.imm-vps button{border:0;background:transparent;color:var(--glass-fg);font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:5px 8px;border-radius:999px}
-.imm-vps button[aria-pressed="true"],.imm-vps button:hover{background:var(--glass-on);color:var(--glass-on-fg)}
-.spot-card{position:absolute;z-index:4;width:min(280px,calc(100% - 32px));padding:14px 16px;border-radius:16px;color:var(--glass-fg);pointer-events:auto}
-.spot-card h3{margin:0 0 6px;font-family:var(--f-display);font-size:20px;font-weight:400}
-.spot-card p{margin:0;font-size:13.5px;color:var(--glass-muted);line-height:1.45}
-.spot-card .go{margin-top:10px;border:0;background:var(--glass-on);color:var(--glass-on-fg);border-radius:999px;padding:8px 12px;font-weight:700;font-size:13px}
 @media (max-width:760px){
-  .imm-plan{display:none}
   .imm-tools{top:auto;bottom:calc(16px + env(safe-area-inset-bottom,0px));right:max(12px,env(safe-area-inset-right,0px))}
 }
 @media (max-width:1100px) and (min-width:761px){.imm-panel{width:340px}.imm-chat{width:360px}}
