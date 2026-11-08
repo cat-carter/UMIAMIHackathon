@@ -1,0 +1,22 @@
+{
+  "name": "breezebook",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Booking should be a Breeze: an AI matchmaker for Miami hotel event spaces, with to-scale 360° venue views.",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "check": "node scripts/check.mjs",
+    "test": "node tests/smoke.cjs",
+    "build": "node scripts/build-single.mjs"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "playwright": "1.49.1"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
