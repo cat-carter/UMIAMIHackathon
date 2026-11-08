@@ -254,11 +254,6 @@ function grandPano(layout, vp) {
   const files = { banquet: 'tour/grand/banquet.jpg', reception: 'tour/grand/cocktail.jpg', theater: 'tour/grand/theater.jpg', classroom: 'tour/grand/classroom.jpg', ushape: 'tour/grand/ushape.jpg', boardroom: 'tour/grand/boardroom.jpg' };
   return files[layout] || files.banquet;
 }
-/* Point in front of the camera at a given yaw / elevation. */
-function lookPos(yaw, elev, r) {
-  const c = Math.cos(elev), s = Math.sin(elev);
-  return { x: r * Math.sin(yaw) * c, y: r * s, z: -r * Math.cos(yaw) * c };
-}
 function buildGrand(v, layout) {
   const THREE = window.THREE;
   const scene = new THREE.Scene();
@@ -295,36 +290,10 @@ function buildGrand(v, layout) {
     currentUrl = next;
     loader.load(next, t => { keep(t); applyTex(t); });
   };
-  const hsR = full360 ? 28 : 20.8;
-  const p = (yaw, elev, extra) => Object.assign(lookPos(yaw, elev, hsR), extra);
-  const Y = full360
-    ? { stage: Math.PI / 2, windows: Math.PI, buffet: Math.PI, doors: 0, entry: Math.PI * 1.5 }
-    : { stage: 0, windows: -0.46, buffet: -0.58, doors: 0.5, entry: 0 };
-  const viewpoints = full360
-    ? [
-      { id: 'ballroom', label: 'Ballroom', x: 0, y: 0, z: 0, yaw: Y.stage, pitch: 0.02, panoUrl: url },
-      { id: 'stage', label: 'Stage', x: 0, y: 0, z: 0, yaw: Y.stage, pitch: 0.04, panoUrl: url },
-      { id: 'windows', label: 'Windows', x: 0, y: 0, z: 0, yaw: Y.windows, pitch: 0.02, panoUrl: url },
-      { id: 'prefunction', label: 'Pre-function', x: 0, y: 0, z: 0, yaw: Y.entry, pitch: 0, panoUrl: url }
-    ]
-    : [
-      { id: 'ballroom', label: 'Ballroom', x: 0, y: 0, z: 0, yaw: Y.stage, pitch: -0.04, panoUrl: url },
-      { id: 'stage', label: 'Stage', x: 0, y: 0, z: 0, yaw: 0, pitch: -0.02, panoUrl: grandPano(layout, 'stage') },
-      { id: 'windows', label: 'Windows', x: 0, y: 0, z: 0, yaw: 0, pitch: -0.04, panoUrl: grandPano(layout, 'windows') },
-      { id: 'prefunction', label: 'Pre-function', x: 0, y: 0, z: 0, yaw: 0, pitch: -0.02, panoUrl: grandPano(layout, 'prefunction') }
-    ];
-  const hotspots = [
-    Object.assign(p(Y.stage, 0.08), { id: 'to-stage', kind: 'nav', title: 'Presentation stage', body: 'Walk to the 28 × 14 ft stage and 24 ft LED wall.', go: 'stage' }),
-    Object.assign(p(Y.windows, 0.05), { id: 'to-win', kind: 'nav', title: 'Bay windows', body: 'Floor-to-ceiling glass along the south wall, with daylight over the bay.', go: 'windows' }),
-    Object.assign(p(full360 ? Y.entry : Y.doors, 0.05), { id: 'to-pre', kind: 'nav', title: 'Pre-function foyer', body: '2,880 sq ft of reception space just outside the ballroom.', go: 'prefunction' }),
-    Object.assign(p(Y.stage - 0.28, 0.16), { id: 'cap', kind: 'info', title: 'Room capacity', body: 'Banquet 500 · Theater 700 · Classroom 350 · Cocktail 750 · U-shape 80 · Boardroom 64.' }),
-    Object.assign(p(Y.stage + 0.28, 0.14), { id: 'dims', kind: 'info', title: 'Dimensions', body: '110 × 72 ft, 22 ft ceiling · 7,920 sq ft. Pillar-free span.' }),
-    Object.assign(p(Y.stage, 0.12), { id: 'av', kind: 'info', title: 'AV & stage', body: '24 × 13.5 ft LED wall, house sound, 8 handheld and 4 lavalier mics, podium, theatrical lighting.' }),
-    Object.assign(p(Y.windows, 0.12), { id: 'light', kind: 'info', title: 'Daylight', body: 'A full wall of bay-facing glass. Motorized drapes control glare for presentations.' }),
-    Object.assign(p(Y.buffet, 0.04), { id: 'cater', kind: 'info', title: 'Catering', body: 'Buffet and beverage stations along the window wall. Banquet kitchen is adjacent.' }),
-    Object.assign(p(Y.doors, 0.1), { id: 'access', kind: 'info', title: 'Entrance & access', body: 'Two 8 ft accessible doors from the foyer. No step into the ballroom.' })
-  ];
   const wrap = 2.2, edge = wrap / 2 - 0.62;
+  const viewpoints = [
+    { id: 'ballroom', label: 'Ballroom', x: 0, y: 0, z: 0, yaw: full360 ? Math.PI / 2 : 0, pitch: full360 ? 0.02 : -0.04, panoUrl: url }
+  ];
   return {
     scene,
     cam: new THREE.Vector3(0, 0, 0),
@@ -333,12 +302,11 @@ function buildGrand(v, layout) {
     layout,
     loadPano,
     viewpoints,
-    hotspots,
+    hotspots: [],
     lookLimits: full360
       ? { pitchMin: -1.25, pitchMax: 1.15 }
       : { yawMin: -edge, yawMax: edge, pitchMin: -0.12, pitchMax: 0.1 },
     spin360: full360,
-    planYawOffset: full360 ? 0 : Math.PI / 2,
     plan: { l: v.dims.l, w: v.dims.w, foyer: 40 },
     dispose: () => { disposables.forEach(d => d.dispose && d.dispose()); }
   };

@@ -778,84 +778,22 @@ function setupStage(v, layoutOverride, changedVenue) {
   const seg = $('#immSeg'); seg.textContent = '';
   offered.forEach(l => seg.append(h('button', { type: 'button', 'data-l': l, 'aria-pressed': String(l === curLayout), text: LAYOUTS[l].label, onclick: () => setLayout(l) })));
   updateCount();
-  if (viewer) { viewer.show(v, curLayout, guestsFor(v, curLayout), changedVenue); bindTour(viewer); }
+  if (viewer) { viewer.show(v, curLayout, guestsFor(v, curLayout), changedVenue); }
   else if (!viewerPending) {
     viewerPending = true;
     start3D(stage).then(vw => {
       viewerPending = false;
       if (!vw) return;
-      if (immOpen && !viewer && currentVenue) { viewer = vw; viewer.show(currentVenue, curLayout, guestsFor(currentVenue, curLayout), true); bindTour(viewer); }
+      if (immOpen && !viewer && currentVenue) { viewer = vw; viewer.show(currentVenue, curLayout, guestsFor(currentVenue, curLayout), true); }
       else vw.destroy();
     });
-  } else bindTour(viewer);
+  }
 }
 
 $('#immZoomIn').addEventListener('click', () => { if (viewer) { viewer.stopAuto(); viewer.zoom(-8); } });
 $('#immZoomOut').addEventListener('click', () => { if (viewer) { viewer.stopAuto(); viewer.zoom(8); } });
 $('#immResetView').addEventListener('click', () => { if (viewer) viewer.resetView(); });
 
-const spotsEl = $('#immHotspots'), spotCard = $('#immSpotCard'), planCanvas = $('#immPlanCanvas'), vpsEl = $('#immVps');
-function bindTour(vw) {
-  if (!vw) return;
-  const vps = vw.viewpoints || [];
-  vpsEl.textContent = '';
-  vps.forEach(p => vpsEl.append(h('button', { type: 'button', 'data-vp': p.id, 'aria-pressed': String(p.id === vw.vpId), text: p.label, onclick: () => { vw.goTo(p.id); } })));
-  spotsEl.textContent = '';
-  (vw.hotspots || []).forEach(s => {
-    spotsEl.append(h('button', { type: 'button', class: 'hotspot' + (s.kind === 'nav' ? ' nav' : ''), 'data-hs': s.id, 'aria-label': s.title, text: s.kind === 'nav' ? '●' : 'i', onclick: ev => { ev.stopPropagation(); openSpot(s, ev.currentTarget); } }));
-  });
-  vw.onframe = () => {
-    if (!immOpen) return;
-    vpsEl.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.vp === vw.vpId)));
-    (vw.hotspots || []).forEach(s => {
-      const btn = spotsEl.querySelector(`[data-hs="${s.id}"]`); if (!btn) return;
-      const p = vw.project(s.x, s.y, s.z);
-      btn.style.left = p.x + 'px'; btn.style.top = p.y + 'px';
-      btn.hidden = !p.visible;
-    });
-    drawPlan(vw);
-  };
-}
-function openSpot(s, btn) {
-  spotCard.hidden = false;
-  spotCard.textContent = '';
-  spotCard.append(h('h3', { text: s.title }), h('p', { text: s.body }));
-  if (s.go) spotCard.append(h('button', { type: 'button', class: 'go', text: 'Go there', onclick: () => { if (viewer) viewer.goTo(s.go); spotCard.hidden = true; } }));
-  const r = btn.getBoundingClientRect(), box = imm.getBoundingClientRect();
-  let left = r.left - box.left + 22, top = r.top - box.top - 8;
-  if (left + 280 > box.width) left = r.left - box.left - 290;
-  if (top + 140 > box.height) top = Math.max(12, box.height - 160);
-  spotCard.style.left = Math.max(12, left) + 'px';
-  spotCard.style.top = Math.max(12, top) + 'px';
-}
-imm.addEventListener('pointerdown', e => { if (!e.target.closest('.spot-card') && !e.target.closest('.hotspot')) spotCard.hidden = true; });
-function drawPlan(vw) {
-  const c = planCanvas; if (!c || !vw || !vw.plan) return;
-  const ctx = c.getContext('2d'), p = vw.plan, pad = 10;
-  const totalL = p.l + (p.foyer || 0), totalW = p.w;
-  const sx = (c.width - pad * 2) / totalL, sy = (c.height - pad * 2) / totalW;
-  const s = Math.min(sx, sy);
-  const ox = (c.width - totalL * s) / 2, oy = (c.height - totalW * s) / 2;
-  const X = x => ox + (x + p.l / 2 + (p.foyer || 0)) * s;
-  const Z = z => oy + (z + p.w / 2) * s;
-  ctx.clearRect(0, 0, c.width, c.height);
-  ctx.fillStyle = 'rgba(247,243,236,.12)';
-  ctx.fillRect(X(-p.l / 2), Z(-p.w / 2), p.l * s, p.w * s);
-  if (p.foyer) {
-    ctx.fillStyle = 'rgba(247,243,236,.06)';
-    ctx.fillRect(X(-p.l / 2 - p.foyer), Z(-p.w / 2), p.foyer * s, p.w * s);
-  }
-  ctx.strokeStyle = 'rgba(255,255,255,.45)'; ctx.lineWidth = 1;
-  ctx.strokeRect(X(-p.l / 2 - (p.foyer || 0)), Z(-p.w / 2), totalL * s, totalW * s);
-  const pos = vw.camera.position;
-  ctx.fillStyle = '#E8D9B8';
-  ctx.beginPath(); ctx.arc(X(pos.x), Z(pos.z), 4, 0, 7); ctx.fill();
-  ctx.strokeStyle = '#E8D9B8'; ctx.beginPath();
-  ctx.moveTo(X(pos.x), Z(pos.z));
-  const heading = vw.yaw + ((vw.built && vw.built.planYawOffset) || 0);
-  ctx.lineTo(X(pos.x + Math.sin(heading) * 8), Z(pos.z - Math.cos(heading) * 8));
-  ctx.stroke();
-}
 function updateCount() {
   const v = currentVenue; if (!v) return;
   const g = guestsFor(v, curLayout);
@@ -869,7 +807,6 @@ function setLayout(l) {
   if (viewer) {
     if (viewer.built && viewer.built.pano) viewer.vpId = 'ballroom';
     viewer.show(v, l, guestsFor(v, l), true);
-    bindTour(viewer);
   }
   highlightCap(l);
 }
