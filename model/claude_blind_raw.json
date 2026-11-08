@@ -1,0 +1,2573 @@
+{
+  "results": {
+    "R6001": {
+      "c": {
+        "budget": 10600,
+        "date": null,
+        "event_type": "wedding",
+        "guests": 150,
+        "layout": null,
+        "must_have": [
+          "ocean_view",
+          "microphone"
+        ],
+        "setting": "any",
+        "styles": [
+          "tropical"
+        ]
+      },
+      "ms": 10963
+    },
+    "R6002": {
+      "c": {
+        "budget": 13900,
+        "date": "2027-08-17",
+        "event_type": "birthday",
+        "guests": 100,
+        "layout": "buffet",
+        "must_have": [
+          "buffet"
+        ],
+        "setting": "any",
+        "styles": [
+          "romantic"
+        ]
+      },
+      "ms": 10963
+    },
+    "R6003": {
+      "c": {
+        "budget": 4800,
+        "date": null,
+        "event_type": "meeting",
+        "guests": 10,
+        "layout": null,
+        "must_have": [
+          "buffet",
+          "natural_light",
+          "ocean_view"
+        ],
+        "setting": "outdoor",
+        "styles": [
+          "beach"
+        ]
+      },
+      "ms": 12259
+    },
+    "R6004": {
+      "c": {
+        "budget": 2900,
+        "date": null,
+        "event_type": "party",
+        "guests": 25,
+        "layout": "buffet",
+        "must_have": [
+          "microphone",
+          "projector",
+          "buffet"
+        ],
+        "setting": "any",
+        "styles": [
+          "classic"
+        ]
+      },
+      "ms": 997
+    },
+    "R6005": {
+      "c": {
+        "budget": 8200,
+        "date": "2026-11-18",
+        "event_type": "conference",
+        "guests": 30,
+        "layout": null,
+        "must_have": [],
+        "setting": "outdoor",
+        "styles": [
+          "elegant",
+          "classic"
+        ]
+      },
+      "ms": 1648
+    },
+    "R6006": {
+      "c": {
+        "budget": 10200,
+        "date": "2026-11-06",
+        "event_type": "birthday",
+        "guests": 25,
+        "layout": "buffet",
+        "must_have": [
+          "buffet",
+          "ocean_view",
+          "natural_light"
+        ],
+        "setting": "outdoor",
+        "styles": [
+          "tropical"
+        ]
+      },
+      "ms": 1231
+    },
+    "R6007": {
+      "c": {
+        "budget": 15600,
+        "date": null,
+        "event_type": "conference",
+        "guests": 100,
+        "layout": "theater",
+        "must_have": [],
+        "setting": "indoor",
+        "styles": [
+          "industrial"
+        ]
+      },
+      "ms": 1514
+    },
+    "R6008": {
+      "c": {
+        "budget": 12100,
+        "date": null,
+        "event_type": "birthday",
+        "guests": 90,
+        "layout": null,
+        "must_have": [
+          "stage"
+        ],
+        "setting": "any",
+        "styles": [
+          "modern"
+        ]
+      },
+      "ms": 1241
+    },
+    "R6009": {
+      "c": {
+        "budget": 7000,
+        "date": "2027-06-07",
+        "event_type": "conference",
+        "guests": 70,
+        "layout": null,
+        "must_have": [
+          "ocean_view"
+        ],
+        "setting": "outdoor",
+        "styles": [
+          "beach"
+        ]
+      },
+      "ms": 1484
+    },
+    "R6010": {
+      "c": {
+        "budget": 5600,
+        "date": "2026-11-08",
+        "event_type": "party",
+        "guests": 50,
+        "layout": null,
+        "must_have": [],
+        "setting": "indoor",
+        "styles": [
+          "classic"
+        ]
+      },
+      "ms": 1181
+    },
+    "R6011": {
+      "c": {
+        "budget": 6800,
+        "date": "2026-12-10",
+        "event_type": "networking",
+        "guests": 50,
+        "layout": null,
+        "must_have": [
+          "parking",
+          "dance_floor"
+        ],
+        "setting": "any",
+        "styles": [
+          "tropical"
+        ]
+      },
+      "ms": 1511
+    },
+    "R6012": {
+      "c": {
+        "budget": 25200,
+        "date": "2026-12-15",
+        "event_type": "conference",
+        "guests": 100,
+        "layout": null,
+        "must_have": [],
+        "setting": "any",
+        "styles": [
+          "corporate"
+        ]
+      },
+      "ms": 1169
+    },
+    "R6013": {
+      "c": {
+        "budget": 15600,
+        "date": "2027-06-27",
+        "event_type": "wedding",
+        "guests": 30,
+        "layout": "reception",
+        "must_have": [
+          "accessible",
+          "parking"
+        ],
+        "setting": "indoor",
+        "styles": [
+          "modern"
+        ]
+      },
+      "ms": 1502
+    },
+    "R6014": {
+      "c": {
+        "budget": 5300,
+        "date": "2026-11-13",
+        "event_type": "wedding",
+        "guests": 30,
+        "layout": null,
+        "must_have": [
+          "natural_light"
+        ],
+        "setting": "outdoor",
+        "styles": [
+          "classic"
+        ]
+      },
+      "ms": 1188
+    },
+    "R6015": {
+      "c": {
+        "budget": 5800,
+        "date": "2026-11-16",
+        "event_type": "meeting",
+        "guests": 10,
+        "layout": "boardroom",
+        "must_have": [
+          "buffet",
+          "ocean_view"
+        ],
+        "setting": "outdoor",
+        "styles": [
+          "corporate",
+          "modern"
+        ]
+      },
+      "ms": 1496
+    },
+    "R6016": {
+      "c": {
+        "budget": 16100,
+        "date": "2027-03-23",
+        "event_type": "gala",
+        "guests": 50,
+        "layout": "banquet",
+        "must_have": [
+          "accessible"
+        ],
+        "setting": "any",
+        "styles": [
+          "elegant"
+        ]
+      },
+      "ms": 1219
+    },
+    "R6017": {
+      "c": {
+        "budget": 2500,
+        "date": "2027-06-01",
+        "event_type": "meeting",
+        "guests": 30,
+        "layout": null,
+        "must_have": [
+          "parking"
+        ],
+        "setting": "any",
+        "styles": [
+          "classic"
+        ]
+      },
+      "ms": 1530
+    },
+    "R6018": {
+      "c": {
+        "budget": 7200,
+        "date": "2027-08-24",
+        "event_type": "workshop",
+        "guests": 80,
+        "layout": "buffet",
+        "must_have": [
+          "buffet",
+          "ocean_view",
+          "natural_light"
+        ],
+        "setting": "outdoor",
+        "styles": [
+          "tropical",
+          "beach"
+        ]
+      },
+      "ms": 1283
+    },
+    "R6019": {
+      "c": {
+        "budget": 3900,
+        "date": null,
+        "event_type": "conference",
+        "guests": 10,
+        "layout": null,
+        "must_have": [
+          "microphone",
+          "screens"
+        ],
+        "setting": "indoor",
+        "styles": [
+          "modern"
+        ]
+      },
+      "ms": 1534
+    },
+    "R6020": {
+      "c": {
+        "budget": 5400,
+        "date": null,
+        "event_type": "conference",
+        "guests": 50,
+        "layout": "theater",
+        "must_have": [
+          "ocean_view",
+          "buffet",
+          "natural_light"
+        ],
+        "setting": "outdoor",
+        "styles": [
+          "classic"
+        ]
+      },
+      "ms": 1318
+    },
+    "R6021": {
+      "c": {
+        "budget": 5500,
+        "date": null,
+        "event_type": "meeting",
+        "guests": 15,
+        "layout": null,
+        "must_have": [
+          "stage"
+        ],
+        "setting": "indoor",
+        "styles": [
+          "industrial"
+        ]
+      },
+      "ms": 1428
+    },
+    "R6022": {
+      "c": {
+        "budget": 10900,
+        "date": "2027-06-04",
+        "event_type": "birthday",
+        "guests": 120,
+        "layout": null,
+        "must_have": [
+          "dance_floor"
+        ],
+        "setting": "outdoor",
+        "styles": [
+          "modern"
+        ]
+      },
+      "ms": 1162
+    },
+    "R6023": {
+      "c": {
+        "budget": 5200,
+        "date": "2027-08-19",
+        "event_type": "meeting",
+        "guests": 20,
+        "layout": null,
+        "must_have": [
+          "ocean_view"
+        ],
+        "setting": "outdoor",
+        "styles": [
+          "tropical"
+        ]
+      },
+      "ms": 1338
+    },
+    "R6024": {
+      "c": {
+        "budget": 35900,
+        "date": "2026-11-22",
+        "event_type": "networking",
+        "guests": 200,
+        "layout": null,
+        "must_have": [
+          "microphone"
+        ],
+        "setting": "indoor",
+        "styles": [
+          "corporate",
+          "elegant"
+        ]
+      },
+      "ms": 1402
+    },
+    "R6025": {
+      "c": {
+        "budget": 19800,
+        "date": "2027-08-16",
+        "event_type": "wedding",
+        "guests": 100,
+        "layout": null,
+        "must_have": [
+          "microphone",
+          "screens"
+        ],
+        "setting": "indoor",
+        "styles": [
+          "modern"
+        ]
+      },
+      "ms": 1394
+    },
+    "R6026": {
+      "c": {
+        "budget": 2800,
+        "date": "2027-08-28",
+        "event_type": "workshop",
+        "guests": 15,
+        "layout": "classroom",
+        "must_have": [
+          "microphone"
+        ],
+        "setting": "any",
+        "styles": []
+      },
+      "ms": 1378
+    },
+    "R6027": {
+      "c": {
+        "budget": 6000,
+        "date": "2027-03-11",
+        "event_type": "wedding",
+        "guests": 30,
+        "layout": "buffet",
+        "must_have": [
+          "natural_light"
+        ],
+        "setting": "any",
+        "styles": [
+          "artsy"
+        ]
+      },
+      "ms": 1374
+    },
+    "R6028": {
+      "c": {
+        "budget": 22400,
+        "date": null,
+        "event_type": "birthday",
+        "guests": 90,
+        "layout": "theater",
+        "must_have": [
+          "accessible"
+        ],
+        "setting": "any",
+        "styles": [
+          "corporate",
+          "elegant"
+        ]
+      },
+      "ms": 1507
+    },
+    "R6029": {
+      "c": {
+        "budget": 10000,
+        "date": null,
+        "event_type": "gala",
+        "guests": 90,
+        "layout": null,
+        "must_have": [
+          "accessible"
+        ],
+        "setting": "outdoor",
+        "styles": [
+          "tropical"
+        ]
+      },
+      "ms": 1392
+    },
+    "R6030": {
+      "c": {
+        "budget": 4800,
+        "date": null,
+        "event_type": "birthday",
+        "guests": 12,
+        "layout": "ushape",
+        "must_have": [
+          "natural_light",
+          "accessible"
+        ],
+        "setting": "any",
+        "styles": [
+          "rustic"
+        ]
+      },
+      "ms": 1494
+    },
+    "R6031": {
+      "c": {
+        "budget": 12900,
+        "date": "2026-12-11",
+        "event_type": "birthday",
+        "guests": 120,
+        "layout": null,
+        "must_have": [
+          "accessible"
+        ],
+        "setting": "any",
+        "styles": [
+          "tropical"
+        ]
+      },
+      "ms": 1165
+    },
+    "R6032": {
+      "c": {
+        "budget": 9400,
+        "date": "2027-03-12",
+        "event_type": "wedding",
+        "guests": 30,
+        "layout": "boardroom",
+        "must_have": [
+          "accessible",
+          "natural_light"
+        ],
+        "setting": "outdoor",
+        "styles": [
+          "rustic"
+        ]
+      },
+      "ms": 1574
+    },
+    "R6033": {
+      "c": {
+        "budget": 1900,
+        "date": null,
+        "event_type": "party",
+        "guests": 10,
+        "layout": "boardroom",
+        "must_have": [
+          "microphone"
+        ],
+        "setting": "indoor",
+        "styles": [
+          "corporate",
+          "elegant"
+        ]
+      },
+      "ms": 1484
+    },
+    "R6034": {
+      "c": {
+        "budget": 9300,
+        "date": null,
+        "event_type": "party",
+        "guests": 70,
+        "layout": "reception",
+        "must_have": [
+          "projector",
+          "microphone"
+        ],
+        "setting": "any",
+        "styles": [
+          "artsy"
+        ]
+      },
+      "ms": 1597
+    },
+    "R6035": {
+      "c": {
+        "budget": 8100,
+        "date": null,
+        "event_type": "gala",
+        "guests": 50,
+        "layout": "banquet",
+        "must_have": [],
+        "setting": "outdoor",
+        "styles": [
+          "beach"
+        ]
+      },
+      "ms": 1615
+    },
+    "R6036": {
+      "c": {
+        "budget": 7800,
+        "date": "2027-03-08",
+        "event_type": "party",
+        "guests": 90,
+        "layout": "reception",
+        "must_have": [
+          "parking"
+        ],
+        "setting": "indoor",
+        "styles": [
+          "elegant"
+        ]
+      },
+      "ms": 1331
+    },
+    "R6037": {
+      "c": {
+        "budget": 6000,
+        "date": "2027-06-23",
+        "event_type": "meeting",
+        "guests": 30,
+        "layout": null,
+        "must_have": [
+          "stage",
+          "microphone"
+        ],
+        "setting": "indoor",
+        "styles": []
+      },
+      "ms": 1745
+    },
+    "R6038": {
+      "c": {
+        "budget": 2300,
+        "date": "2027-08-17",
+        "event_type": "birthday",
+        "guests": 20,
+        "layout": null,
+        "must_have": [
+          "accessible"
+        ],
+        "setting": "any",
+        "styles": [
+          "rustic"
+        ]
+      },
+      "ms": 1149
+    },
+    "R6039": {
+      "c": {
+        "budget": 4300,
+        "date": "2027-06-27",
+        "event_type": "workshop",
+        "guests": 20,
+        "layout": null,
+        "must_have": [
+          "buffet"
+        ],
+        "setting": "any",
+        "styles": [
+          "romantic"
+        ]
+      },
+      "ms": 1842
+    },
+    "R6040": {
+      "c": {
+        "budget": 8500,
+        "date": null,
+        "event_type": "conference",
+        "guests": 40,
+        "layout": null,
+        "must_have": [
+          "microphone",
+          "buffet"
+        ],
+        "setting": "any",
+        "styles": [
+          "romantic"
+        ]
+      },
+      "ms": 939
+    },
+    "R6041": {
+      "c": {
+        "budget": 10500,
+        "date": "2027-06-21",
+        "event_type": "party",
+        "guests": 40,
+        "layout": "buffet",
+        "must_have": [
+          "screens"
+        ],
+        "setting": "any",
+        "styles": [
+          "classic"
+        ]
+      },
+      "ms": 1679
+    },
+    "R6042": {
+      "c": {
+        "budget": 20900,
+        "date": null,
+        "event_type": "conference",
+        "guests": 200,
+        "layout": null,
+        "must_have": [
+          "accessible"
+        ],
+        "setting": "any",
+        "styles": [
+          "romantic"
+        ]
+      },
+      "ms": 946
+    },
+    "R6043": {
+      "c": {
+        "budget": 5100,
+        "date": null,
+        "event_type": "meeting",
+        "guests": 25,
+        "layout": null,
+        "must_have": [
+          "microphone"
+        ],
+        "setting": "any",
+        "styles": [
+          "corporate"
+        ]
+      },
+      "ms": 1882
+    },
+    "R6044": {
+      "c": {
+        "budget": 15600,
+        "date": null,
+        "event_type": "conference",
+        "guests": 200,
+        "layout": "theater",
+        "must_have": [],
+        "setting": "any",
+        "styles": [
+          "beach"
+        ]
+      },
+      "ms": 1112
+    },
+    "R6045": {
+      "c": {
+        "budget": 7900,
+        "date": "2026-11-17",
+        "event_type": "conference",
+        "guests": 70,
+        "layout": null,
+        "must_have": [
+          "dance_floor",
+          "stage"
+        ],
+        "setting": "indoor",
+        "styles": [
+          "modern"
+        ]
+      },
+      "ms": 1921
+    },
+    "R6046": {
+      "c": {
+        "budget": 2600,
+        "date": "2027-08-10",
+        "event_type": "meeting",
+        "guests": 12,
+        "layout": "ushape",
+        "must_have": [],
+        "setting": "indoor",
+        "styles": [
+          "romantic"
+        ]
+      },
+      "ms": 1288
+    },
+    "R6047": {
+      "c": {
+        "budget": 18800,
+        "date": "2026-12-25",
+        "event_type": "meeting",
+        "guests": 300,
+        "layout": "reception",
+        "must_have": [
+          "natural_light"
+        ],
+        "setting": "indoor",
+        "styles": [
+          "industrial"
+        ]
+      },
+      "ms": 2023
+    },
+    "R6048": {
+      "c": {
+        "budget": 5200,
+        "date": "2027-06-24",
+        "event_type": "birthday",
+        "guests": 40,
+        "layout": null,
+        "must_have": [
+          "microphone",
+          "stage"
+        ],
+        "setting": "any",
+        "styles": []
+      },
+      "ms": 1743
+    },
+    "R6049": {
+      "c": {
+        "budget": 7700,
+        "date": null,
+        "event_type": "workshop",
+        "guests": 12,
+        "layout": "classroom",
+        "must_have": [
+          "dance_floor"
+        ],
+        "setting": "indoor",
+        "styles": [
+          "industrial"
+        ]
+      },
+      "ms": 1830
+    },
+    "R6050": {
+      "c": {
+        "budget": 6400,
+        "date": "2027-06-24",
+        "event_type": "meeting",
+        "guests": 80,
+        "layout": "buffet",
+        "must_have": [
+          "buffet"
+        ],
+        "setting": "indoor",
+        "styles": [
+          "corporate"
+        ]
+      },
+      "ms": 1616
+    },
+    "R6051": {
+      "c": {
+        "budget": 5100,
+        "date": null,
+        "event_type": "gala",
+        "guests": 25,
+        "layout": null,
+        "must_have": [],
+        "setting": "any",
+        "styles": [
+          "romantic"
+        ]
+      },
+      "ms": 1433
+    },
+    "R6052": {
+      "c": {
+        "budget": 11200,
+        "date": null,
+        "event_type": "party",
+        "guests": 100,
+        "layout": null,
+        "must_have": [
+          "dance_floor"
+        ],
+        "setting": "any",
+        "styles": [
+          "beach"
+        ]
+      },
+      "ms": 1530
+    },
+    "R6053": {
+      "c": {
+        "budget": 5700,
+        "date": "2026-11-01",
+        "event_type": "birthday",
+        "guests": 15,
+        "layout": null,
+        "must_have": [
+          "accessible"
+        ],
+        "setting": "any",
+        "styles": [
+          "rustic"
+        ]
+      },
+      "ms": 1369
+    },
+    "R6054": {
+      "c": {
+        "budget": 27700,
+        "date": null,
+        "event_type": "gala",
+        "guests": 200,
+        "layout": "banquet",
+        "must_have": [
+          "dance_floor"
+        ],
+        "setting": "any",
+        "styles": [
+          "tropical"
+        ]
+      },
+      "ms": 1459
+    },
+    "R6055": {
+      "c": {
+        "budget": 1800,
+        "date": null,
+        "event_type": "workshop",
+        "guests": 12,
+        "layout": null,
+        "must_have": [
+          "accessible",
+          "screens"
+        ],
+        "setting": "indoor",
+        "styles": [
+          "elegant"
+        ]
+      },
+      "ms": 1468
+    },
+    "R6056": {
+      "c": {
+        "budget": 6200,
+        "date": null,
+        "event_type": "meeting",
+        "guests": 20,
+        "layout": "boardroom",
+        "must_have": [],
+        "setting": "outdoor",
+        "styles": [
+          "elegant",
+          "classic"
+        ]
+      },
+      "ms": 1900
+    },
+    "R6057": {
+      "c": {
+        "budget": 10400,
+        "date": "2027-06-23",
+        "event_type": "networking",
+        "guests": 25,
+        "layout": null,
+        "must_have": [
+          "screens"
+        ],
+        "setting": "any",
+        "styles": [
+          "modern"
+        ]
+      },
+      "ms": 2227
+    },
+    "R6058": {
+      "c": {
+        "budget": 5000,
+        "date": "2026-11-07",
+        "event_type": "party",
+        "guests": 25,
+        "layout": null,
+        "must_have": [],
+        "setting": "any",
+        "styles": [
+          "corporate"
+        ]
+      },
+      "ms": 1862
+    },
+    "R6059": {
+      "c": {
+        "budget": 11400,
+        "date": "2027-03-28",
+        "event_type": "meeting",
+        "guests": 15,
+        "layout": null,
+        "must_have": [
+          "microphone",
+          "screens"
+        ],
+        "setting": "indoor",
+        "styles": [
+          "modern"
+        ]
+      },
+      "ms": 1976
+    },
+    "R6060": {
+      "c": {
+        "budget": 3000,
+        "date": "2026-11-17",
+        "event_type": "conference",
+        "guests": 15,
+        "layout": null,
+        "must_have": [
+          "parking"
+        ],
+        "setting": "any",
+        "styles": [
+          "corporate"
+        ]
+      },
+      "ms": 979
+    },
+    "R6061": {
+      "c": {
+        "budget": 18300,
+        "date": null,
+        "event_type": "party",
+        "guests": 80,
+        "layout": "reception",
+        "must_have": [],
+        "setting": "any",
+        "styles": [
+          "corporate",
+          "elegant"
+        ]
+      },
+      "ms": 1948
+    },
+    "R6062": {
+      "c": {
+        "budget": 11200,
+        "date": null,
+        "event_type": "gala",
+        "guests": 100,
+        "layout": null,
+        "must_have": [
+          "screens",
+          "dance_floor"
+        ],
+        "setting": "indoor",
+        "styles": [
+          "industrial"
+        ]
+      },
+      "ms": 1025
+    },
+    "R6063": {
+      "c": {
+        "budget": 3700,
+        "date": null,
+        "event_type": "workshop",
+        "guests": 12,
+        "layout": "ushape",
+        "must_have": [
+          "buffet",
+          "dance_floor"
+        ],
+        "setting": "any",
+        "styles": [
+          "romantic"
+        ]
+      },
+      "ms": 1914
+    },
+    "R6064": {
+      "c": {
+        "budget": 12900,
+        "date": "2026-12-27",
+        "event_type": "conference",
+        "guests": 40,
+        "layout": null,
+        "must_have": [
+          "dance_floor"
+        ],
+        "setting": "any",
+        "styles": [
+          "romantic"
+        ]
+      },
+      "ms": 862
+    },
+    "R6065": {
+      "c": {
+        "budget": 3100,
+        "date": null,
+        "event_type": "conference",
+        "guests": 15,
+        "layout": "theater",
+        "must_have": [
+          "accessible"
+        ],
+        "setting": "indoor",
+        "styles": [
+          "rustic"
+        ]
+      },
+      "ms": 1739
+    },
+    "R6066": {
+      "c": {
+        "budget": 40800,
+        "date": null,
+        "event_type": "gala",
+        "guests": 300,
+        "layout": "buffet",
+        "must_have": [
+          "buffet"
+        ],
+        "setting": "indoor",
+        "styles": [
+          "classic"
+        ]
+      },
+      "ms": 1082
+    },
+    "R6067": {
+      "c": {
+        "budget": 9100,
+        "date": "2026-11-09",
+        "event_type": "conference",
+        "guests": 60,
+        "layout": "buffet",
+        "must_have": [
+          "buffet",
+          "parking"
+        ],
+        "setting": "any",
+        "styles": [
+          "rustic"
+        ]
+      },
+      "ms": 1750
+    },
+    "R6068": {
+      "c": {
+        "budget": 17500,
+        "date": "2026-12-22",
+        "event_type": "gala",
+        "guests": 200,
+        "layout": "reception",
+        "must_have": [
+          "parking",
+          "dance_floor"
+        ],
+        "setting": "any",
+        "styles": [
+          "tropical"
+        ]
+      },
+      "ms": 1088
+    },
+    "R6069": {
+      "c": {
+        "budget": 8300,
+        "date": "2026-11-15",
+        "event_type": "networking",
+        "guests": 60,
+        "layout": null,
+        "must_have": [
+          "ocean_view"
+        ],
+        "setting": "any",
+        "styles": [
+          "tropical"
+        ]
+      },
+      "ms": 1601
+    },
+    "R6070": {
+      "c": {
+        "budget": 20600,
+        "date": null,
+        "event_type": "workshop",
+        "guests": 100,
+        "layout": "classroom",
+        "must_have": [
+          "stage",
+          "screens"
+        ],
+        "setting": "any",
+        "styles": [
+          "modern"
+        ]
+      },
+      "ms": 1689
+    },
+    "R6071": {
+      "c": {
+        "budget": 4200,
+        "date": "2026-12-01",
+        "event_type": "meeting",
+        "guests": 10,
+        "layout": null,
+        "must_have": [
+          "buffet",
+          "ocean_view"
+        ],
+        "setting": "outdoor",
+        "styles": [
+          "tropical"
+        ]
+      },
+      "ms": 1633
+    },
+    "R6072": {
+      "c": {
+        "budget": 4200,
+        "date": "2026-12-16",
+        "event_type": "wedding",
+        "guests": 25,
+        "layout": null,
+        "must_have": [
+          "natural_light"
+        ],
+        "setting": "indoor",
+        "styles": [
+          "modern"
+        ]
+      },
+      "ms": 1713
+    },
+    "R6073": {
+      "c": {
+        "budget": 25400,
+        "date": "2027-03-28",
+        "event_type": "gala",
+        "guests": 300,
+        "layout": "buffet",
+        "must_have": [],
+        "setting": "indoor",
+        "styles": [
+          "industrial"
+        ]
+      },
+      "ms": 1043
+    },
+    "R6074": {
+      "c": {
+        "budget": 8600,
+        "date": null,
+        "event_type": "wedding",
+        "guests": 120,
+        "layout": "banquet",
+        "must_have": [
+          "microphone",
+          "accessible"
+        ],
+        "setting": "indoor",
+        "styles": [
+          "elegant",
+          "classic"
+        ]
+      },
+      "ms": 1690
+    },
+    "R6075": {
+      "c": {
+        "budget": 9500,
+        "date": "2026-12-10",
+        "event_type": "gala",
+        "guests": 70,
+        "layout": null,
+        "must_have": [],
+        "setting": "any",
+        "styles": [
+          "modern"
+        ]
+      },
+      "ms": 1131
+    },
+    "R6076": {
+      "c": {
+        "budget": 2200,
+        "date": "2027-08-02",
+        "event_type": "gala",
+        "guests": 12,
+        "layout": "banquet",
+        "must_have": [
+          "screens",
+          "microphone"
+        ],
+        "setting": "indoor",
+        "styles": [
+          "rustic"
+        ]
+      },
+      "ms": 1627
+    },
+    "R6077": {
+      "c": {
+        "budget": 8600,
+        "date": null,
+        "event_type": "conference",
+        "guests": 120,
+        "layout": "theater",
+        "must_have": [
+          "projector"
+        ],
+        "setting": "any",
+        "styles": [
+          "artsy"
+        ]
+      },
+      "ms": 1076
+    },
+    "R6078": {
+      "c": {
+        "budget": 6600,
+        "date": "2026-12-22",
+        "event_type": "workshop",
+        "guests": 20,
+        "layout": null,
+        "must_have": [
+          "dance_floor"
+        ],
+        "setting": "any",
+        "styles": [
+          "beach"
+        ]
+      },
+      "ms": 1674
+    },
+    "R6079": {
+      "c": {
+        "budget": 12900,
+        "date": null,
+        "event_type": "networking",
+        "guests": 90,
+        "layout": null,
+        "must_have": [],
+        "setting": "any",
+        "styles": [
+          "tropical"
+        ]
+      },
+      "ms": 1000
+    },
+    "R6080": {
+      "c": {
+        "budget": 7600,
+        "date": "2027-08-14",
+        "event_type": "gala",
+        "guests": 60,
+        "layout": "banquet",
+        "must_have": [],
+        "setting": "any",
+        "styles": [
+          "artsy"
+        ]
+      },
+      "ms": 1644
+    },
+    "R6081": {
+      "c": {
+        "budget": 3100,
+        "date": "2026-12-14",
+        "event_type": "workshop",
+        "guests": 10,
+        "layout": "boardroom",
+        "must_have": [],
+        "setting": "any",
+        "styles": [
+          "industrial"
+        ]
+      },
+      "ms": 1012
+    },
+    "R6082": {
+      "c": {
+        "budget": 18400,
+        "date": null,
+        "event_type": "gala",
+        "guests": 40,
+        "layout": "banquet",
+        "must_have": [
+          "screens"
+        ],
+        "setting": "indoor",
+        "styles": [
+          "classic"
+        ]
+      },
+      "ms": 1734
+    },
+    "R6083": {
+      "c": {
+        "budget": 17800,
+        "date": "2026-12-17",
+        "event_type": "workshop",
+        "guests": 120,
+        "layout": null,
+        "must_have": [
+          "accessible"
+        ],
+        "setting": "indoor",
+        "styles": []
+      },
+      "ms": 1036
+    },
+    "R6084": {
+      "c": {
+        "budget": 29900,
+        "date": "2026-11-22",
+        "event_type": "party",
+        "guests": 250,
+        "layout": "theater",
+        "must_have": [],
+        "setting": "outdoor",
+        "styles": [
+          "romantic"
+        ]
+      },
+      "ms": 1780
+    },
+    "R6085": {
+      "c": {
+        "budget": 12800,
+        "date": null,
+        "event_type": "wedding",
+        "guests": 90,
+        "layout": null,
+        "must_have": [],
+        "setting": "any",
+        "styles": [
+          "classic"
+        ]
+      },
+      "ms": 1293
+    },
+    "R6086": {
+      "c": {
+        "budget": 11700,
+        "date": null,
+        "event_type": "workshop",
+        "guests": 100,
+        "layout": "reception",
+        "must_have": [
+          "buffet"
+        ],
+        "setting": "any",
+        "styles": [
+          "beach"
+        ]
+      },
+      "ms": 1898
+    },
+    "R6087": {
+      "c": {
+        "budget": 13700,
+        "date": "2027-06-11",
+        "event_type": "wedding",
+        "guests": 80,
+        "layout": "theater",
+        "must_have": [
+          "natural_light",
+          "screens"
+        ],
+        "setting": "any",
+        "styles": [
+          "modern"
+        ]
+      },
+      "ms": 1225
+    },
+    "R6088": {
+      "c": {
+        "budget": 4300,
+        "date": "2027-06-28",
+        "event_type": "meeting",
+        "guests": 30,
+        "layout": null,
+        "must_have": [
+          "parking",
+          "accessible"
+        ],
+        "setting": "outdoor",
+        "styles": [
+          "rustic"
+        ]
+      },
+      "ms": 1638
+    },
+    "R6089": {
+      "c": {
+        "budget": 2900,
+        "date": "2027-08-27",
+        "event_type": "wedding",
+        "guests": 25,
+        "layout": "banquet",
+        "must_have": [
+          "ocean_view",
+          "natural_light"
+        ],
+        "setting": "outdoor",
+        "styles": [
+          "beach"
+        ]
+      },
+      "ms": 1158
+    },
+    "R6090": {
+      "c": {
+        "budget": 3100,
+        "date": null,
+        "event_type": "wedding",
+        "guests": 20,
+        "layout": null,
+        "must_have": [
+          "microphone"
+        ],
+        "setting": "any",
+        "styles": [
+          "classic"
+        ]
+      },
+      "ms": 1846
+    },
+    "R6091": {
+      "c": {
+        "budget": 12000,
+        "date": null,
+        "event_type": "party",
+        "guests": 150,
+        "layout": "reception",
+        "must_have": [
+          "buffet"
+        ],
+        "setting": "outdoor",
+        "styles": [
+          "beach"
+        ]
+      },
+      "ms": 925
+    },
+    "R6092": {
+      "c": {
+        "budget": 6400,
+        "date": "2027-03-02",
+        "event_type": "conference",
+        "guests": 20,
+        "layout": "reception",
+        "must_have": [
+          "microphone"
+        ],
+        "setting": "indoor",
+        "styles": [
+          "elegant",
+          "classic"
+        ]
+      },
+      "ms": 1885
+    },
+    "R6093": {
+      "c": {
+        "budget": 4600,
+        "date": "2026-11-27",
+        "event_type": "workshop",
+        "guests": 20,
+        "layout": "theater",
+        "must_have": [
+          "microphone",
+          "natural_light"
+        ],
+        "setting": "any",
+        "styles": [
+          "artsy"
+        ]
+      },
+      "ms": 925
+    },
+    "R6094": {
+      "c": {
+        "budget": 15200,
+        "date": "2027-03-13",
+        "event_type": "conference",
+        "guests": 90,
+        "layout": null,
+        "must_have": [
+          "screens"
+        ],
+        "setting": "indoor",
+        "styles": [
+          "modern"
+        ]
+      },
+      "ms": 1805
+    },
+    "R6095": {
+      "c": {
+        "budget": 7700,
+        "date": null,
+        "event_type": "meeting",
+        "guests": 12,
+        "layout": "ushape",
+        "must_have": [
+          "dance_floor"
+        ],
+        "setting": "indoor",
+        "styles": [
+          "corporate"
+        ]
+      },
+      "ms": 971
+    },
+    "R6096": {
+      "c": {
+        "budget": 11300,
+        "date": null,
+        "event_type": "wedding",
+        "guests": 150,
+        "layout": "banquet",
+        "must_have": [],
+        "setting": "any",
+        "styles": [
+          "beach"
+        ]
+      },
+      "ms": 1663
+    },
+    "R6097": {
+      "c": {
+        "budget": 3100,
+        "date": null,
+        "event_type": "meeting",
+        "guests": 12,
+        "layout": "buffet",
+        "must_have": [
+          "projector",
+          "natural_light"
+        ],
+        "setting": "indoor",
+        "styles": [
+          "modern"
+        ]
+      },
+      "ms": 1191
+    },
+    "R6098": {
+      "c": {
+        "budget": 15700,
+        "date": null,
+        "event_type": "gala",
+        "guests": 25,
+        "layout": null,
+        "must_have": [
+          "parking"
+        ],
+        "setting": "any",
+        "styles": [
+          "modern"
+        ]
+      },
+      "ms": 1583
+    },
+    "R6099": {
+      "c": {
+        "budget": 10900,
+        "date": "2027-08-24",
+        "event_type": "wedding",
+        "guests": 60,
+        "layout": "reception",
+        "must_have": [
+          "microphone",
+          "ocean_view",
+          "natural_light"
+        ],
+        "setting": "outdoor",
+        "styles": [
+          "tropical",
+          "beach"
+        ]
+      },
+      "ms": 1334
+    },
+    "R6100": {
+      "c": {
+        "budget": 10300,
+        "date": "2027-03-28",
+        "event_type": "birthday",
+        "guests": 80,
+        "layout": null,
+        "must_have": [
+          "microphone"
+        ],
+        "setting": "indoor",
+        "styles": [
+          "modern"
+        ]
+      },
+      "ms": 1404
+    },
+    "R6101": {
+      "c": {
+        "budget": 31600,
+        "date": "2026-11-18",
+        "event_type": "conference",
+        "guests": 200,
+        "layout": "theater",
+        "must_have": [
+          "accessible"
+        ],
+        "setting": "outdoor",
+        "styles": [
+          "romantic"
+        ]
+      },
+      "ms": 1384
+    },
+    "R6102": {
+      "c": {
+        "budget": 15600,
+        "date": null,
+        "event_type": "conference",
+        "guests": 150,
+        "layout": "theater",
+        "must_have": [],
+        "setting": "outdoor",
+        "styles": [
+          "rustic"
+        ]
+      },
+      "ms": 1724
+    },
+    "R6103": {
+      "c": {
+        "budget": 3900,
+        "date": null,
+        "event_type": "party",
+        "guests": 30,
+        "layout": "ushape",
+        "must_have": [
+          "ocean_view"
+        ],
+        "setting": "outdoor",
+        "styles": [
+          "romantic"
+        ]
+      },
+      "ms": 1383
+    },
+    "R6104": {
+      "c": {
+        "budget": 5800,
+        "date": "2026-11-01",
+        "event_type": "birthday",
+        "guests": 25,
+        "layout": null,
+        "must_have": [
+          "natural_light",
+          "ocean_view"
+        ],
+        "setting": "outdoor",
+        "styles": [
+          "beach"
+        ]
+      },
+      "ms": 1794
+    },
+    "R6105": {
+      "c": {
+        "budget": 5800,
+        "date": "2027-06-16",
+        "event_type": "conference",
+        "guests": 40,
+        "layout": null,
+        "must_have": [
+          "natural_light",
+          "parking"
+        ],
+        "setting": "indoor",
+        "styles": [
+          "corporate"
+        ]
+      },
+      "ms": 1059
+    },
+    "R6106": {
+      "c": {
+        "budget": 6900,
+        "date": "2027-06-09",
+        "event_type": "party",
+        "guests": 25,
+        "layout": "banquet",
+        "must_have": [
+          "microphone"
+        ],
+        "setting": "any",
+        "styles": [
+          "romantic"
+        ]
+      },
+      "ms": 1873
+    },
+    "R6107": {
+      "c": {
+        "budget": 15600,
+        "date": "2026-12-01",
+        "event_type": "networking",
+        "guests": 70,
+        "layout": null,
+        "must_have": [
+          "parking",
+          "buffet"
+        ],
+        "setting": "outdoor",
+        "styles": [
+          "rustic"
+        ]
+      },
+      "ms": 1100
+    },
+    "R6108": {
+      "c": {
+        "budget": 13900,
+        "date": "2026-12-24",
+        "event_type": "gala",
+        "guests": 120,
+        "layout": "theater",
+        "must_have": [
+          "parking"
+        ],
+        "setting": "indoor",
+        "styles": [
+          "elegant"
+        ]
+      },
+      "ms": 1773
+    },
+    "R6109": {
+      "c": {
+        "budget": 1700,
+        "date": null,
+        "event_type": "networking",
+        "guests": 12,
+        "layout": null,
+        "must_have": [],
+        "setting": "any",
+        "styles": [
+          "corporate",
+          "elegant"
+        ]
+      },
+      "ms": 1014
+    },
+    "R6110": {
+      "c": {
+        "budget": 1800,
+        "date": null,
+        "event_type": "party",
+        "guests": 12,
+        "layout": null,
+        "must_have": [
+          "projector",
+          "screens"
+        ],
+        "setting": "any",
+        "styles": [
+          "classic"
+        ]
+      },
+      "ms": 1568
+    },
+    "R6111": {
+      "c": {
+        "budget": 3800,
+        "date": "2027-08-12",
+        "event_type": "party",
+        "guests": 12,
+        "layout": null,
+        "must_have": [],
+        "setting": "any",
+        "styles": [
+          "artsy"
+        ]
+      },
+      "ms": 1448
+    },
+    "R6112": {
+      "c": {
+        "budget": 2600,
+        "date": "2027-06-21",
+        "event_type": "wedding",
+        "guests": 20,
+        "layout": "banquet",
+        "must_have": [
+          "screens",
+          "projector"
+        ],
+        "setting": "any",
+        "styles": [
+          "elegant"
+        ]
+      },
+      "ms": 1576
+    },
+    "R6113": {
+      "c": {
+        "budget": 11900,
+        "date": null,
+        "event_type": "birthday",
+        "guests": 15,
+        "layout": "reception",
+        "must_have": [
+          "buffet"
+        ],
+        "setting": "outdoor",
+        "styles": [
+          "rustic"
+        ]
+      },
+      "ms": 1421
+    },
+    "R6114": {
+      "c": {
+        "budget": 900,
+        "date": "2027-03-26",
+        "event_type": "meeting",
+        "guests": 10,
+        "layout": "boardroom",
+        "must_have": [
+          "projector"
+        ],
+        "setting": "any",
+        "styles": [
+          "classic"
+        ]
+      },
+      "ms": 1274
+    },
+    "R6115": {
+      "c": {
+        "budget": 6100,
+        "date": "2027-03-24",
+        "event_type": "wedding",
+        "guests": 40,
+        "layout": "banquet",
+        "must_have": [
+          "ocean_view",
+          "natural_light"
+        ],
+        "setting": "outdoor",
+        "styles": [
+          "beach"
+        ]
+      },
+      "ms": 1527
+    },
+    "R6116": {
+      "c": {
+        "budget": 19100,
+        "date": "2027-03-21",
+        "event_type": "party",
+        "guests": 10,
+        "layout": "buffet",
+        "must_have": [
+          "buffet"
+        ],
+        "setting": "indoor",
+        "styles": []
+      },
+      "ms": 1325
+    },
+    "R6117": {
+      "c": {
+        "budget": 3000,
+        "date": "2027-08-19",
+        "event_type": "meeting",
+        "guests": 15,
+        "layout": "boardroom",
+        "must_have": [
+          "ocean_view"
+        ],
+        "setting": "any",
+        "styles": [
+          "elegant"
+        ]
+      },
+      "ms": 1468
+    },
+    "R6118": {
+      "c": {
+        "budget": 9300,
+        "date": "2027-03-15",
+        "event_type": "party",
+        "guests": 10,
+        "layout": "boardroom",
+        "must_have": [
+          "parking",
+          "screens"
+        ],
+        "setting": "indoor",
+        "styles": [
+          "modern"
+        ]
+      },
+      "ms": 1212
+    },
+    "R6119": {
+      "c": {
+        "budget": 3900,
+        "date": "2027-06-27",
+        "event_type": "meeting",
+        "guests": 15,
+        "layout": null,
+        "must_have": [
+          "dance_floor"
+        ],
+        "setting": "indoor",
+        "styles": [
+          "industrial"
+        ]
+      },
+      "ms": 1446
+    },
+    "R6120": {
+      "c": {
+        "budget": 3600,
+        "date": "2027-08-15",
+        "event_type": "workshop",
+        "guests": 20,
+        "layout": null,
+        "must_have": [
+          "screens"
+        ],
+        "setting": "indoor",
+        "styles": [
+          "corporate"
+        ]
+      },
+      "ms": 1251
+    },
+    "R6121": {
+      "c": {
+        "budget": 1900,
+        "date": null,
+        "event_type": "birthday",
+        "guests": 12,
+        "layout": "classroom",
+        "must_have": [],
+        "setting": "indoor",
+        "styles": [
+          "modern"
+        ]
+      },
+      "ms": 1430
+    },
+    "R6122": {
+      "c": {
+        "budget": 10800,
+        "date": null,
+        "event_type": "conference",
+        "guests": 80,
+        "layout": null,
+        "must_have": [
+          "microphone"
+        ],
+        "setting": "indoor",
+        "styles": [
+          "modern"
+        ]
+      },
+      "ms": 1205
+    },
+    "R6123": {
+      "c": {
+        "budget": 11000,
+        "date": "2026-11-01",
+        "event_type": "birthday",
+        "guests": 100,
+        "layout": "buffet",
+        "must_have": [
+          "natural_light",
+          "buffet"
+        ],
+        "setting": "any",
+        "styles": [
+          "artsy"
+        ]
+      },
+      "ms": 1547
+    },
+    "R6124": {
+      "c": {
+        "budget": 5300,
+        "date": "2027-03-23",
+        "event_type": "wedding",
+        "guests": 60,
+        "layout": "reception",
+        "must_have": [
+          "ocean_view"
+        ],
+        "setting": "outdoor",
+        "styles": [
+          "beach"
+        ]
+      },
+      "ms": 1408
+    },
+    "R6125": {
+      "c": {
+        "budget": 11400,
+        "date": "2026-12-26",
+        "event_type": "wedding",
+        "guests": 50,
+        "layout": null,
+        "must_have": [
+          "microphone"
+        ],
+        "setting": "indoor",
+        "styles": [
+          "modern"
+        ]
+      },
+      "ms": 1697
+    },
+    "R6126": {
+      "c": {
+        "budget": 9800,
+        "date": null,
+        "event_type": "networking",
+        "guests": 70,
+        "layout": "reception",
+        "must_have": [],
+        "setting": "indoor",
+        "styles": [
+          "industrial",
+          "corporate"
+        ]
+      },
+      "ms": 1451
+    },
+    "R6127": {
+      "c": {
+        "budget": 3400,
+        "date": "2026-11-23",
+        "event_type": "conference",
+        "guests": 25,
+        "layout": null,
+        "must_have": [],
+        "setting": "any",
+        "styles": [
+          "classic"
+        ]
+      },
+      "ms": 1381
+    },
+    "R6128": {
+      "c": {
+        "budget": 10900,
+        "date": null,
+        "event_type": "party",
+        "guests": 120,
+        "layout": "reception",
+        "must_have": [],
+        "setting": "indoor",
+        "styles": [
+          "modern"
+        ]
+      },
+      "ms": 1387
+    },
+    "R6129": {
+      "c": {
+        "budget": 8200,
+        "date": null,
+        "event_type": "gala",
+        "guests": 40,
+        "layout": "banquet",
+        "must_have": [
+          "parking"
+        ],
+        "setting": "any",
+        "styles": [
+          "elegant"
+        ]
+      },
+      "ms": 1447
+    },
+    "R6130": {
+      "c": {
+        "budget": 4000,
+        "date": "2026-11-05",
+        "event_type": "meeting",
+        "guests": 50,
+        "layout": "classroom",
+        "must_have": [
+          "parking",
+          "buffet"
+        ],
+        "setting": "outdoor",
+        "styles": [
+          "rustic"
+        ]
+      },
+      "ms": 1416
+    },
+    "R6131": {
+      "c": {
+        "budget": 9200,
+        "date": "2026-12-01",
+        "event_type": "gala",
+        "guests": 90,
+        "layout": "banquet",
+        "must_have": [
+          "microphone"
+        ],
+        "setting": "any",
+        "styles": [
+          "tropical"
+        ]
+      },
+      "ms": 1490
+    },
+    "R6132": {
+      "c": {
+        "budget": 15100,
+        "date": "2027-03-03",
+        "event_type": "conference",
+        "guests": 20,
+        "layout": null,
+        "must_have": [
+          "parking",
+          "screens"
+        ],
+        "setting": "any",
+        "styles": []
+      },
+      "ms": 1482
+    },
+    "R6133": {
+      "c": {
+        "budget": 19500,
+        "date": null,
+        "event_type": "workshop",
+        "guests": 150,
+        "layout": "classroom",
+        "must_have": [
+          "dance_floor"
+        ],
+        "setting": "indoor",
+        "styles": [
+          "elegant"
+        ]
+      },
+      "ms": 1387
+    },
+    "R6134": {
+      "c": {
+        "budget": 8100,
+        "date": "2026-11-02",
+        "event_type": "party",
+        "guests": 80,
+        "layout": "buffet",
+        "must_have": [],
+        "setting": "indoor",
+        "styles": [
+          "industrial"
+        ]
+      },
+      "ms": 1419
+    },
+    "R6135": {
+      "c": {
+        "budget": 8200,
+        "date": null,
+        "event_type": "meeting",
+        "guests": 30,
+        "layout": null,
+        "must_have": [
+          "buffet"
+        ],
+        "setting": "any",
+        "styles": [
+          "romantic"
+        ]
+      },
+      "ms": 1486
+    },
+    "R6136": {
+      "c": {
+        "budget": 24300,
+        "date": "2027-06-20",
+        "event_type": "networking",
+        "guests": 150,
+        "layout": "reception",
+        "must_have": [
+          "parking"
+        ],
+        "setting": "indoor",
+        "styles": [
+          "corporate"
+        ]
+      },
+      "ms": 1705
+    },
+    "R6137": {
+      "c": {
+        "budget": 10800,
+        "date": "2027-08-22",
+        "event_type": "networking",
+        "guests": 70,
+        "layout": "reception",
+        "must_have": [
+          "dance_floor",
+          "accessible"
+        ],
+        "setting": "any",
+        "styles": [
+          "tropical"
+        ]
+      },
+      "ms": 1573
+    },
+    "R6138": {
+      "c": {
+        "budget": 5400,
+        "date": "2027-06-16",
+        "event_type": "wedding",
+        "guests": 12,
+        "layout": null,
+        "must_have": [
+          "parking"
+        ],
+        "setting": "indoor",
+        "styles": [
+          "modern"
+        ]
+      },
+      "ms": 1524
+    },
+    "R6139": {
+      "c": {
+        "budget": 8300,
+        "date": null,
+        "event_type": "workshop",
+        "guests": 40,
+        "layout": null,
+        "must_have": [
+          "stage"
+        ],
+        "setting": "any",
+        "styles": []
+      },
+      "ms": 1434
+    },
+    "R6140": {
+      "c": {
+        "budget": 5700,
+        "date": null,
+        "event_type": "conference",
+        "guests": 40,
+        "layout": null,
+        "must_have": [
+          "microphone"
+        ],
+        "setting": "any",
+        "styles": [
+          "tropical"
+        ]
+      },
+      "ms": 1561
+    },
+    "R6141": {
+      "c": {
+        "budget": 5900,
+        "date": null,
+        "event_type": "birthday",
+        "guests": 40,
+        "layout": "reception",
+        "must_have": [
+          "natural_light",
+          "microphone"
+        ],
+        "setting": "indoor",
+        "styles": [
+          "modern"
+        ]
+      },
+      "ms": 1446
+    },
+    "R6142": {
+      "c": {
+        "budget": 5300,
+        "date": "2027-08-19",
+        "event_type": "gala",
+        "guests": 60,
+        "layout": "banquet",
+        "must_have": [
+          "natural_light",
+          "microphone"
+        ],
+        "setting": "indoor",
+        "styles": [
+          "tropical"
+        ]
+      },
+      "ms": 1534
+    },
+    "R6143": {
+      "c": {
+        "budget": 13600,
+        "date": "2027-03-13",
+        "event_type": "meeting",
+        "guests": 40,
+        "layout": "boardroom",
+        "must_have": [],
+        "setting": "any",
+        "styles": [
+          "industrial",
+          "corporate"
+        ]
+      },
+      "ms": 1003
+    },
+    "R6144": {
+      "c": {
+        "budget": 6700,
+        "date": null,
+        "event_type": "birthday",
+        "guests": 50,
+        "layout": "reception",
+        "must_have": [
+          "parking"
+        ],
+        "setting": "any",
+        "styles": []
+      },
+      "ms": 1474
+    },
+    "R6145": {
+      "c": {
+        "budget": 2600,
+        "date": "2027-06-28",
+        "event_type": "gala",
+        "guests": 30,
+        "layout": "banquet",
+        "must_have": [],
+        "setting": "outdoor",
+        "styles": []
+      },
+      "ms": 1228
+    },
+    "R6146": {
+      "c": {
+        "budget": 8700,
+        "date": "2026-11-09",
+        "event_type": "party",
+        "guests": 70,
+        "layout": null,
+        "must_have": [
+          "dance_floor",
+          "stage"
+        ],
+        "setting": "any",
+        "styles": [
+          "modern"
+        ]
+      },
+      "ms": 1461
+    },
+    "R6147": {
+      "c": {
+        "budget": 2500,
+        "date": null,
+        "event_type": "meeting",
+        "guests": 20,
+        "layout": "classroom",
+        "must_have": [
+          "buffet"
+        ],
+        "setting": "outdoor",
+        "styles": [
+          "romantic"
+        ]
+      },
+      "ms": 1301
+    },
+    "R6148": {
+      "c": {
+        "budget": 8400,
+        "date": null,
+        "event_type": "networking",
+        "guests": 70,
+        "layout": "reception",
+        "must_have": [
+          "buffet"
+        ],
+        "setting": "any",
+        "styles": [
+          "tropical"
+        ]
+      },
+      "ms": 1742
+    },
+    "R6149": {
+      "c": {
+        "budget": 900,
+        "date": null,
+        "event_type": "wedding",
+        "guests": 10,
+        "layout": "buffet",
+        "must_have": [
+          "screens",
+          "microphone"
+        ],
+        "setting": "any",
+        "styles": [
+          "corporate",
+          "elegant"
+        ]
+      },
+      "ms": 1631
+    },
+    "R6150": {
+      "c": {
+        "budget": 15300,
+        "date": null,
+        "event_type": "conference",
+        "guests": 150,
+        "layout": "theater",
+        "must_have": [
+          "ocean_view"
+        ],
+        "setting": "outdoor",
+        "styles": [
+          "tropical"
+        ]
+      },
+      "ms": 1834
+    }
+  },
+  "summary": {
+    "claude_calls": 150,
+    "claude_field_acc": {
+      "budget": "100%",
+      "date": "100%",
+      "event_type": "97.3%",
+      "guests": "100%",
+      "layout": "87.3%",
+      "must_have": "87.3%",
+      "setting": "98.7%",
+      "styles": "98%"
+    },
+    "claude_success": "88%",
+    "claude_top3": "90%",
+    "failed_calls": 0,
+    "local_share": "10%",
+    "median_ms": 1468,
+    "model_success": "30%",
+    "n": 150,
+    "p95_ms": 1921,
+    "run_at": "2026-11-08T03:08:33.326Z",
+    "system_success": "82.7%",
+    "system_top3": "86.7%"
+  },
+  "updated": "2026-11-08T03:08:33.326Z"
+}

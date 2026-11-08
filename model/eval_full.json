@@ -1,0 +1,175 @@
+{
+ "calibration": [
+  {
+   "band": "0-50%",
+   "n": 301,
+   "right_pct": 23.3
+  },
+  {
+   "band": "50-70%",
+   "n": 89,
+   "right_pct": 46.1
+  },
+  {
+   "band": "70-80%",
+   "n": 30,
+   "right_pct": 66.7
+  },
+  {
+   "band": "80-90%",
+   "n": 39,
+   "right_pct": 84.6
+  },
+  {
+   "band": "90-100%",
+   "n": 141,
+   "right_pct": 99.3
+  }
+ ],
+ "routing": [
+  {
+   "split": "test_in",
+   "local_pct": 97.3,
+   "right_when_local_pct": 100,
+   "to_claude_pct": 2.7
+  },
+  {
+   "split": "test_out",
+   "local_pct": 10,
+   "right_when_local_pct": 80,
+   "to_claude_pct": 90
+  },
+  {
+   "split": "test_fresh",
+   "local_pct": 2.7,
+   "right_when_local_pct": 75,
+   "to_claude_pct": 97.3
+  },
+  {
+   "split": "test_blind",
+   "local_pct": 10,
+   "right_when_local_pct": 80,
+   "to_claude_pct": 90
+  }
+ ],
+ "mistakes": [
+  [
+   "setting indoor->any",
+   55
+  ],
+  [
+   "setting outdoor->any",
+   25
+  ],
+  [
+   "setting indoor->outdoor",
+   14
+  ],
+  [
+   "event workshop->conference",
+   11
+  ],
+  [
+   "event gala->wedding",
+   11
+  ],
+  [
+   "event meeting->workshop",
+   10
+  ],
+  [
+   "event birthday->party",
+   10
+  ],
+  [
+   "event meeting->conference",
+   10
+  ]
+ ],
+ "must_have": {
+  "missed": 180,
+  "total": 327,
+  "invented": 2
+ },
+ "styles": {
+  "missed": 265,
+  "total": 278,
+  "invented": 11
+ },
+ "speed_ms": {
+  "median": 3.24,
+  "p95": 4.14
+ },
+ "examples": [
+  {
+   "text": "Seeking a venue for a industry congress in Miami Jun 7th for a headcount of 70, cap of $7,000. Keep it oceanside. Outdoors in the sunshine. Required: seaview. Flexible on the exact time.",
+   "conf": 88,
+   "got": "conference / no layout / outdoor",
+   "truth": "conference / no layout / outdoor",
+   "right": true
+  },
+  {
+   "text": "Organising a professional meetup in Miami 10 December for roughly 50 folks, cap of $6,800. Style: exotic island. Required: car parking and a dancefloor. Flexible on the exact time.",
+   "conf": 81,
+   "got": "networking / no layout / any",
+   "truth": "networking / no layout / any",
+   "right": true
+  },
+  {
+   "text": "Organising a directors' meeting in Miami Aug 19th for a headcount of 20, budget is about 5.2k. Think exotic island. An open-air courtyard. We need a waterfront view.",
+   "conf": 83,
+   "got": "meeting / no layout / outdoor",
+   "truth": "meeting / no layout / outdoor",
+   "right": true
+  },
+  {
+   "text": "Seeking a venue for a industry congress in Miami for two hundred of us, cap of $15,600. Think surfside. We want auditorium rows.",
+   "conf": 88,
+   "got": "conference / theater / any",
+   "truth": "conference / theater / any",
+   "right": true
+  },
+  {
+   "text": "Could you suggest places for a turning thirty bash in Miami the 17th of August for a hundred of us, budget is about 13.9k. Keep it lovey-dovey. Required: a buffet spread.",
+   "conf": 23,
+   "got": "conference / no layout / any",
+   "truth": "birthday / no layout / any",
+   "right": false
+  },
+  {
+   "text": "Seeking a venue for a steering committee in Miami for 10 pax, cap of $4,800. Style: oceanside. Outdoors in the sunshine. We need self-serve catering and a waterfront view. Flexible on the exact time.",
+   "conf": 38,
+   "got": "conference / no layout / outdoor",
+   "truth": "meeting / no layout / outdoor",
+   "right": false
+  },
+  {
+   "text": "Organising a farewell bash in Miami for 25 pax, we can spend up to 2,900. Keep it old-fashioned. Set it up as buffet with dining rounds. We need a loudspeaker setup and a projection screen. We care about good service.",
+   "conf": 21,
+   "got": "conference / buffet / any",
+   "truth": "party / buffet / any",
+   "right": false
+  },
+  {
+   "text": "Seeking a venue for a turning thirty bash in Miami 6 November for 25 pax, budget is about 10.2k. Style: Hawaiian. Outdoors in the sunshine. Please include self-serve catering and a waterfront view.",
+   "conf": 28,
+   "got": "workshop / no layout / outdoor",
+   "truth": "birthday / no layout / outdoor",
+   "right": false
+  },
+  {
+   "text": "Could you suggest places for a trade convention in Miami for party of 100, 15,600 USD tops. Keep it loft-like. An enclosed room. Seating: auditorium rows.",
+   "conf": 64,
+   "got": "conference / theater / any",
+   "truth": "conference / theater / indoor",
+   "right": false
+  },
+  {
+   "text": "Seeking a venue for a turning thirty bash in Miami for roughly 90 folks, cap of $12,100. Think streamlined. Please include a raised stage. We care about good service.",
+   "conf": 41,
+   "got": "workshop / no layout / any",
+   "truth": "birthday / no layout / any",
+   "right": false
+  }
+ ]
+}

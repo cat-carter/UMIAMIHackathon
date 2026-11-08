@@ -1,0 +1,10 @@
+{
+  "D": {
+    "features": "word 1-2 grams + char 3-5 grams",
+    "val_head_accuracy_mean": 0.9987,
+    "val_event_type": 1.0,
+    "val_layout": 1.0,
+    "val_setting": 1.0,
+    "export_bytes": 2734869
+  }
+}

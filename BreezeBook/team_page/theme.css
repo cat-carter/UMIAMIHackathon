@@ -1,0 +1,87 @@
+/* BreezeBook "Miami Modern" theme: look only. Layered over the original styles; no text, markup or script changes.
+   Bay ink #10324F · Terrazzo white #EEF3F2 · Lapidus aqua #2BA6A0 · Sun yellow #F4C542 · Chip grey #5D7380 */
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Albert+Sans:wght@400;500;600;700;800&display=swap');
+:root{--navy:#10324F;--deep:#0B2740;--aqua:#2BA6A0;--blue:#2B7FB8;--sand:#E2EAE8;--cream:#EEF3F2;--ink:#10324F;--muted:#5D7380;--line:#D3DFDD;--sun:#F4C542;--shadow:0 1px 0 rgba(16,50,79,.06)}
+body{background:var(--cream);font-family:'Albert Sans',Arial,sans-serif;color:var(--ink)}
+h1,h2,h3,.logo,.secthead h2,.ai-head h2,.venuebody h3,.dialog h2,.stat strong{font-family:'Syne','Albert Sans',sans-serif}
+
+/* labels: sentence case, no tracking */
+.badge,.eyebrow{text-transform:none;letter-spacing:0;font-weight:700}
+.eyebrow{font-size:14px;color:#1E7F7A}
+
+/* nav */
+nav{background:rgba(238,243,242,.94);border-bottom:1px solid var(--line)}
+.logo{letter-spacing:-.5px;font-weight:800}
+.navlinks{color:#3E5868;font-weight:600;font-size:14px}
+.navlinks a:hover{color:#1E7F7A}
+
+/* buttons: pills, flat */
+.btn{border-radius:999px;font-weight:700;background:var(--navy)}
+.btn:hover{transform:none;filter:none;background:#163F63}
+.btn.soft{background:#DDEDEB;color:#10324F}
+.btn.soft:hover{background:#CFE5E2}
+.btn.border{border-color:#9FB6B9;color:var(--navy)}
+.btn.border:hover{background:#E3ECEB}
+.btn.white{color:var(--navy)}
+.btn.white:hover{background:#F4F7F7}
+.submit{background:var(--aqua);border-radius:999px;color:#06262B}
+.submit:hover{background:#249690}
+
+/* the one bold move: a terrazzo bay-blue hero with a single boomerang corner */
+.hero{background-color:#10324F;
+  background-image:
+    radial-gradient(circle at 18% 30%,#2BA6A099 0 2px,transparent 3px),
+    radial-gradient(circle at 70% 64%,#F4C54288 0 1.5px,transparent 2.5px),
+    radial-gradient(circle at 42% 85%,#8FD3CC66 0 2.5px,transparent 3.5px),
+    radial-gradient(ellipse at 85% 0%,#174A6E 0%,transparent 55%);
+  background-size:330px 330px,410px 410px,520px 520px,100% 100%;
+  border-radius:0 0 0 160px}
+.hero:before{border-color:#2BA6A033;box-shadow:0 0 0 95px #2BA6A00a,0 0 0 190px #2BA6A006}
+.hero h1{font-weight:800;letter-spacing:-.035em;line-height:1.02}
+.hero h1 span{color:#9FE3DA}
+.hero p{color:#D5E4EA}
+.hero-points span{border-color:#F4C54288;color:#F7E6B0;border-radius:999px}
+.badge.glass{background:#F4C54222;color:#FBE7A6;border-color:#F4C54266}
+.micro{color:#AFC6D3}
+
+/* search card */
+.ai-card{border-radius:20px;box-shadow:0 30px 70px #06192999;border:0}
+.ai-head h2{letter-spacing:-.02em}
+.ai-card p,.ai-head p{color:#5D7380}
+.mode{border-radius:12px;border-color:var(--line);background:#F7FAF9}
+.mode.active{border-color:var(--aqua);background:#E3F4F2;box-shadow:inset 0 0 0 1px var(--aqua)}
+.chip{background:#fff;border-color:#C9DAD7;color:#1E5C66;font-size:11px;font-weight:600}
+.ai-card textarea,.ai-card input,.ai-card select{border-color:#C9D8D6;border-radius:10px}
+.ai-card textarea:focus,.ai-card input:focus,.ai-card select:focus{border-color:var(--aqua);box-shadow:0 0 0 3px #2BA6A033;outline:0}
+
+/* quiet sections and flat cards */
+.section{padding:84px 0}
+.secthead h2{letter-spacing:-.025em}
+.feature,.panel,.venue{border-radius:14px;box-shadow:var(--shadow);border-color:var(--line)}
+.feature .ico{border-radius:50%}
+.photolabel{border-radius:999px;font-weight:700;font-size:10.5px;color:#10324F}
+.venuefoot b{font-family:'Syne','Albert Sans',sans-serif}
+.tab{border-radius:999px}
+.tab.active{background:var(--navy);color:#fff}
+.data-table td{border-color:var(--line)}
+#brandmatching{background:#F7FAF9 !important}
+.brandsection{background:#10324F;background-image:radial-gradient(circle at 15% 30%,#2BA6A0 0 2px,transparent 3px),radial-gradient(circle at 70% 75%,#F4C542 0 1.5px,transparent 2.5px);background-size:190px 190px,240px 240px}
+.stat{border-color:#ffffff2e;background:#ffffff0d;border-radius:14px}
+.stat strong{color:#fff}
+.footer{background:#0B2740;color:#B5C8D2}
+.toast{border-radius:999px}
+.dialog{border-radius:18px}
+
+/* Breezy chat matches the palette (id + body for precedence over its own inline style block) */
+body #botBtn{background:var(--navy);border-radius:999px;font-family:'Albert Sans',sans-serif;font-weight:700;box-shadow:0 12px 30px #10324F55}
+body #botPanel{border-radius:18px;border-color:var(--line);font-family:'Albert Sans',sans-serif}
+body #botPanel header{background:#10324F}
+body #botPanel header b{font-family:'Syne',sans-serif}
+body .bmsg.me{background:var(--aqua);color:#06262B}
+body #botLog{background:#F4F8F7}
+body #botForm button{background:var(--navy);border-radius:999px}
+
+/* keyboard focus and motion */
+:focus-visible{outline:3px solid #F4C542;outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important}}
+@media(max-width:700px){.hero{border-radius:0 0 0 72px}.section{padding:56px 0}}

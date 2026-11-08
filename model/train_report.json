@@ -1,0 +1,18 @@
+{
+  "A": {
+    "features": "word 1-2 grams",
+    "val_head_accuracy_mean": 0.9835,
+    "val_event_type": 1.0,
+    "val_layout": 0.99,
+    "val_setting": 1.0,
+    "export_bytes": 430509
+  },
+  "B": {
+    "features": "word 1-2 grams + char 3-5 grams",
+    "val_head_accuracy_mean": 0.997,
+    "val_event_type": 1.0,
+    "val_layout": 1.0,
+    "val_setting": 1.0,
+    "export_bytes": 1339952
+  }
+}

@@ -1,0 +1,197 @@
+{
+ "n": 150,
+ "thresholds": {
+  "0.7": {
+   "system_success": 82,
+   "system_top3": 86,
+   "handled_by_model": 16
+  },
+  "0.8": {
+   "system_success": 82.7,
+   "system_top3": 86.7,
+   "handled_by_model": 10
+  },
+  "0.9": {
+   "system_success": 88,
+   "system_top3": 90,
+   "handled_by_model": 2
+  },
+  "0.95": {
+   "system_success": 88,
+   "system_top3": 90,
+   "handled_by_model": 0
+  },
+  "always Claude": {
+   "system_success": 88,
+   "system_top3": 90,
+   "handled_by_model": 0
+  }
+ },
+ "claude_success": "88%",
+ "claude_top3": "90%",
+ "claude_violation_cases": 1,
+ "claude_field_acc": {
+  "event_type": "97.3%",
+  "guests": "100%",
+  "budget": "100%",
+  "date": "100%",
+  "setting": "98.7%",
+  "layout": "87.3%",
+  "styles": "98%",
+  "must_have": "87.3%"
+ },
+ "system_success": "82.7%",
+ "system_top3": "86.7%",
+ "model_success": "30%",
+ "claude_calls": 150,
+ "failed_calls": 0,
+ "median_ms": 1468,
+ "p95_ms": 1921,
+ "run_at": "2026-11-08T03:08:33.326Z",
+ "claude_misses": [
+  {
+   "id": "R6003",
+   "text": "Seeking a venue for a steering committee in Miami for 10 pax, cap of $4,800. Style: oceanside. Outdoors in the sunshine. We need self-serve catering and a waterfront view. Flexible on the exact time.",
+   "wrong": [
+    "must_have: got [\"buffet\",\"natural_light\",\"ocean_view\"], truth [\"buffet\",\"ocean_view\"]"
+   ],
+   "top3_hit": false
+  },
+  {
+   "id": "R6004",
+   "text": "Organising a farewell bash in Miami for 25 pax, we can spend up to 2,900. Keep it old-fashioned. Set it up as buffet with dining rounds. We need a loudspeaker setup and a projection screen. We care about good service.",
+   "wrong": [
+    "must_have: got [\"microphone\",\"projector\",\"buffet\"], truth [\"microphone\",\"projector\"]"
+   ],
+   "top3_hit": false
+  },
+  {
+   "id": "R6006",
+   "text": "Seeking a venue for a turning thirty bash in Miami 6 November for 25 pax, budget is about 10.2k. Style: Hawaiian. Outdoors in the sunshine. Please include self-serve catering and a waterfront view.",
+   "wrong": [
+    "layout: got \"buffet\", truth null",
+    "must_have: got [\"buffet\",\"ocean_view\",\"natural_light\"], truth [\"buffet\",\"ocean_view\"]"
+   ],
+   "top3_hit": false
+  },
+  {
+   "id": "R6013",
+   "text": "Could you suggest places for a marriage reception in Miami Jun 27th for 30 pax, we can spend up to 15,600. Think minimal. An enclosed room. We need wheelchair ramps and car parking.",
+   "wrong": [
+    "layout: got \"reception\", truth null"
+   ],
+   "top3_hit": true
+  },
+  {
+   "id": "R6018",
+   "text": "Seeking a venue for a tutorial day in Miami 24 August for eighty of us, budget is about 7.2k. Style: exotic island. Outdoors in the sunshine. We need a buffet spread and seaview.",
+   "wrong": [
+    "layout: got \"buffet\", truth null",
+    "must_have: got [\"buffet\",\"ocean_view\",\"natural_light\"], truth [\"buffet\",\"ocean_view\"]"
+   ],
+   "top3_hit": false
+  },
+  {
+   "id": "R6020",
+   "text": "Seeking a venue for a trade convention in Miami for party of 50, budget is about 5.4k. Keep it retro. Outdoors in the sunshine. We want theatre rows. We need seaview and a buffet spread. Flexible on the exact time.",
+   "wrong": [
+    "must_have: got [\"ocean_view\",\"buffet\",\"natural_light\"], truth [\"ocean_view\",\"buffet\"]"
+   ],
+   "top3_hit": false
+  },
+  {
+   "id": "R6024",
+   "text": "Could you suggest places for a chamber social in Miami 22 November for 200 pax, cap of $35,900. Style: formal office. Inside, air-conditioned. We need a loudspeaker setup.",
+   "wrong": [],
+   "top3_hit": false
+  },
+  {
+   "id": "R6033",
+   "text": "Could you suggest places for a bride and groom dinner in Miami for roughly 10 folks, budget is about 1.9k. Keep it formal office. An enclosed room. We want long boardroom table. Required: a loudspeaker setup.",
+   "wrong": [
+    "event_type: got \"party\", truth \"wedding\""
+   ],
+   "top3_hit": true
+  },
+  {
+   "id": "R6041",
+   "text": "Organising a bride and groom dinner in Miami Jun 21th for a headcount of 40, 10,500 USD tops. Keep it old-fashioned. We want buffet with dining rounds. We need monitors.",
+   "wrong": [
+    "event_type: got \"party\", truth \"wedding\""
+   ],
+   "top3_hit": false
+  },
+  {
+   "id": "R6059",
+   "text": "Organising a steering committee in Miami the 28th of March for a headcount of 15, we can spend up to 11,400. Keep it cutting-edge. Inside, air-conditioned. Please include microphones and monitors.",
+   "wrong": [],
+   "top3_hit": false
+  },
+  {
+   "id": "R6070",
+   "text": "Organising a skills seminar in Miami for roughly 100 folks, budget is about 20.6k. Keep it cutting-edge. We want schoolroom layout. We need a bandstand and monitors.",
+   "wrong": [],
+   "top3_hit": false
+  },
+  {
+   "id": "R6089",
+   "text": "Could you suggest places for a bride and groom dinner in Miami 27 August for twenty-five of us, we can spend up to 2,900. Keep it surfside. Outdoors in the sunshine. Seating: dinner rounds. Please include a waterfront view.",
+   "wrong": [
+    "must_have: got [\"ocean_view\",\"natural_light\"], truth [\"ocean_view\"]"
+   ],
+   "top3_hit": false
+  },
+  {
+   "id": "R6099",
+   "text": "Could you suggest places for a marriage reception in Miami Aug 24th for 60 pax, budget is about 10.9k. Keep it palm-fringed. Outdoors in the sunshine. We need a waterfront view and microphones.",
+   "wrong": [
+    "layout: got \"reception\", truth null",
+    "must_have: got [\"microphone\",\"ocean_view\",\"natural_light\"], truth [\"ocean_view\",\"microphone\"]"
+   ],
+   "top3_hit": false
+  },
+  {
+   "id": "R6104",
+   "text": "Could you suggest places for a my daughter's 21st in Miami Nov 1th for twenty-five of us, budget is about 5.8k. Style: oceanside. Outdoors in the sunshine.",
+   "wrong": [
+    "must_have: got [\"natural_light\",\"ocean_view\"], truth []"
+   ],
+   "top3_hit": false
+  },
+  {
+   "id": "R6106",
+   "text": "Organising a bride and groom dinner in Miami 9 June for party of 25, cap of $6,900. Style: passionate. We need microphones.",
+   "wrong": [
+    "event_type: got \"party\", truth \"wedding\"",
+    "layout: got \"banquet\", truth null"
+   ],
+   "top3_hit": true
+  },
+  {
+   "id": "R6115",
+   "text": "Seeking a venue for a bride and groom dinner in Miami 24 March for a headcount of 40, we can spend up to 6,100. Style: oceanside. Outdoors in the sunshine.",
+   "wrong": [
+    "layout: got \"banquet\", truth null",
+    "must_have: got [\"ocean_view\",\"natural_light\"], truth []"
+   ],
+   "top3_hit": false
+  },
+  {
+   "id": "R6116",
+   "text": "Could you suggest places for a bride and groom dinner in Miami the 21th of March for roughly 10 folks, 19,100 USD tops. An enclosed room. Please include self-serve catering.",
+   "wrong": [
+    "event_type: got \"party\", truth \"wedding\"",
+    "layout: got \"buffet\", truth null"
+   ],
+   "top3_hit": false
+  },
+  {
+   "id": "R6149",
+   "text": "Seeking a venue for a matrimony celebration in Miami for party of 10, cap of $900. Style: formal office. Seating: buffet with dining rounds. Please include a projection screen and a loudspeaker setup. Flexible on the exact time.",
+   "wrong": [
+    "must_have: got [\"screens\",\"microphone\"], truth [\"projector\",\"microphone\"]"
+   ],
+   "top3_hit": false
+  }
+ ]
+}

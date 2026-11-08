@@ -1,0 +1,15 @@
+{
+  "name": "breezebook",
+  "private": true,
+  "description": "BreezeBook: AI matchmaking for underused Miami hotel event spaces (UM AI Hackathon 2026). Synthetic data only.",
+  "scripts": {
+    "evaluate": "node model/evaluate.js",
+    "score-claude": "node model/score_claude.js",
+    "build": "python3 team_page/look/build3.py && python3 team_page/look/build3.py --standalone",
+    "test": "node team_page/look/breeza_chat_test.js && node team_page/look/request_send_test.js && node team_page/look/grand_tour_test.js && node team_page/injection_test.js"
+  },
+  "devDependencies": {
+    "three": "0.128.0",
+    "playwright": "1.47.2"
+  }
+}
