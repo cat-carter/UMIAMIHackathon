@@ -67,7 +67,7 @@ function pickLayout(b) {
   return 'banquet';
 }
 function capPhrase(lay, n) {
-  return ({ banquet: `Seats ${num(n)} at rounds of 10`, reception: `Holds ${num(n)} standing`, theater: `Seats ${num(n)} theater-style`, classroom: `Seats ${num(n)} classroom-style`, boardroom: `Seats ${num(n)} at one table` })[lay];
+  return ({ banquet: `Seats ${num(n)} at rounds of 10`, reception: `Holds ${num(n)} standing`, theater: `Seats ${num(n)} theater-style`, classroom: `Seats ${num(n)} classroom-style`, ushape: `Seats ${num(n)} in a U-shape`, boardroom: `Seats ${num(n)} at one table` })[lay];
 }
 function estimate(v, guests) {
   const g = guests || Math.round((v.cap.banquet || v.cap.reception) * 0.6);
@@ -165,6 +165,7 @@ function parseText(raw, expect) {
   else if (/cocktail|standing|mingl|high-top|high top/.test(s)) out.layout = 'reception';
   else if (/theater|theatre|rows of chairs|auditorium/.test(s)) out.layout = 'theater';
   else if (/classroom/.test(s)) out.layout = 'classroom';
+  else if (/u-?shape|horseshoe/.test(s)) out.layout = 'ushape';
   else if (/boardroom|conference table/.test(s)) out.layout = 'boardroom';
   const food = [];
   const FOOD = [['plated dinner', /plated/], ['buffet', /buffet/], ['family-style dinner', /family.?style/], ['stations', /stations/], ['dinner', /dinner/], ['lunch', /lunch/], ['brunch', /brunch/], ['breakfast', /breakfast/], ['cocktails and bites', /cocktails?|bites|hors|appetizer|canap/], ['open bar', /open bar|drinks|bar\b/], ['cake', /cake|dessert/], ['coffee service', /coffee/]];
@@ -248,18 +249,12 @@ function onChip(c) {
 }
 const fmtDur = s => `${Math.floor(s / 60)}:${String(Math.round(s % 60)).padStart(2, '0')}`;
 
-/* thumbnails for venues (rendered later by the 3D engine) */
-const thumbs = {};
+function photoUrl(v) { return `photos/${v.id}.jpg`; }
 function phEl(v, cls = 'ph') {
   const g = { indoor: ['#F3E3C3', '#B79465'], lawn: ['#9FD3EA', '#7DB36A'], rooftop: ['#2B5C96', '#F0A46B'], courtyard: ['#9FD3EA', '#E2CFA9'], pavilion: ['#6D8FC4', '#F3C79A'] }[v.scene.kind] || ['#9fd3ea', '#e6d2a8'];
   const d = h('div', { class: cls, style: `--g1:${g[0]};--g2:${g[1]}` });
-  const img = h('img', { alt: `${v.space}, ${v.hotel}`, 'data-thumb': v.id, loading: 'lazy' });
-  if (thumbs[v.id]) img.src = thumbs[v.id]; else img.hidden = true;
-  d.append(img);
+  d.append(h('img', { src: photoUrl(v), alt: `${v.space}, ${v.hotel}`, loading: 'lazy' }));
   return d;
-}
-function applyThumbs() {
-  document.querySelectorAll('img[data-thumb]').forEach(img => { const t = thumbs[img.dataset.thumb]; if (t && img.src !== t) { img.src = t; img.hidden = false; } });
 }
 
 function postmark(big, small, low) { return h('span', { class: 'postmark' + (low ? ' low' : ''), 'aria-hidden': 'true' }, h('span', null, h('b', { text: big }), h('small', { text: small }))); }
@@ -706,6 +701,7 @@ function syncImmPanels() {
   immChat.hidden = !showChat;
   immPill.hidden = showChat || (narrow && panelOpen);
   imm.classList.toggle('chat-up', showChat);
+  imm.classList.toggle('panel-on', panelOpen);
 }
 $('#immDetailsBtn').addEventListener('click', () => { panelOpen = !panelOpen; if (narrow() && !panelOpen) chatOpen = true; syncImmPanels(); });
 function narrow() { return isNarrow(); }
@@ -723,6 +719,9 @@ fsBtn.addEventListener('click', () => {
 });
 document.addEventListener('fullscreenchange', () => { fsBtn.textContent = document.fullscreenElement ? 'Exit full screen' : 'Full screen'; });
 
+const tourCta = $('#tourCta');
+if (tourCta) tourCta.addEventListener('click', () => openVenue('grand-ballroom', 'banquet'));
+
 function openVenue(id, layoutOverride) {
   const v = VBY[id]; if (!v) return;
   const first = !immOpen;
@@ -733,7 +732,8 @@ function openVenue(id, layoutOverride) {
     imm.hidden = false; immOpen = true;
     document.documentElement.classList.add('imm-lock');
     immChat.append(chatEl);
-    panelOpen = !isNarrow(); chatOpen = true;
+    const isTour = v.scene && v.scene.tour === 'grand';
+    panelOpen = !isNarrow(); chatOpen = isTour ? false : true;
     $('#immHint').style.opacity = '';
     if (document.fullscreenEnabled && window.matchMedia('(pointer: fine)').matches && !document.fullscreenElement && imm.requestFullscreen) imm.requestFullscreen().catch(() => {});
   }
@@ -771,23 +771,90 @@ function setupStage(v, layoutOverride, changedVenue) {
   const s = scoreVenue(v, brief);
   const offered = Object.keys(LAYOUTS).filter(k => v.cap[k]);
   curLayout = layoutOverride || (offered.includes(s.layout) ? s.layout : offered[0]);
-  $('#immHotel').textContent = `${v.hotel} · ${v.area}, Miami`;
+  $('#immHotel').textContent = v.scene && v.scene.tour === 'grand' ? `${v.space} | ${v.hotel}` : `${v.hotel} · ${v.area}, Miami`;
   $('#immTitle').textContent = v.space;
   $('#immSpec').textContent = `${num(sqft(v))} sq ft · ${dimStr(v)} · ${ceilStr(v)}`;
-  stage.setAttribute('aria-label', `360° view of ${v.space}, built to scale. Drag or use the arrow keys to look around.`);
+  stage.setAttribute('aria-label', `Photorealistic 360° tour of ${v.space}. Drag or use the arrow keys to look around.`);
   const seg = $('#immSeg'); seg.textContent = '';
   offered.forEach(l => seg.append(h('button', { type: 'button', 'data-l': l, 'aria-pressed': String(l === curLayout), text: LAYOUTS[l].label, onclick: () => setLayout(l) })));
   updateCount();
-  if (viewer) viewer.show(v, curLayout, guestsFor(v, curLayout), changedVenue);
+  if (viewer) { viewer.show(v, curLayout, guestsFor(v, curLayout), changedVenue); bindTour(viewer); }
   else if (!viewerPending) {
     viewerPending = true;
     start3D(stage).then(vw => {
       viewerPending = false;
       if (!vw) return;
-      if (immOpen && !viewer && currentVenue) { viewer = vw; viewer.show(currentVenue, curLayout, guestsFor(currentVenue, curLayout), true); }
+      if (immOpen && !viewer && currentVenue) { viewer = vw; viewer.show(currentVenue, curLayout, guestsFor(currentVenue, curLayout), true); bindTour(viewer); }
       else vw.destroy();
     });
+  } else bindTour(viewer);
+}
+
+$('#immZoomIn').addEventListener('click', () => { if (viewer) { viewer.stopAuto(); viewer.zoom(-8); } });
+$('#immZoomOut').addEventListener('click', () => { if (viewer) { viewer.stopAuto(); viewer.zoom(8); } });
+$('#immResetView').addEventListener('click', () => { if (viewer) viewer.resetView(); });
+
+const spotsEl = $('#immHotspots'), spotCard = $('#immSpotCard'), planCanvas = $('#immPlanCanvas'), vpsEl = $('#immVps');
+function bindTour(vw) {
+  if (!vw) return;
+  const vps = vw.viewpoints || [];
+  vpsEl.textContent = '';
+  vps.forEach(p => vpsEl.append(h('button', { type: 'button', 'data-vp': p.id, 'aria-pressed': String(p.id === vw.vpId), text: p.label, onclick: () => { vw.goTo(p.id); } })));
+  spotsEl.textContent = '';
+  (vw.hotspots || []).forEach(s => {
+    spotsEl.append(h('button', { type: 'button', class: 'hotspot' + (s.kind === 'nav' ? ' nav' : ''), 'data-hs': s.id, 'aria-label': s.title, text: s.kind === 'nav' ? '●' : 'i', onclick: ev => { ev.stopPropagation(); openSpot(s, ev.currentTarget); } }));
+  });
+  vw.onframe = () => {
+    if (!immOpen) return;
+    vpsEl.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.vp === vw.vpId)));
+    (vw.hotspots || []).forEach(s => {
+      const btn = spotsEl.querySelector(`[data-hs="${s.id}"]`); if (!btn) return;
+      const p = vw.project(s.x, s.y, s.z);
+      btn.style.left = p.x + 'px'; btn.style.top = p.y + 'px';
+      btn.hidden = !p.visible;
+    });
+    drawPlan(vw);
+  };
+}
+function openSpot(s, btn) {
+  spotCard.hidden = false;
+  spotCard.textContent = '';
+  spotCard.append(h('h3', { text: s.title }), h('p', { text: s.body }));
+  if (s.go) spotCard.append(h('button', { type: 'button', class: 'go', text: 'Go there', onclick: () => { if (viewer) viewer.goTo(s.go); spotCard.hidden = true; } }));
+  const r = btn.getBoundingClientRect(), box = imm.getBoundingClientRect();
+  let left = r.left - box.left + 22, top = r.top - box.top - 8;
+  if (left + 280 > box.width) left = r.left - box.left - 290;
+  if (top + 140 > box.height) top = Math.max(12, box.height - 160);
+  spotCard.style.left = Math.max(12, left) + 'px';
+  spotCard.style.top = Math.max(12, top) + 'px';
+}
+imm.addEventListener('pointerdown', e => { if (!e.target.closest('.spot-card') && !e.target.closest('.hotspot')) spotCard.hidden = true; });
+function drawPlan(vw) {
+  const c = planCanvas; if (!c || !vw || !vw.plan) return;
+  const ctx = c.getContext('2d'), p = vw.plan, pad = 10;
+  const totalL = p.l + (p.foyer || 0), totalW = p.w;
+  const sx = (c.width - pad * 2) / totalL, sy = (c.height - pad * 2) / totalW;
+  const s = Math.min(sx, sy);
+  const ox = (c.width - totalL * s) / 2, oy = (c.height - totalW * s) / 2;
+  const X = x => ox + (x + p.l / 2 + (p.foyer || 0)) * s;
+  const Z = z => oy + (z + p.w / 2) * s;
+  ctx.clearRect(0, 0, c.width, c.height);
+  ctx.fillStyle = 'rgba(247,243,236,.12)';
+  ctx.fillRect(X(-p.l / 2), Z(-p.w / 2), p.l * s, p.w * s);
+  if (p.foyer) {
+    ctx.fillStyle = 'rgba(247,243,236,.06)';
+    ctx.fillRect(X(-p.l / 2 - p.foyer), Z(-p.w / 2), p.foyer * s, p.w * s);
   }
+  ctx.strokeStyle = 'rgba(255,255,255,.45)'; ctx.lineWidth = 1;
+  ctx.strokeRect(X(-p.l / 2 - (p.foyer || 0)), Z(-p.w / 2), totalL * s, totalW * s);
+  const pos = vw.camera.position;
+  ctx.fillStyle = '#E8D9B8';
+  ctx.beginPath(); ctx.arc(X(pos.x), Z(pos.z), 4, 0, 7); ctx.fill();
+  ctx.strokeStyle = '#E8D9B8'; ctx.beginPath();
+  ctx.moveTo(X(pos.x), Z(pos.z));
+  const heading = vw.yaw + ((vw.built && vw.built.planYawOffset) || 0);
+  ctx.lineTo(X(pos.x + Math.sin(heading) * 8), Z(pos.z - Math.cos(heading) * 8));
+  ctx.stroke();
 }
 function updateCount() {
   const v = currentVenue; if (!v) return;
@@ -799,7 +866,11 @@ function setLayout(l) {
   curLayout = l;
   document.querySelectorAll('#immSeg button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.l === l)));
   updateCount();
-  if (viewer) viewer.show(v, l, guestsFor(v, l), false);
+  if (viewer) {
+    if (viewer.built && viewer.built.pano) viewer.vpId = 'ballroom';
+    viewer.show(v, l, guestsFor(v, l), true);
+    bindTour(viewer);
+  }
   highlightCap(l);
 }
 function highlightCap(l) { document.querySelectorAll('#capTbl tbody tr').forEach(tr => tr.classList.toggle('on', tr.dataset.l === l)); }
@@ -963,37 +1034,14 @@ function renderReceipt(v, r) {
 }
 
 /* ---------- 3D: js/scene3d.js ---------- */
-const { loadThree, webglOK, buildScene, Viewer, hashStr } = window.BB3D;
+const { loadThree, webglOK, Viewer, hashStr } = window.BB3D;
 async function start3D(box) {
   try { if (!webglOK()) throw 0; await loadThree(); return new Viewer(box); }
   catch (e) { box.append(h('div', { class: 'vfallback', text: "The 360° view needs WebGL, which this browser has turned off. Measurements and capacities are below." })); return null; }
-}
-
-async function makeThumbs() {
-  try { if (!webglOK()) return; await loadThree(); } catch (e) { return; }
-  const THREE = window.THREE;
-  const r = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
-  r.setPixelRatio(1); r.setSize(640, 400, false);
-  const cam = new THREE.PerspectiveCamera(70, 640 / 400, .3, 4000); cam.rotation.order = 'YXZ';
-  for (const v of VENUES) {
-    await new Promise(res => setTimeout(res, 30));
-    try {
-      const lay = v.cap.banquet ? 'banquet' : 'theater';
-      const b = buildScene(v, lay, Math.round(v.cap[lay] * .62));
-      cam.position.copy(b.cam); cam.rotation.set(-.08, -Math.PI / 2 + .42, 0);
-      r.render(b.scene, cam);
-      thumbs[v.id] = r.domElement.toDataURL('image/jpeg', .82);
-      b.dispose();
-      applyThumbs();
-    } catch (e) { /* keep gradient placeholder */ }
-  }
-  r.dispose(); try { r.forceContextLoss(); } catch (e) {}
 }
 
 /* ---------- start ---------- */
 renderMode();
 renderBrief();
 greet();
-const kick = () => makeThumbs();
-if ('requestIdleCallback' in window) requestIdleCallback(kick, { timeout: 1500 }); else setTimeout(kick, 600);
 })();

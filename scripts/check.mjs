@@ -53,6 +53,13 @@ for (const v of VENUES || []) {
 for (const f of ['brand/icon.png', 'brand/mark.png', 'brand/favicon.png']) {
   if (!existsSync(join(ROOT, f))) fail(`missing brand artwork: ${f}`);
 }
+for (const v of VENUES || []) {
+  const photo = `photos/${v.id}.jpg`;
+  if (!existsSync(join(ROOT, photo))) fail(`missing venue photograph: ${photo}`);
+}
+for (const f of ['banquet', 'theater', 'cocktail', 'classroom', 'ushape', 'boardroom', 'prefunction'].map(n => `tour/grand/${n}.jpg`)) {
+  if (!existsSync(join(ROOT, f))) fail(`missing 360 photograph: ${f}`);
+}
 
 if (problems.length) { console.error(`✗ ${problems.length} problem(s):\n- ${problems.join('\n- ')}`); process.exit(1); }
 console.log(`✓ Scripts parse, index.html references resolve, ${VENUES.length} venues pass the schema check.`);

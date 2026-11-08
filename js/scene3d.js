@@ -28,6 +28,7 @@ function cnv(w, hh, draw) { const c = document.createElement('canvas'); c.width 
 function buildScene(v, layout, guests) {
   const THREE = window.THREE;
   const S = v.scene, L = v.dims.l, W = v.dims.w, H = v.dims.h || 14;
+  if (S.tour === 'grand') return buildGrand(v, layout, guests);
   const R = rng(hashStr(v.id));
   const scene = new THREE.Scene();
   const disposables = [];
@@ -246,6 +247,103 @@ function buildScene(v, layout, guests) {
   return { scene, cam, dispose: () => { disposables.forEach(d => d.dispose && d.dispose()); } };
 }
 
+function grandPano(layout, vp) {
+  if (vp === 'prefunction') return 'tour/grand/prefunction.jpg';
+  if (vp === 'stage') return 'tour/grand/stage.jpg';
+  if (vp === 'windows') return 'tour/grand/windows.jpg';
+  const files = { banquet: 'tour/grand/banquet.jpg', reception: 'tour/grand/cocktail.jpg', theater: 'tour/grand/theater.jpg', classroom: 'tour/grand/classroom.jpg', ushape: 'tour/grand/ushape.jpg', boardroom: 'tour/grand/boardroom.jpg' };
+  return files[layout] || files.banquet;
+}
+/* Point in front of the camera at a given yaw / elevation. */
+function lookPos(yaw, elev, r) {
+  const c = Math.cos(elev), s = Math.sin(elev);
+  return { x: r * Math.sin(yaw) * c, y: r * s, z: -r * Math.cos(yaw) * c };
+}
+function buildGrand(v, layout) {
+  const THREE = window.THREE;
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x14110e);
+  const disposables = [];
+  const keep = o => { disposables.push(o); return o; };
+  const url = grandPano(layout, 'ballroom');
+  const full360 = layout === 'banquet';
+  let geo;
+  if (full360) {
+    geo = keep(new THREE.SphereGeometry(80, 96, 64));
+    geo.scale(-1, 1, 1);
+  } else {
+    const R = 22, wrap = 2.2, height = R * wrap * (9 / 16);
+    geo = keep(new THREE.CylinderGeometry(R, R, height, 96, 1, true, Math.PI - wrap / 2, wrap));
+    geo.scale(-1, 1, 1);
+  }
+  const mat = keep(new THREE.MeshBasicMaterial({ color: 0x1a1a1a }));
+  scene.add(new THREE.Mesh(geo, mat));
+  const applyTex = (tex) => {
+    tex.minFilter = THREE.LinearFilter;
+    tex.magFilter = THREE.LinearFilter;
+    tex.generateMipmaps = false;
+    if (THREE.sRGBEncoding) tex.encoding = THREE.sRGBEncoding;
+    const prev = mat.map;
+    mat.map = tex; mat.color.set(0xffffff); mat.needsUpdate = true;
+    if (prev && prev !== tex && prev.dispose) prev.dispose();
+  };
+  let currentUrl = url;
+  const loader = new THREE.TextureLoader();
+  loader.load(url, t => { keep(t); applyTex(t); });
+  const loadPano = (next) => {
+    if (!next || next === currentUrl) return;
+    currentUrl = next;
+    loader.load(next, t => { keep(t); applyTex(t); });
+  };
+  const hsR = full360 ? 28 : 20.8;
+  const p = (yaw, elev, extra) => Object.assign(lookPos(yaw, elev, hsR), extra);
+  const Y = full360
+    ? { stage: Math.PI / 2, windows: Math.PI, buffet: Math.PI, doors: 0, entry: Math.PI * 1.5 }
+    : { stage: 0, windows: -0.46, buffet: -0.58, doors: 0.5, entry: 0 };
+  const viewpoints = full360
+    ? [
+      { id: 'ballroom', label: 'Ballroom', x: 0, y: 0, z: 0, yaw: Y.stage, pitch: 0.02, panoUrl: url },
+      { id: 'stage', label: 'Stage', x: 0, y: 0, z: 0, yaw: Y.stage, pitch: 0.04, panoUrl: url },
+      { id: 'windows', label: 'Windows', x: 0, y: 0, z: 0, yaw: Y.windows, pitch: 0.02, panoUrl: url },
+      { id: 'prefunction', label: 'Pre-function', x: 0, y: 0, z: 0, yaw: Y.entry, pitch: 0, panoUrl: url }
+    ]
+    : [
+      { id: 'ballroom', label: 'Ballroom', x: 0, y: 0, z: 0, yaw: Y.stage, pitch: -0.04, panoUrl: url },
+      { id: 'stage', label: 'Stage', x: 0, y: 0, z: 0, yaw: 0, pitch: -0.02, panoUrl: grandPano(layout, 'stage') },
+      { id: 'windows', label: 'Windows', x: 0, y: 0, z: 0, yaw: 0, pitch: -0.04, panoUrl: grandPano(layout, 'windows') },
+      { id: 'prefunction', label: 'Pre-function', x: 0, y: 0, z: 0, yaw: 0, pitch: -0.02, panoUrl: grandPano(layout, 'prefunction') }
+    ];
+  const hotspots = [
+    Object.assign(p(Y.stage, 0.08), { id: 'to-stage', kind: 'nav', title: 'Presentation stage', body: 'Walk to the 28 × 14 ft stage and 24 ft LED wall.', go: 'stage' }),
+    Object.assign(p(Y.windows, 0.05), { id: 'to-win', kind: 'nav', title: 'Bay windows', body: 'Floor-to-ceiling glass along the south wall, with daylight over the bay.', go: 'windows' }),
+    Object.assign(p(full360 ? Y.entry : Y.doors, 0.05), { id: 'to-pre', kind: 'nav', title: 'Pre-function foyer', body: '2,880 sq ft of reception space just outside the ballroom.', go: 'prefunction' }),
+    Object.assign(p(Y.stage - 0.28, 0.16), { id: 'cap', kind: 'info', title: 'Room capacity', body: 'Banquet 500 · Theater 700 · Classroom 350 · Cocktail 750 · U-shape 80 · Boardroom 64.' }),
+    Object.assign(p(Y.stage + 0.28, 0.14), { id: 'dims', kind: 'info', title: 'Dimensions', body: '110 × 72 ft, 22 ft ceiling · 7,920 sq ft. Pillar-free span.' }),
+    Object.assign(p(Y.stage, 0.12), { id: 'av', kind: 'info', title: 'AV & stage', body: '24 × 13.5 ft LED wall, house sound, 8 handheld and 4 lavalier mics, podium, theatrical lighting.' }),
+    Object.assign(p(Y.windows, 0.12), { id: 'light', kind: 'info', title: 'Daylight', body: 'A full wall of bay-facing glass. Motorized drapes control glare for presentations.' }),
+    Object.assign(p(Y.buffet, 0.04), { id: 'cater', kind: 'info', title: 'Catering', body: 'Buffet and beverage stations along the window wall. Banquet kitchen is adjacent.' }),
+    Object.assign(p(Y.doors, 0.1), { id: 'access', kind: 'info', title: 'Entrance & access', body: 'Two 8 ft accessible doors from the foyer. No step into the ballroom.' })
+  ];
+  const wrap = 2.2, edge = wrap / 2 - 0.62;
+  return {
+    scene,
+    cam: new THREE.Vector3(0, 0, 0),
+    pano: true,
+    panoUrl: url,
+    layout,
+    loadPano,
+    viewpoints,
+    hotspots,
+    lookLimits: full360
+      ? { pitchMin: -1.25, pitchMax: 1.15 }
+      : { yawMin: -edge, yawMax: edge, pitchMin: -0.12, pitchMax: 0.1 },
+    spin360: full360,
+    planYawOffset: full360 ? 0 : Math.PI / 2,
+    plan: { l: v.dims.l, w: v.dims.w, foyer: 40 },
+    dispose: () => { disposables.forEach(d => d.dispose && d.dispose()); }
+  };
+}
+
 function placeFurniture(THREE, scene, keep, v, layout, guests, area, excl, focus, cam) {
   const S = v.scene;
   const free = (x, z, r) => {
@@ -272,6 +370,20 @@ function placeFurniture(THREE, scene, keep, v, layout, guests, area, excl, focus
   } else if (layout === 'classroom') {
     let left = guests;
     for (let x = area.x1 - 6; x >= area.x0 + 2 && left > 0; x -= 5.2) for (let z = area.z0 + 3.4; z <= area.z1 - 3.4 && left > 0; z += 7.2) { if (Math.abs(z) < 2.8) continue; if (!free(x, z, 3.1)) continue; rects.push({ x, z, lx: 1.6, lz: 6 }); for (const dz of [-2, 0, 2]) { if (left <= 0) break; chairs.push([x - 1.8, z + dz, -Math.PI / 2]); left--; } }
+  } else if (layout === 'ushape') {
+    const arm = Math.max(6, Math.min(area.x1 - area.x0 - 10, 28));
+    const span = Math.max(10, Math.min(area.z1 - area.z0 - 8, 22));
+    const cx = area.x1 - arm / 2 - 4, cz = 0;
+    rects.push({ x: cx, z: span / 2, lx: arm, lz: 2.4 });
+    rects.push({ x: cx, z: -span / 2, lx: arm, lz: 2.4 });
+    rects.push({ x: cx - arm / 2 + 1.2, z: 0, lx: 2.4, lz: span });
+    const n = Math.max(6, guests);
+    let left = n;
+    for (let i = 0; i < Math.ceil(n / 2) && left; i++) {
+      const t = i / Math.max(1, Math.ceil(n / 2) - 1);
+      chairs.push([cx - arm / 2 + 1.4 + t * (arm - 2.8), span / 2 + 2.1, 0]); left--;
+      if (left) { chairs.push([cx - arm / 2 + 1.4 + t * (arm - 2.8), -span / 2 - 2.1, Math.PI]); left--; }
+    }
   } else if (layout === 'boardroom') {
     const per = Math.ceil(guests / 2); const len = Math.max(8, per * 2.6); const cx = (area.x0 + area.x1) / 2 + 2;
     rects.push({ x: cx, z: 0, lx: len, lz: 4.6 });
@@ -309,42 +421,129 @@ class Viewer {
     box.prepend(this.canvas);
     this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas, antialias: true });
     this.renderer.setPixelRatio(Math.min(1.75, window.devicePixelRatio || 1));
+    if (THREE.sRGBEncoding) this.renderer.outputEncoding = THREE.sRGBEncoding;
     this.camera = new THREE.PerspectiveCamera(72, 1, .3, 4000);
     this.camera.rotation.order = 'YXZ';
     this.yaw = -Math.PI / 2; this.pitch = -.06; this.auto = !reduceMotion; this.running = false;
     this.built = null;
+    this.viewpoints = []; this.hotspots = []; this.plan = null; this.vpId = null;
+    this._walk = null; this.onframe = null;
     this.hint = box.querySelector('.vhint');
     const pts = new Map(); let lastPinch = 0;
     const down = e => { if (e.target.closest('.seg')) return; box.setPointerCapture && box.setPointerCapture(e.pointerId); pts.set(e.pointerId, { x: e.clientX, y: e.clientY }); this.stopAuto(); };
     const move = e => {
       if (!pts.has(e.pointerId)) return;
       const p = pts.get(e.pointerId);
-      if (pts.size === 1) { this.yaw += (e.clientX - p.x) * .0055 * (this.camera.fov / 72); this.pitch = Math.max(-1.1, Math.min(1.1, this.pitch + (e.clientY - p.y) * .0045)); }
+      if (pts.size === 1) {
+        this.yaw += (e.clientX - p.x) * .0055 * (this.camera.fov / 72);
+        this.pitch += (e.clientY - p.y) * .0045;
+        this.clampLook();
+      }
       p.x = e.clientX; p.y = e.clientY;
       if (pts.size === 2) { const [a, b] = [...pts.values()]; const d = Math.hypot(a.x - b.x, a.y - b.y); if (lastPinch) this.zoom((lastPinch - d) * .15); lastPinch = d; }
     };
     const up = e => { pts.delete(e.pointerId); if (pts.size < 2) lastPinch = 0; };
     box.addEventListener('pointerdown', down); box.addEventListener('pointermove', move); box.addEventListener('pointerup', up); box.addEventListener('pointercancel', up);
     box.addEventListener('wheel', e => { e.preventDefault(); this.zoom(e.deltaY * .03); this.stopAuto(); }, { passive: false });
-    box.addEventListener('keydown', e => { const k = { ArrowLeft: [-.12, 0], ArrowRight: [.12, 0], ArrowUp: [0, -.08], ArrowDown: [0, .08] }[e.key]; if (k) { e.preventDefault(); this.yaw -= k[0]; this.pitch = Math.max(-1.1, Math.min(1.1, this.pitch - k[1])); this.stopAuto(); } });
+    box.addEventListener('keydown', e => { const k = { ArrowLeft: [-.12, 0], ArrowRight: [.12, 0], ArrowUp: [0, -.08], ArrowDown: [0, .08] }[e.key]; if (k) { e.preventDefault(); this.yaw -= k[0]; this.pitch -= k[1]; this.clampLook(); this.stopAuto(); } });
     this.ro = new ResizeObserver(() => this.resize()); this.ro.observe(box);
     this.resize();
   }
-  zoom(d) { this.camera.fov = Math.max(38, Math.min(88, this.camera.fov + d)); this.camera.updateProjectionMatrix(); }
+  zoom(d) {
+    const limited = this.built && this.built.lookLimits && this.built.lookLimits.yawMin != null;
+    const lo = limited ? 42 : 38, hi = limited ? 56 : 88;
+    this.camera.fov = Math.max(lo, Math.min(hi, this.camera.fov + d));
+    this.camera.updateProjectionMatrix();
+  }
   stopAuto() { this.auto = false; if (this.hint) this.hint.style.opacity = '0'; }
+  clampLook() {
+    const L = this.built && this.built.lookLimits;
+    if (L) {
+      if (L.yawMin != null) this.yaw = Math.max(L.yawMin, Math.min(L.yawMax, this.yaw));
+      this.pitch = Math.max(L.pitchMin, Math.min(L.pitchMax, this.pitch));
+    } else {
+      this.pitch = Math.max(-1.45, Math.min(1.45, this.pitch));
+    }
+  }
   resize() { const w = this.box.clientWidth, hh = this.box.clientHeight; if (!w || !hh) return; this.renderer.setSize(w, hh, false); this.camera.aspect = w / hh; this.camera.updateProjectionMatrix(); }
   show(v, layout, guests, resetView) {
     if (this.built) { this.built.dispose(); }
-    if (resetView) { this.yaw = -Math.PI / 2; this.pitch = -.06; this.camera.fov = 72; this.camera.updateProjectionMatrix(); }
     this.built = buildScene(v, layout, guests);
-    this.camera.position.copy(this.built.cam);
+    this.viewpoints = this.built.viewpoints || [];
+    this.hotspots = this.built.hotspots || [];
+    this.plan = this.built.plan || { l: v.dims.l, w: v.dims.w, foyer: 0 };
+    if (resetView || !this.vpId) {
+      const home = this.viewpoints[0];
+      this.yaw = home ? home.yaw : -Math.PI / 2;
+      this.pitch = home ? home.pitch : -.06;
+      this.camera.fov = (this.built && this.built.pano && !this.built.spin360) ? 48 : 72;
+      this.camera.updateProjectionMatrix();
+      this.camera.position.copy(home ? new window.THREE.Vector3(home.x, home.y, home.z) : this.built.cam);
+      this.vpId = home ? home.id : 'home';
+    } else {
+      const keep = this.viewpoints.find(p => p.id === this.vpId);
+      if (keep) this.camera.position.set(keep.x, keep.y, keep.z);
+      else this.camera.position.copy(this.built.cam);
+    }
+    if (this.built.pano) {
+      this.camera.position.set(0, 0, 0);
+      const here = this.viewpoints.find(p => p.id === this.vpId);
+      if (here && here.panoUrl && here.panoUrl !== this.built.panoUrl) this.built.loadPano(here.panoUrl);
+    }
+    this._walk = null;
+    this.clampLook();
     if (!this.running) { this.running = true; this.loop(); }
+    if (this.onframe) this.onframe();
+  }
+  resetView() {
+    const home = this.viewpoints[0];
+    this.stopAuto();
+    this.camera.fov = (this.built && this.built.pano && !this.built.spin360) ? 48 : 72;
+    this.camera.updateProjectionMatrix();
+    if (home) this.goTo(home.id);
+    else { this.yaw = -Math.PI / 2; this.pitch = -.06; this.camera.position.copy(this.built.cam); }
+  }
+  goTo(id) {
+    const vp = this.viewpoints.find(p => p.id === id); if (!vp || !this.built) return;
+    this.stopAuto();
+    this.vpId = id;
+    if (this.built.pano && vp.panoUrl) this.built.loadPano(vp.panoUrl);
+    this._walk = {
+      t: 0,
+      px: this.camera.position.x, py: this.camera.position.y, pz: this.camera.position.z,
+      yaw: this.yaw, pitch: this.pitch,
+      tx: this.built.pano ? 0 : vp.x, ty: this.built.pano ? 0 : vp.y, tz: this.built.pano ? 0 : vp.z,
+      tyaw: vp.yaw, tpitch: vp.pitch
+    };
+  }
+  project(x, y, z) {
+    const v = new window.THREE.Vector3(x, y, z).project(this.camera);
+    const w = this.box.clientWidth, h = this.box.clientHeight;
+    return { x: (v.x * 0.5 + 0.5) * w, y: (-v.y * 0.5 + 0.5) * h, visible: v.z > -1 && v.z < 1 };
   }
   loop() {
     if (!this.running) return;
-    if (this.auto) this.yaw += .0016;
+    if (this._walk) {
+      this._walk.t = Math.min(1, this._walk.t + (reduceMotion ? 1 : 0.045));
+      const e = 1 - Math.pow(1 - this._walk.t, 3);
+      const w = this._walk;
+      this.camera.position.set(w.px + (w.tx - w.px) * e, w.py + (w.ty - w.py) * e, w.pz + (w.tz - w.pz) * e);
+      let dy = w.tyaw - w.yaw; while (dy > Math.PI) dy -= Math.PI * 2; while (dy < -Math.PI) dy += Math.PI * 2;
+      this.yaw = w.yaw + dy * e; this.pitch = w.pitch + (w.tpitch - w.pitch) * e;
+      if (this._walk.t >= 1) { this._walk = null; this.clampLook(); }
+    } else if (this.auto) {
+      const L = this.built && this.built.lookLimits;
+      if (L && L.yawMin != null) {
+        this._autoDir = this._autoDir || 1;
+        this.yaw += 0.0009 * this._autoDir;
+        if (this.yaw >= L.yawMax) this._autoDir = -1;
+        if (this.yaw <= L.yawMin) this._autoDir = 1;
+        this.clampLook();
+      } else this.yaw += .0016;
+    }
     this.camera.rotation.set(this.pitch, this.yaw, 0);
     this.renderer.render(this.built.scene, this.camera);
+    if (this.onframe) this.onframe();
     this.raf = requestAnimationFrame(() => this.loop());
   }
   destroy() { this.running = false; cancelAnimationFrame(this.raf); this.ro.disconnect(); if (this.built) this.built.dispose(); this.renderer.dispose(); try { this.renderer.forceContextLoss(); } catch (e) {} this.canvas.remove(); }

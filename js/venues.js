@@ -6,12 +6,21 @@ window.BB_DATA = (() => {
 const AREAS = ['Brickell', 'Miami Beach', 'Coral Gables', 'Wynwood', 'Key Biscayne', 'Downtown'];
 const LAYOUTS = {
   banquet: { label: 'Banquet', note: 'rounds of 10' },
-  reception: { label: 'Reception', note: 'standing, cocktail' },
+  reception: { label: 'Cocktail', note: 'standing reception' },
   theater: { label: 'Theater', note: 'rows of chairs' },
   classroom: { label: 'Classroom', note: 'tables facing front' },
+  ushape: { label: 'U-Shape', note: 'open conference U' },
   boardroom: { label: 'Boardroom', note: 'one long table' }
 };
 const VENUES = [
+  { id: 'grand-ballroom', hotel: 'Palmetto Grand Hotel & Conference Center', area: 'Brickell', space: 'The Grand Ballroom', kind: 'Grand ballroom', setting: 'indoor', view: 'Biscayne Bay through a wall of windows',
+    blurb: 'A pillarless, 22 ft ballroom with a coffered ceiling, eight crystal chandeliers, a 24 ft LED wall and a glass wall of daylight over the bay. Built for conferences, galas and weddings — walk it in 360° and switch the setup to see how the same room works for each.',
+    dims: { l: 110, w: 72, h: 22 }, cap: { banquet: 500, reception: 750, theater: 700, classroom: 350, ushape: 80, boardroom: 64 },
+    amen: [ { n: 'LED presentation wall', s: '24 × 13.5 ft', t: 'screen' }, { n: 'Crystal chandeliers', s: '8, each 8 ft across' }, { n: 'Built-in stage', s: '28 × 14 ft, 30 in high', t: 'stage' }, { n: 'Dance floor', s: '28 × 28 ft', t: 'dance' }, { n: 'House sound and wireless mics', s: '8 handheld + 4 lavalier', t: 'mic' }, { n: 'Podium', s: 'On stage, with confidence monitor' }, { n: 'Pre-function foyer', s: '2,880 sq ft, adjoining' }, { n: 'Floor-to-ceiling windows', s: 'Bay-facing, 110 ft wide' }, { n: 'Accessible entries', s: 'Two 8 ft doors, no step' } ],
+    price: { rental: 9500, rentalNote: 'per event, up to 8 hours', fbMin: 42000, perGuest: 155, perGuestNote: 'plated dinner' },
+    hours: [ ['Every day', '6:00 am – 1:00 am'] ], closesAt: 25, notes: ['Music until 12:30 am', 'Rain plan: the ballroom is fully indoor', 'Valet and a 280-car garage', 'Divisible by airwall into two salons'],
+    style: ['classic', 'glam', 'grand', 'elegant', 'corporate', 'modern'], goodFor: ['wedding', 'gala', 'conference', 'corporate', 'quinceañera', 'holiday party', 'anniversary'],
+    scene: { kind: 'indoor', tour: 'grand', floor: 'carpet', carpet: ['#CDB892', '#8E7548'], wall: '#F3EEE4', wallType: 'panel', ceiling: '#FAF7F1', chandeliers: 8, stage: { w: 28, d: 14, h: 2.5 }, dance: { w: 28, d: 28 }, screens: [{ w: 24, h: 13.5 }], windows: { view: 'ocean', width: 108 }, chair: '#EDE6D8', cloth: '#F8F4EC', accent: '#C9A45C' } },
   { id: 'brisa-ballroom', hotel: 'Coral Tide Hotel', area: 'Brickell', space: 'Brisa Ballroom', kind: 'Grand ballroom', setting: 'indoor', view: null,
     blurb: 'A pillarless ballroom with six crystal chandeliers, a built-in stage and an LED wall.',
     dims: { l: 96, w: 64, h: 18 }, cap: { banquet: 380, reception: 600, theater: 650, classroom: 320 },
