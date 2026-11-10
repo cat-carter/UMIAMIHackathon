@@ -1,0 +1,10 @@
+{
+  "name": "greenu-frost-flyin",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Cinematic Google Earth-style fly-in from satellite Miami to a 3D view of the Frost School of Music.",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test tests/*.test.js"
+  }
+}

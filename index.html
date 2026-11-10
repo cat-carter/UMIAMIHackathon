@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Green U — Frost School of Music</title>
+  <meta name="description" content="A cinematic satellite-to-3D flight from the University of Miami campus to the Frost School of Music.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Outfit:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="https://cesium.com/downloads/cesiumjs/releases/1.134/Build/Cesium/Widgets/widgets.css">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <div id="cesiumContainer" role="application" aria-label="Cinematic campus fly-in"></div>
+  <div class="vignette" aria-hidden="true"></div>
+
+  <div id="loader" class="overlay">
+    <p class="eyebrow">Green U</p>
+    <h1>Locating Frost School of Music</h1>
+    <p class="sub">Satellite approach over Coral Gables</p>
+  </div>
+
+  <button id="skip" type="button">Skip intro</button>
+
+  <section id="arrival" class="overlay hidden" aria-live="polite">
+    <p class="eyebrow">Green U · LEED Tour</p>
+    <h1>Frost School of Music</h1>
+    <p class="sub">University of Miami · Coral Gables</p>
+    <a class="cta" href="tour.html">Enter the tour</a>
+  </section>
+
+  <script src="https://cesium.com/downloads/cesiumjs/releases/1.134/Build/Cesium/Cesium.js"></script>
+  <script src="config.js"></script>
+  <script src="js/flyin.js"></script>
+</body>
+</html>

@@ -1,0 +1,189 @@
+:root {
+  --green: #005030;
+  --ink: #143028;
+  --orange: #f47321;
+  --cream: #f3efe6;
+  --white: #ffffff;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: #070f0c;
+  color: var(--white);
+  font-family: Outfit, system-ui, sans-serif;
+  overflow: hidden;
+}
+
+#cesiumContainer,
+.cesium-viewer,
+.cesium-viewer-cesiumWidgetContainer,
+.cesium-widget,
+.cesium-widget canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.cesium-viewer-bottom,
+.cesium-viewer-toolbar,
+.cesium-viewer-animationContainer,
+.cesium-viewer-timelineContainer {
+  display: none !important;
+}
+
+.vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at center, transparent 42%, rgba(7, 15, 12, 0.45) 100%),
+    linear-gradient(to top, rgba(7, 15, 12, 0.28), transparent 28%);
+  z-index: 2;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  text-align: center;
+  padding: 0 28px 72px;
+  background: linear-gradient(to top, rgba(12, 36, 24, 0.72) 0%, rgba(12, 36, 24, 0.12) 42%, transparent 62%);
+  transition: opacity 700ms ease;
+}
+
+.overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.overlay.top {
+  justify-content: center;
+  background: rgba(7, 15, 12, 0.28);
+}
+
+#loader {
+  justify-content: center;
+  background: rgba(7, 15, 12, 0.42);
+}
+
+.eyebrow {
+  margin: 0 0 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--orange);
+}
+
+h1 {
+  margin: 0;
+  font-family: "Libre Baskerville", Georgia, serif;
+  font-size: clamp(28px, 5vw, 48px);
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.sub {
+  margin: 12px 0 0;
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.86);
+}
+
+.cta {
+  display: inline-block;
+  margin-top: 28px;
+  padding: 14px 28px;
+  min-width: 220px;
+  border-radius: 999px;
+  background: var(--orange);
+  color: var(--white);
+  text-decoration: none;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.cta:hover { filter: brightness(1.05); }
+
+#skip {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  z-index: 5;
+  appearance: none;
+  border: 0;
+  background: rgba(7, 15, 12, 0.45);
+  color: var(--cream);
+  padding: 8px 14px;
+  border-radius: 999px;
+  font: 500 13px Outfit, sans-serif;
+  cursor: pointer;
+}
+
+#skip:hover { background: rgba(7, 15, 12, 0.7); }
+
+#skip.hidden { display: none; }
+
+.tour-shell {
+  min-height: 100%;
+  overflow: auto;
+  background: var(--cream);
+  color: var(--ink);
+}
+
+.tour-hero {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background:
+    linear-gradient(to top, rgba(12, 36, 24, 0.72), rgba(12, 36, 24, 0.12) 42%),
+    url("../assets/frost-3d.jpg") center/cover no-repeat;
+}
+
+.tour-hero .panel {
+  margin-top: auto;
+  padding: 32px 24px 48px;
+  text-align: center;
+}
+
+.tour-hero h1,
+.tour-hero .sub { color: var(--white); }
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 360px;
+  margin: 24px auto 0;
+}
+
+.btn-secondary {
+  display: inline-block;
+  padding: 14px 28px;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--white);
+  border: 1.5px solid rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.about {
+  padding: 48px 24px 80px;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.about h2 {
+  font-family: "Libre Baskerville", Georgia, serif;
+  color: var(--green);
+}
+
+.about a { color: var(--green); }
