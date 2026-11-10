@@ -26,16 +26,6 @@ function send(res, status, body, headers) {
 const server = http.createServer((req, res) => {
   const url = new URL(req.url, "http://127.0.0.1");
 
-  if (url.pathname === "/config.js") {
-    const token = process.env.CESIUM_ION_TOKEN || "";
-    const body = `window.CESIUM_ION_TOKEN = ${JSON.stringify(token)};\n`;
-    send(res, 200, body, {
-      "Content-Type": "text/javascript; charset=utf-8",
-      "Cache-Control": "no-store",
-    });
-    return;
-  }
-
   let pathname = decodeURIComponent(url.pathname);
   if (pathname === "/") pathname = "/index.html";
   if (pathname.includes("\0") || pathname.split("/").some((part) => part.startsWith("."))) {
@@ -59,5 +49,5 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(PORT, "127.0.0.1", () => {
-  console.log(`GreenU fly-in at http://127.0.0.1:${PORT}`);
+  console.log(`GreenU campus map at http://127.0.0.1:${PORT}`);
 });
