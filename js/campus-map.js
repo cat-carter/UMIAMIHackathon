@@ -444,6 +444,62 @@ function playIntro() {
   controls.enabled = false;
 }
 
+function filmStart() {
+  const frost = frostTarget();
+  const target = new THREE.Vector3(
+    campusCenter.x * 0.35 + frost.x * 0.65,
+    2,
+    campusCenter.z * 0.35 + frost.z * 0.65
+  );
+  return {
+    pos: new THREE.Vector3(target.x + 360, 320, target.z + 410),
+    target,
+  };
+}
+
+function filmEnd() {
+  const t = frostTarget();
+  return {
+    pos: new THREE.Vector3(t.x + 78, t.height + 42, t.z + 110),
+    target: new THREE.Vector3(t.x + 4, t.height * 0.35, t.z - 6),
+  };
+}
+
+function filmMid() {
+  const t = frostTarget();
+  return {
+    pos: new THREE.Vector3(t.x + 190, 165, t.z + 250),
+    target: new THREE.Vector3(t.x, 10, t.z),
+  };
+}
+
+function filmProgress(p) {
+  const start = filmStart();
+  const end = filmEnd();
+  const mid = filmMid();
+  const total = HOLD_S + ZOOM_S;
+  const tsec = Math.max(0, Math.min(1, p)) * total;
+  camera.fov = 42;
+  camera.updateProjectionMatrix();
+  if (tsec <= HOLD_S) {
+    camera.position.copy(start.pos);
+    controls.target.copy(start.target);
+  } else {
+    const raw = (tsec - HOLD_S) / ZOOM_S;
+    const t = raw * raw * (3 - 2 * raw);
+    bezier(camera.position, start.pos, mid.pos, end.pos, t);
+    bezier(controls.target, start.target, mid.target, end.target, t);
+  }
+  controls.update();
+  updateLabels();
+  renderer.render(scene, camera);
+  labelRenderer.render(scene, camera);
+}
+
+function isFilmMode() {
+  return new URLSearchParams(window.location.search).has("film");
+}
+
 function selectBuilding(id, opts = {}) {
   const fromDir = opts.fromDir;
   if (selectedId && meshesById.has(selectedId)) {
@@ -696,9 +752,17 @@ export async function startCampusMap(host = document.getElementById("map")) {
   renderer.domElement.addEventListener("click", onPointer);
   window.addEventListener("resize", onResize);
   document.getElementById("loader").classList.add("hidden");
-  playIntro();
+  if (isFilmMode()) {
+    document.body.classList.add("film-mode");
+    controls.enabled = false;
+    filmProgress(0);
+    window.__filmFrame = filmProgress;
+    window.__filmReady = true;
+  } else {
+    playIntro();
+  }
   requestAnimationFrame(tick);
-  return { scene, data, selectBuilding, playIntro, skipIntro, playFrostZoom };
+  return { scene, data, selectBuilding, playIntro, skipIntro, playFrostZoom, filmProgress };
 }
 
 if (!window.__CAMPUS_MAP_TEST__) {

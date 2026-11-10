@@ -350,6 +350,18 @@ body.is-intro .card {
 
 .label.hidden { display: none; }
 
+body.film-mode .campus-top,
+body.film-mode .directory,
+body.film-mode .tools,
+body.film-mode .hint,
+body.film-mode #skip,
+body.film-mode #journey,
+body.film-mode #arrival,
+body.film-mode #card,
+body.film-mode #loader {
+  display: none !important;
+}
+
 @media (max-width: 860px) {
   .arrival {
     top: 108px;
