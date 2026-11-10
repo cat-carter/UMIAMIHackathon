@@ -50,6 +50,8 @@ test("opener holds on the whole campus then zooms to Frost", () => {
   assert.match(src, /HOLD_S/);
   assert.match(src, /ZOOM_S/);
   assert.match(src, /bezier/);
+  assert.match(src, /addFrostMarker/);
   assert.match(html, /Skip intro/);
+  assert.match(html, /Flying to Frost School of Music/);
   assert.match(html, /Frost School of Music/);
 });

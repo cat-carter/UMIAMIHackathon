@@ -101,9 +101,11 @@ let campusCenter = new THREE.Vector3();
 let startOffset = new THREE.Vector3();
 let introActive = false;
 let holdLeft = 0;
+let frostMarker = null;
+let frostPinLabel = null;
 
-const HOLD_S = 1.7;
-const ZOOM_S = 6.4;
+const HOLD_S = 1.4;
+const ZOOM_S = 5.8;
 
 const fly = {
   active: false,
@@ -276,26 +278,82 @@ function frameCampus() {
   controls.update();
 }
 
+function frostTarget() {
+  const weeks = weeksBuilding();
+  if (weeks) {
+    return {
+      x: weeks.center[0],
+      y: weeks.height * 0.45,
+      z: weeks.center[1],
+      height: weeks.height,
+    };
+  }
+  return { x: frostCenter.x, y: 8, z: frostCenter.z, height: 18 };
+}
+
 function frostPose() {
+  const t = frostTarget();
   return {
-    pos: new THREE.Vector3(frostCenter.x + 88, 58, frostCenter.z + 118),
-    target: frostCenter.clone(),
+    pos: new THREE.Vector3(t.x + 34, t.height + 20, t.z + 54),
+    target: new THREE.Vector3(t.x, t.y, t.z),
   };
 }
 
 function midPose() {
+  const t = frostTarget();
   return {
-    pos: new THREE.Vector3(
-      campusCenter.x * 0.4 + frostCenter.x * 0.6 + 170,
-      210,
-      campusCenter.z * 0.4 + frostCenter.z * 0.6 + 230
-    ),
-    target: new THREE.Vector3(
-      campusCenter.x * 0.28 + frostCenter.x * 0.72,
-      8,
-      campusCenter.z * 0.28 + frostCenter.z * 0.72
-    ),
+    pos: new THREE.Vector3(t.x + 140, 155, t.z + 210),
+    target: new THREE.Vector3(t.x, 10, t.z),
   };
+}
+
+function addFrostMarker() {
+  const weeks = weeksBuilding();
+  if (!weeks) return;
+  const x = weeks.center[0];
+  const z = weeks.center[1];
+  const group = new THREE.Group();
+  const pole = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.4, 0.5, weeks.height + 12, 8),
+    new THREE.MeshStandardMaterial({
+      color: 0x005030,
+      emissive: 0x005030,
+      emissiveIntensity: 0.3,
+    })
+  );
+  pole.position.set(x, (weeks.height + 12) / 2, z);
+  const ball = new THREE.Mesh(
+    new THREE.SphereGeometry(3.4, 16, 12),
+    new THREE.MeshStandardMaterial({
+      color: 0xf47321,
+      emissive: 0xf47321,
+      emissiveIntensity: 0.5,
+    })
+  );
+  ball.position.set(x, weeks.height + 14, z);
+  const ring = new THREE.Mesh(
+    new THREE.RingGeometry(7, 11.5, 40),
+    new THREE.MeshBasicMaterial({
+      color: 0xf47321,
+      side: THREE.DoubleSide,
+      transparent: true,
+      opacity: 0.88,
+    })
+  );
+  ring.rotation.x = -Math.PI / 2;
+  ring.position.set(x, 0.45, z);
+  group.add(pole, ball, ring);
+  group.userData.pulse = ring;
+  scene.add(group);
+  frostMarker = group;
+
+  const el = document.createElement("div");
+  el.className = "label music frost-pin";
+  el.textContent = "Frost School of Music";
+  const obj = new CSS2DObject(el);
+  obj.position.set(x, weeks.height + 22, z);
+  scene.add(obj);
+  frostPinLabel = { obj, el };
 }
 
 function bezier(out, a, b, c, t) {
@@ -337,6 +395,7 @@ function finishIntro() {
   holdLeft = 0;
   document.body.classList.remove("is-intro");
   document.getElementById("skip").classList.add("hidden");
+  document.getElementById("journey").classList.add("hidden");
   document.getElementById("arrival").classList.remove("hidden");
   controls.enabled = true;
   const weeks = weeksBuilding();
@@ -365,6 +424,7 @@ function playFrostZoom() {
   holdLeft = 0;
   document.body.classList.add("is-intro");
   document.getElementById("skip").classList.remove("hidden");
+  document.getElementById("journey").classList.remove("hidden");
   document.getElementById("arrival").classList.add("hidden");
   document.getElementById("card").classList.add("hidden");
   controls.enabled = false;
@@ -494,11 +554,12 @@ function setMode(next2d) {
 
 function updateLabels() {
   const dist = camera.position.distanceTo(controls.target);
-  const showAll = dist < 240;
+  const showAll = dist < 240 || (introActive && dist < 420);
   for (const [id, label] of labelsById) {
     const show = id === selectedId || showAll;
     label.el.classList.toggle("hidden", !show);
   }
+  if (frostPinLabel) frostPinLabel.el.classList.remove("hidden");
 }
 
 function tick(now) {
@@ -532,6 +593,10 @@ function tick(now) {
     }
   } else {
     controls.update();
+  }
+  if (frostMarker) {
+    const s = 1 + Math.sin(now * 0.004) * 0.16;
+    frostMarker.userData.pulse.scale.set(s, s, s);
   }
   updateLabels();
   renderer.render(scene, camera);
@@ -612,6 +677,7 @@ export async function startCampusMap(host = document.getElementById("map")) {
   }
   addFlat(data.water, COLORS.water, 0.02, 0.7);
   addBuildings();
+  addFrostMarker();
   addTrees();
   frameCampus();
   renderDirectory();
