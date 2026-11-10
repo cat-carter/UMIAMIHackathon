@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Green U — Coral Gables 3D Campus Map</title>
+  <meta name="description" content="Rotate the University of Miami Coral Gables campus in 3D, click any building, and fly to the Frost School of Music.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Outfit:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/campus.css">
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.1/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body class="campus-app">
+  <div id="map" role="application" aria-label="University of Miami Coral Gables 3D campus map"></div>
+
+  <header class="campus-top">
+    <div class="brand">
+      <p class="eyebrow">Green U</p>
+      <h1>Coral Gables Campus</h1>
+    </div>
+    <label class="search">
+      <span class="sr-only">Search buildings</span>
+      <input id="search" type="search" placeholder="Search buildings…" autocomplete="off">
+    </label>
+  </header>
+
+  <aside class="directory" id="directory" aria-label="Campus directory">
+    <p class="dir-kicker">Jump to a building</p>
+    <div id="dir-list"></div>
+  </aside>
+
+  <aside class="card hidden" id="card" aria-live="polite">
+    <button class="icon-close" id="card-close" type="button" aria-label="Close">×</button>
+    <img id="card-photo" alt="" hidden>
+    <p class="card-cat" id="card-cat"></p>
+    <h2 id="card-title"></h2>
+    <p class="card-copy" id="card-copy"></p>
+    <a class="cta hidden" id="card-cta" href="tour.html">Enter the LEED tour</a>
+  </aside>
+
+  <div class="tools">
+    <button type="button" id="btn-frost">Fly to Frost</button>
+    <button type="button" id="btn-mode" aria-pressed="false">2D plan</button>
+    <button type="button" id="btn-reset">Whole campus</button>
+  </div>
+
+  <p class="hint">Drag to rotate · Scroll to zoom · Click a building</p>
+
+  <button id="skip" class="hidden" type="button">Skip intro</button>
+
+  <p id="journey" class="journey hidden">Flying to Frost School of Music</p>
+
+  <section id="arrival" class="arrival hidden" aria-live="polite">
+    <p class="eyebrow">Green U · LEED Tour</p>
+    <h2>Frost School of Music</h2>
+  </section>
+
+  <div id="loader" class="campus-loader">
+    <p class="eyebrow">Green U</p>
+    <h1>Building the campus in 3D…</h1>
+    <p class="sub">University of Miami · Coral Gables</p>
+  </div>
+
+  <script type="module" src="js/campus-map.js"></script>
+</body>
+</html>
