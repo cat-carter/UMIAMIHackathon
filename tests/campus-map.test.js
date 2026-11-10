@@ -47,8 +47,8 @@ test("opener holds on the whole campus then zooms to Frost", () => {
   assert.match(src, /playIntro/);
   assert.match(src, /playFrostZoom/);
   assert.match(src, /skipIntro/);
-  assert.match(src, /HOLD_S/);
-  assert.match(src, /ZOOM_S/);
+  assert.match(src, /HOLD_S = 2\.2/);
+  assert.match(src, /ZOOM_S = 9\.0/);
   assert.match(src, /bezier/);
   assert.match(src, /addFrostMarker/);
   assert.match(html, /Skip intro/);

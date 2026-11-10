@@ -104,8 +104,8 @@ let holdLeft = 0;
 let frostMarker = null;
 let frostPinLabel = null;
 
-const HOLD_S = 1.4;
-const ZOOM_S = 5.8;
+const HOLD_S = 2.2;
+const ZOOM_S = 9.0;
 
 const fly = {
   active: false,
@@ -623,7 +623,7 @@ function bindUi() {
     document.getElementById("btn-mode").setAttribute("aria-pressed", "false");
     document.getElementById("btn-mode").textContent = "2D plan";
     controls.enableRotate = true;
-    flyTo(campusCenter.clone(), startOffset.clone(), 2.4);
+    flyTo(campusCenter.clone(), startOffset.clone(), 3.6);
   });
   document.getElementById("btn-mode").addEventListener("click", () => setMode(!mode2d));
   document.getElementById("btn-frost").addEventListener("click", () => {
