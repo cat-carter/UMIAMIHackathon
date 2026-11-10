@@ -99,6 +99,11 @@ let downY = 0;
 let frostCenter = new THREE.Vector3();
 let campusCenter = new THREE.Vector3();
 let startOffset = new THREE.Vector3();
+let introActive = false;
+let holdLeft = 0;
+
+const HOLD_S = 1.7;
+const ZOOM_S = 6.4;
 
 const fly = {
   active: false,
@@ -108,6 +113,9 @@ const fly = {
   toPos: new THREE.Vector3(),
   fromTarget: new THREE.Vector3(),
   toTarget: new THREE.Vector3(),
+  midPos: null,
+  midTarget: null,
+  onDone: null,
 };
 
 function shapeFromRing(ring) {
@@ -268,11 +276,44 @@ function frameCampus() {
   controls.update();
 }
 
-function flyTo(target, pos) {
+function frostPose() {
+  return {
+    pos: new THREE.Vector3(frostCenter.x + 88, 58, frostCenter.z + 118),
+    target: frostCenter.clone(),
+  };
+}
+
+function midPose() {
+  return {
+    pos: new THREE.Vector3(
+      campusCenter.x * 0.4 + frostCenter.x * 0.6 + 170,
+      210,
+      campusCenter.z * 0.4 + frostCenter.z * 0.6 + 230
+    ),
+    target: new THREE.Vector3(
+      campusCenter.x * 0.28 + frostCenter.x * 0.72,
+      8,
+      campusCenter.z * 0.28 + frostCenter.z * 0.72
+    ),
+  };
+}
+
+function bezier(out, a, b, c, t) {
+  const u = 1 - t;
+  out.copy(a).multiplyScalar(u * u);
+  out.addScaledVector(b, 2 * u * t);
+  out.addScaledVector(c, t * t);
+}
+
+function flyTo(target, pos, duration = 1.35, mid, onDone) {
   fly.fromPos.copy(camera.position);
   fly.fromTarget.copy(controls.target);
   fly.toPos.copy(pos);
   fly.toTarget.copy(target);
+  fly.midPos = mid ? mid.pos.clone() : null;
+  fly.midTarget = mid ? mid.target.clone() : null;
+  fly.duration = duration;
+  fly.onDone = onDone || null;
   fly.t = 0;
   fly.active = true;
 }
@@ -287,7 +328,64 @@ function flyToBuilding(building) {
   flyTo(target, pos);
 }
 
-function selectBuilding(id, fromDir) {
+function weeksBuilding() {
+  return data.buildings.find((b) => b.name.startsWith("Weeks Music Library"));
+}
+
+function finishIntro() {
+  introActive = false;
+  holdLeft = 0;
+  document.body.classList.remove("is-intro");
+  document.getElementById("skip").classList.add("hidden");
+  document.getElementById("arrival").classList.remove("hidden");
+  controls.enabled = true;
+  const weeks = weeksBuilding();
+  if (weeks) selectBuilding(weeks.id, { fly: false });
+  window.setTimeout(() => {
+    const arrival = document.getElementById("arrival");
+    if (arrival) arrival.classList.add("hidden");
+  }, 4200);
+}
+
+function skipIntro() {
+  const end = frostPose();
+  camera.position.copy(end.pos);
+  controls.target.copy(end.target);
+  controls.update();
+  fly.active = false;
+  fly.onDone = null;
+  finishIntro();
+}
+
+function playFrostZoom() {
+  const end = frostPose();
+  const mid = midPose();
+  if (!introActive && camera.position.distanceTo(end.pos) < 50) return;
+  introActive = true;
+  holdLeft = 0;
+  document.body.classList.add("is-intro");
+  document.getElementById("skip").classList.remove("hidden");
+  document.getElementById("arrival").classList.add("hidden");
+  document.getElementById("card").classList.add("hidden");
+  controls.enabled = false;
+  flyTo(end.target, end.pos, ZOOM_S, mid, finishIntro);
+}
+
+function playIntro() {
+  const start = { pos: startOffset.clone(), target: campusCenter.clone() };
+  camera.position.copy(start.pos);
+  controls.target.copy(start.target);
+  controls.update();
+  introActive = true;
+  holdLeft = HOLD_S;
+  document.body.classList.add("is-intro");
+  document.getElementById("skip").classList.remove("hidden");
+  document.getElementById("arrival").classList.add("hidden");
+  controls.enabled = false;
+}
+
+function selectBuilding(id, opts = {}) {
+  const fromDir = opts.fromDir;
   if (selectedId && meshesById.has(selectedId)) {
     const prev = meshesById.get(selectedId);
     prev.body.material = prev.wall;
@@ -297,7 +395,7 @@ function selectBuilding(id, fromDir) {
   if (!entry) return;
   entry.body.material = selectedWall;
   const building = entry.building;
-  flyToBuilding(building);
+  if (opts.fly !== false) flyToBuilding(building);
   showCard(building);
   highlightDir(id);
   if (fromDir) document.getElementById("search").blur();
@@ -358,7 +456,7 @@ function renderDirectory(filter = "") {
       btn.type = "button";
       btn.textContent = b.name;
       btn.dataset.id = b.id;
-      btn.addEventListener("click", () => selectBuilding(b.id, true));
+      btn.addEventListener("click", () => selectBuilding(b.id, { fromDir: true }));
       group.appendChild(btn);
     }
     host.appendChild(group);
@@ -366,7 +464,7 @@ function renderDirectory(filter = "") {
 }
 
 function onPointer(event) {
-  if (fly.active || dragged) return;
+  if (introActive || fly.active || dragged) return;
   const rect = renderer.domElement.getBoundingClientRect();
   const mouse = new THREE.Vector2(
     ((event.clientX - rect.left) / rect.width) * 2 - 1,
@@ -407,13 +505,31 @@ function tick(now) {
   const last = tick.prev || now;
   const dt = Math.min(0.05, (now - last) / 1000);
   tick.prev = now;
-  if (fly.active) {
-    fly.t += dt / fly.duration;
-    const t = fly.t >= 1 ? 1 : fly.t * fly.t * (3 - 2 * fly.t);
-    camera.position.lerpVectors(fly.fromPos, fly.toPos, t);
-    controls.target.lerpVectors(fly.fromTarget, fly.toTarget, t);
+  if (introActive && holdLeft > 0) {
+    holdLeft -= dt;
+    if (holdLeft <= 0) {
+      holdLeft = 0;
+      playFrostZoom();
+    }
     controls.update();
-    if (fly.t >= 1) fly.active = false;
+  } else if (fly.active) {
+    fly.t += dt / fly.duration;
+    const raw = fly.t >= 1 ? 1 : fly.t;
+    const t = raw * raw * (3 - 2 * raw);
+    if (fly.midPos) {
+      bezier(camera.position, fly.fromPos, fly.midPos, fly.toPos, t);
+      bezier(controls.target, fly.fromTarget, fly.midTarget, fly.toTarget, t);
+    } else {
+      camera.position.lerpVectors(fly.fromPos, fly.toPos, t);
+      controls.target.lerpVectors(fly.fromTarget, fly.toTarget, t);
+    }
+    controls.update();
+    if (fly.t >= 1) {
+      fly.active = false;
+      const done = fly.onDone;
+      fly.onDone = null;
+      if (done) done();
+    }
   } else {
     controls.update();
   }
@@ -437,19 +553,27 @@ function bindUi() {
   document.getElementById("card-close").addEventListener("click", closeCard);
   document.getElementById("btn-reset").addEventListener("click", () => {
     closeCard();
+    document.getElementById("arrival").classList.add("hidden");
     mode2d = false;
     document.getElementById("btn-mode").setAttribute("aria-pressed", "false");
     document.getElementById("btn-mode").textContent = "2D plan";
     controls.enableRotate = true;
-    flyTo(campusCenter.clone(), startOffset.clone());
+    flyTo(campusCenter.clone(), startOffset.clone(), 2.4);
   });
   document.getElementById("btn-mode").addEventListener("click", () => setMode(!mode2d));
   document.getElementById("btn-frost").addEventListener("click", () => {
-    const weeks = data.buildings.find((b) => b.name.startsWith("Weeks Music Library"));
-    if (weeks) selectBuilding(weeks.id, true);
+    if (introActive) {
+      skipIntro();
+      return;
+    }
+    playFrostZoom();
   });
+  document.getElementById("skip").addEventListener("click", skipIntro);
   window.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") closeCard();
+    if (e.key === "Escape") {
+      if (introActive) skipIntro();
+      else closeCard();
+    }
   });
 }
 
@@ -506,8 +630,9 @@ export async function startCampusMap(host = document.getElementById("map")) {
   renderer.domElement.addEventListener("click", onPointer);
   window.addEventListener("resize", onResize);
   document.getElementById("loader").classList.add("hidden");
+  playIntro();
   requestAnimationFrame(tick);
-  return { scene, data, selectBuilding, buildingsById };
+  return { scene, data, selectBuilding, playIntro, skipIntro, playFrostZoom };
 }
 
 if (!window.__CAMPUS_MAP_TEST__) {

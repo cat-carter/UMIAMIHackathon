@@ -40,3 +40,16 @@ test("map script orbits, flies to buildings, and can open the LEED tour", () => 
   assert.match(src, /frost-3d\.jpg/);
   assert.match(src, /Raycaster/);
 });
+
+test("opener holds on the whole campus then zooms to Frost", () => {
+  const src = read("js/campus-map.js");
+  const html = read("index.html");
+  assert.match(src, /playIntro/);
+  assert.match(src, /playFrostZoom/);
+  assert.match(src, /skipIntro/);
+  assert.match(src, /HOLD_S/);
+  assert.match(src, /ZOOM_S/);
+  assert.match(src, /bezier/);
+  assert.match(html, /Skip intro/);
+  assert.match(html, /Frost School of Music/);
+});

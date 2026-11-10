@@ -6,6 +6,7 @@ The model is built from the official Gables campus map plus OpenStreetMap footpr
 
 ## Use it
 
+- The opener holds on the whole campus, then zooms into Frost School of Music
 - Drag to orbit, scroll to zoom, click a building for its name
 - Search or use the directory to fly to a hall
 - **Frost School of Music** jumps to Weeks on Lake Osceola
